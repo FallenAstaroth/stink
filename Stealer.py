@@ -87,7 +87,7 @@ try:
     shutil.make_archive(zip_name, 'zip', directory_name)
 
     subject = rf"Результаты парсинга {user}"
-    body = "Больше скриптов здесь - vk.com/club194891560"
+    body = "Ку"
 
     message = MIMEMultipart()
     message["From"] = sender
