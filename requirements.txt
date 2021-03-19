@@ -24,7 +24,7 @@ maxminddb==1.5.4
 mccabe==0.6.1
 packaging==20.4
 pefile==2019.4.18
-Pillow==7.1.2
+Pillow==8.1.1
 pip-review==1.1.0
 pkginfo==1.5.0.1
 pycodestyle==2.6.0
