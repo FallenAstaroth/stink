@@ -48,7 +48,7 @@ stealer.run()
 
 <p align="left">
   <a href="">
-    <img src="docs/1.png" width="500px" style="display: inline-block;">
+    <img src="docs/_1.png" width="500px" style="display: inline-block;">
   </a>
 </p>
 
@@ -56,19 +56,11 @@ stealer.run()
 
 <p align="left">
   <a href="">
-    <img src="docs/2.png" width="500px" style="display: inline-block;">
+    <img src="docs/_2.png" width="500px" style="display: inline-block;">
   </a>
 </p>
 
-4. Прописываем команду ```/token``` , затем название бота с прикладкой ```@``` в начале.
-
-<p align="left">
-  <a href="">
-    <img src="docs/3.png" width="500px" style="display: inline-block;">
-  </a>
-</p>
-
-5. Полученный токен вставляем в поле ```"YOUR_TOKEN"``` в скрипте.
+4. Полученный токен вставляем в поле ```"YOUR_TOKEN"``` в скрипте.
 
 ### Получение айди
 1. Открываем чат с [Get My ID](https://t.me/getmyid_bot).
@@ -76,7 +68,7 @@ stealer.run()
 
 <p align="left">
   <a href="">
-    <img src="docs/4.png" width="500px" style="display: inline-block;">
+    <img src="docs/_3.png" width="500px" style="display: inline-block;">
   </a>
 </p>
 
