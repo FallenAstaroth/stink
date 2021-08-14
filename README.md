@@ -46,19 +46,19 @@ stealer.run()
 2. Прописываем команду `/newbot`.
 <p align="left">
   <a href="">
-    <img src="docs/1.png" width="298px" style="display: inline-block;">
+    <img src="docs/1.png" width="350px" style="display: inline-block;">
   </a>
 </p>
 3. Прописываем название бота с прикладкой `_bot` в конце.
 <p align="left">
   <a href="">
-    <img src="docs/2.png" width="298px" style="display: inline-block;">
+    <img src="docs/2.png" width="350px" style="display: inline-block;">
   </a>
 </p>
 4. Прописываем команду `/token`, затем название бота с прикладкой `@` в начале.
 <p align="left">
   <a href="">
-    <img src="docs/3.png" width="298px" style="display: inline-block;">
+    <img src="docs/3.png" width="350px" style="display: inline-block;">
   </a>
 </p>
 5. Полученный токен вставляем в поле `"YOUR_TOKEN"` в скрипте.
@@ -68,7 +68,7 @@ stealer.run()
 2. Прописываем команду `/start`.
 <p align="left">
   <a href="">
-    <img src="docs/4.png" width="298px" style="display: inline-block;">
+    <img src="docs/4.png" width="350px" style="display: inline-block;">
   </a>
 </p>
 4. Полученный айди вставляем в поле `YOUR_ID` в скрипте.
