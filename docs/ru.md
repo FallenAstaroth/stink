@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
 <p align="left">
   <a href="">
-    <img src=".docs/_1.png" width="500px" style="display: inline-block;">
+    <img src="_1.png" width="500px" style="display: inline-block;">
   </a>
 </p>
 
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
 <p align="left">
   <a href="">
-    <img src=".docs/_2.png" width="500px" style="display: inline-block;">
+    <img src="_2.png" width="500px" style="display: inline-block;">
   </a>
 </p>
 
@@ -97,7 +97,7 @@ if __name__ == "__main__":
 
 <p align="left">
   <a href="">
-    <img src=".docs/_3.png" width="500px" style="display: inline-block;">
+    <img src="_3.png" width="500px" style="display: inline-block;">
   </a>
 </p>
 
