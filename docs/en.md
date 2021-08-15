@@ -6,8 +6,8 @@ Cookies and passwords stealer in just 2 lines, sent to Telegram.
 `stink` is just starting its development. Its functionality will be expanded in the future.
 
 ## Navigation
-* [Current features(#Сurrent-features)
-* [Future features(#Future-features)
+* [Current features](#Сurrent-features)
+* [Future features](#Future-features)
 * [Installation](#Installation)
 * [Example usage](#Example-usage)
   * [Standard](#Standard)
