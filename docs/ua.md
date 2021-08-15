@@ -73,7 +73,7 @@ if __name__ == "__main__":
 ## Налаштування Telegram бота
 ### Отримання токена
 1. Відкриваємо чат з [BotFather](https://t.me/botfather).
-2. Прописуємо команду ```/ newbot```.
+2. Прописуємо команду ```/newbot```.
 
 <p align="left">
   <a href="">
@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
 ### Отримання айді
 1. Відкриваємо чат з [Get My ID](https://t.me/getmyid_bot).
-2. Прописуємо команду ```/ start```.
+2. Прописуємо команду ```/start```.
 
 <p align="left">
   <a href="">
