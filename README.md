@@ -1,7 +1,5 @@
 <h3 align="center">Description</h3>
 
-
-
 <p align="center">
   <a href="docs/ua.md"><img src="docs/ua_icon.svg" width="70"></a>
   <a>&#8192;&#8192;</a>
