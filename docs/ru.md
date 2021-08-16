@@ -1,3 +1,5 @@
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+
 # stink
 
 Стиллер куки и паролей всего лишь в 2 строки, с отправкой в Telegram.
