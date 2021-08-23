@@ -2,7 +2,7 @@
 
 # stink
 
-Cookies and passwords stealer in just 2 lines, sent to Telegram.
+Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 ## Description
 `stink` is just starting its development. Its functionality will be expanded in the future.
