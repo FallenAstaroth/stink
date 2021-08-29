@@ -109,7 +109,7 @@ In the custom stealer, you need to prescribe the necessary browsers and the path
 3. Insert the resulting ID into the ```YOUR_ID``` field in the script.
 
 ## Creating exe
-Python is an interpreted programming language, so we first translate it into C and then compile it into an .exe file.
+Python is an interpreted programming language, so we first translate it into C++ and then compile it into an .exe file.
 We will need Nuitka to do this.
 
 ### Installing the required tools
