@@ -136,4 +136,4 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```python
 nuitka --exe test.py
 ```
-Після виконання команди отримуємо test.exe файл вагою в 234 КБ.
+После выполнения команды получаем test.exe файл весом в 234 КБ.
