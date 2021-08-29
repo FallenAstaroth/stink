@@ -17,7 +17,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 * [Telegram bot setup](#Telegram-bot-setup)
   * [Getting token](#Getting-token)
   * [Getting id](#Getting-id)
-* [Creating .exe](#Creating-.exe)
+* [Creating exe](#Creating-exe)
   * [Installing the required tools](#Installing-the-required-tools)
   * [Creating executable file](#Creating-executable-file)
 
