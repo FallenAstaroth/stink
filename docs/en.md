@@ -136,4 +136,4 @@ Open a Python terminal. Go to the directory with the project and type the follow
 ```python
 nuitka --onefile --include-package=stink test.py
 ```
-After executing the command, we get a test.exe file weighing 234 KB.
+After executing the command, we get a test.exe file.
