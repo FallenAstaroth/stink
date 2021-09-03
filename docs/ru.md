@@ -141,7 +141,7 @@ nuitka --onefile --include-package=stink test.py
 ```
 pip install virtualenv
 ```
-3. Переходим в папку с файлом test.py:
+3. Переходим в папку с файлом `test.py`:
 ```
 cd path\to\file
 ```
