@@ -165,7 +165,7 @@ pip install stink==0.0.3
 
 7. Возвращаемся к `cmd` и прописываем команду:
 ```
-nuitka --onefile --include-package=stink stink_test.py
+nuitka --onefile --include-package=stink test.py
 ```
 
 После выполнения команды получаем test.exe файл.
