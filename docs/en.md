@@ -131,7 +131,7 @@ pip install Nuitka==0.6.16.4
 pip install stink==0.0.3
 ```
 3. Write the command:
-```python
+```
 nuitka --onefile --include-package=stink test.py
 ```
 
