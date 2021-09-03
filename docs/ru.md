@@ -131,7 +131,7 @@ pip install Nuitka==0.6.16.4
 ```
 pip install stink==0.0.3
 ```
-2. Прописываем команду:
+3. Прописываем команду:
 ```
 nuitka --onefile --include-package=stink test.py
 ```
