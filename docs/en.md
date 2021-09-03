@@ -158,8 +158,10 @@ pip install Nuitka==0.6.16.4
 ```
 pip install stink==0.0.3
 ```
-6. In the appearing folder venv go to the path `\Lib\site-packages\win32\`, copy the file `win32crypt.pyd` and paste in the path `\Lib\site-packages\`.
-7. Go back to `cmd` and write the command:
+6. In the appearing folder venv go to the path `\Lib\site-packages\win32\`.
+7. Copy the file `win32crypt.pyd`.
+8. Paste it in the path `\Lib\site-packages\`.
+9. Go back to `cmd` and write the command:
 ```
 nuitka --onefile --include-package=stink test.py
 ```
