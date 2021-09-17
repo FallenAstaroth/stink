@@ -25,6 +25,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 1. Collecting cookies and passwords of the following browsers: Chrome, Opera, Opera GX.
 2. Sending collected data as an archive to Telegram.
 3. Running in a separate thread.
+4. Screenshots.
 
 ### Future features
 1. Support for other browsers.
