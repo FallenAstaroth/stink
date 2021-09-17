@@ -6,11 +6,12 @@ from shutil import make_archive, rmtree
 
 class Sender:
 
-    def __init__(self, zip_name: str, storage_path: str, storage_folder: str, token: str, user_id: int):
+    def __init__(self, zip_name: str, storage_path: str, storage_folder: str, token: str, user_id: int, errors_print: bool):
 
         self.zip_name = zip_name
         self.storage_path = storage_path
         self.storage_folder = storage_folder
+        self.errors_print = errors_print
 
         self.token = token
         self.user_id = user_id
@@ -42,6 +43,18 @@ class Sender:
 
     def run(self):
 
-        self.__create_archive()
-        self.__send_archive()
-        self.__delete_files()
+        try:
+
+            self.__create_archive()
+            self.__send_archive()
+            self.__delete_files()
+
+        except Exception as e:
+
+            if self.errors_print is True:
+
+                print(f"[SENDER]: {repr(e)}")
+
+            else:
+
+                pass
