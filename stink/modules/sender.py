@@ -1,17 +1,16 @@
-import requests
-
 from os import remove
+from requests import post
 from shutil import make_archive, rmtree
 
 
 class Sender:
 
-    def __init__(self, zip_name: str, storage_path: str, storage_folder: str, token: str, user_id: int, errors_print: bool):
+    def __init__(self, zip_name: str, storage_path: str, storage_folder: str, token: str, user_id: int, errors: bool):
 
         self.zip_name = zip_name
         self.storage_path = storage_path
         self.storage_folder = storage_folder
-        self.errors_print = errors_print
+        self.errors = errors
 
         self.token = token
         self.user_id = user_id
@@ -24,7 +23,7 @@ class Sender:
 
         with open(f"{self.storage_path}{self.zip_name}.zip", 'rb') as file:
 
-            requests.post(
+            post(
                 url=f"https://api.telegram.org/bot{self.token}/sendDocument",
                 data={
                     'chat_id': self.user_id
@@ -51,7 +50,7 @@ class Sender:
 
         except Exception as e:
 
-            if self.errors_print is True:
+            if self.errors is True:
 
                 print(f"[SENDER]: {repr(e)}")
 

