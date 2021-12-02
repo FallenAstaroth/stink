@@ -21,7 +21,7 @@ class System:
     def __create_screen(self):
 
         with mss() as screen:
-            screen.shot(mon=-1, output=f"{self.storage_path}{self.storage_folder}{self.folder}/screenshot.png")
+            screen.shot(mon=-1, output=f"{self.storage_path}{self.storage_folder}{self.folder}/Screenshot.png")
 
     def __get_system_info(self):
 
@@ -46,6 +46,8 @@ class System:
             for item in info:
 
                 system.write(item)
+
+        system.close()
 
     def run(self):
 
