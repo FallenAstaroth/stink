@@ -21,12 +21,16 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
   * [CMD](#CMD)
 
 ### Current features
-1. Collecting cookies and passwords of the following browsers: Chrome, Opera, Opera GX, Microsoft Edge.
-2. Sending collected data as an archive to Telegram.
-3. Running in a separate thread.
-4. Screenshots.
-5. System information gathering.
-6. Collecting IP and other.
+1. Collecting cookies and passwords of the following browsers: 
+   - Chrome
+   - Opera
+   - Opera GX
+   - Microsoft Edge
+3. Sending collected data as an archive to Telegram.
+4. Running in a separate thread.
+5. Screenshots.
+6. System information gathering.
+7. Collecting IP and other.
 
 ### Future features
 1. Support for other browsers.
