@@ -2,6 +2,8 @@ from wmi import WMI
 from mss import mss
 from os import mkdir
 from getpass import getuser
+from psutil import process_iter
+from datetime import datetime
 from socket import gethostbyname, gethostname
 
 
@@ -41,13 +43,27 @@ class System:
             f"RAM: {round(float(os_info.TotalVisibleMemorySize) / 1048576)} GB\n"
         ]
 
-        with open(f"{self.storage_path}{self.storage_folder}{self.folder}/System.txt", "a", encoding='utf-8') as system:
+        with open(f"{self.storage_path}{self.storage_folder}{self.folder}/System.txt", "a", encoding="utf-8") as system:
+
+            system.write(f"[System info]\n")
 
             for item in info:
 
                 system.write(item)
 
         system.close()
+
+    def __get_system_processes(self):
+
+        with open(f"{self.storage_path}{self.storage_folder}{self.folder}/System.txt", "a", encoding="utf-8") as processes:
+
+            processes.write(f"\n[Startup time] [Status] [CPU %] [RAM %] [Name]")
+
+            for process in process_iter():
+
+                processes.write(f"\n[{datetime.fromtimestamp(process.create_time())}] [{process.status()}] [{process.cpu_percent()}] [{process.memory_percent():.4f}] {process.name()}")
+
+        processes.close()
 
     def run(self):
 
@@ -56,6 +72,7 @@ class System:
             self.__create_folder()
             self.__create_screen()
             self.__get_system_info()
+            self.__get_system_processes()
 
         except Exception as e:
 
