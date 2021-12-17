@@ -67,8 +67,11 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 `screen` - screenshot.
 
 All parameters take the value of `bool`. 
+
 `True` - the function is enabled.
+
 `False` - the function is disabled.
+
 By default, all functions are enabled.
 
 ## Telegram bot setup
