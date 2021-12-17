@@ -1,5 +1,5 @@
 <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/stink">
-[<img alt="GitHub" src="https://img.shields.io/github/license/FallenAstaroth/stink">](https://github.com/FallenAstaroth/stink/blob/master/LICENSE)
+<img alt="GitHub" src="https://img.shields.io/github/license/FallenAstaroth/stink">
 <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/FallenAstaroth/stink">
 
 # stink
