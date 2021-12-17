@@ -58,25 +58,25 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 ### Additional parameters
 
-`errors` - error output.
+- `errors` - error output.
 
-`passwords` - collecting passwords.
+- `passwords` - collecting passwords.
 
-`cookies` - collecting cookies.
+- `cookies` - collecting cookies.
 
-`processes` - collecting of active processes.
+- `processes` - collecting of active processes.
 
-`system` - collecting system configuration.
+- `system` - collecting system configuration.
 
-`screen` - screenshot.
+- `screen` - screenshot.
 
 All parameters take the value of `bool`. 
 
-`True` - the function is enabled.
+- `True` - the function is enabled.
 
-`False` - the function is disabled.
+- `False` - the function is disabled.
 
-By default, all functions are enabled.
+All functions are enabled by default, except for error output.
 
 ## Telegram bot setup
 ### Getting token
