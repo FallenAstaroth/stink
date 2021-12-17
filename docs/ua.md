@@ -1,4 +1,8 @@
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+<div align="left">
+ <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/FallenAstaroth/stink">
+ <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/stink">
+ <img alt="GitHub" src="https://img.shields.io/github/license/FallenAstaroth/stink">
+</div>
 
 # stink
 
