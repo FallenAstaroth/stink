@@ -5,31 +5,31 @@ from shutil import make_archive, rmtree
 
 class Sender:
 
-    def __init__(self, zip_name: str, storage_path: str, storage_folder: str, token: str, user_id: int, errors: bool):
+    def __init__(self, *args):
 
-        self.zip_name = zip_name
-        self.storage_path = storage_path
-        self.storage_folder = storage_folder
-        self.errors = errors
+        self.zip_name = args[0]
+        self.storage_path = args[1]
+        self.storage_folder = args[2]
+        self.errors = args[5]
 
-        self.token = token
-        self.user_id = user_id
+        self.token = args[3]
+        self.user_id = args[4]
 
     def __create_archive(self):
 
-        make_archive(f"{self.storage_path}{self.zip_name}", 'zip', f"{self.storage_path}{self.storage_folder}")
+        make_archive(f"{self.storage_path}{self.zip_name}", "zip", f"{self.storage_path}{self.storage_folder}")
 
     def __send_archive(self):
 
-        with open(f"{self.storage_path}{self.zip_name}.zip", 'rb') as file:
+        with open(f"{self.storage_path}{self.zip_name}.zip", "rb") as file:
 
             post(
                 url=f"https://api.telegram.org/bot{self.token}/sendDocument",
                 data={
-                    'chat_id': self.user_id
+                    "chat_id": self.user_id
                 },
                 files={
-                    'document': file
+                    "document": file
                 }
             )
 
@@ -51,9 +51,4 @@ class Sender:
         except Exception as e:
 
             if self.errors is True:
-
                 print(f"[SENDER]: {repr(e)}")
-
-            else:
-
-                pass
