@@ -1,4 +1,5 @@
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[<img alt="GitHub issues" src="https://img.shields.io/github/issues/FallenAstaroth/stink">](https://github.com/FallenAstaroth/stink/issues)
 
 # stink
 
