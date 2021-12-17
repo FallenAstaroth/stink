@@ -1,5 +1,4 @@
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-<img alt="Code Climate issues" src="https://img.shields.io/codeclimate/issues/FallenAstaroth/stink">
 
 # stink
 
