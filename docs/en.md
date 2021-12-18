@@ -64,7 +64,7 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 
 - `cookies` - collecting cookies.
 
-- `cards` - collection of bank cards.
+- `cards` - collecting of bank cards.
 
 - `processes` - collecting of active processes.
 
