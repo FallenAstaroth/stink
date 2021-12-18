@@ -7,13 +7,8 @@ class Sender:
 
     def __init__(self, *args):
 
-        self.zip_name = args[0]
-        self.storage_path = args[1]
-        self.storage_folder = args[2]
-        self.errors = args[5]
-
-        self.token = args[3]
-        self.user_id = args[4]
+        for index, variable in enumerate(["zip_name", "storage_path", "storage_folder", "token", "user_id", "errors"]):
+            self.__dict__.update({variable: args[index]})
 
     def __create_archive(self):
 
