@@ -46,7 +46,7 @@
 
 Установить последнюю версию можно командой:
 ```
-pip install stink==0.0.10
+pip install stink==0.0.11
 ```
 
 ## Пример использования
@@ -148,7 +148,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.10
+pip install stink==0.0.11
 ```
 6. В появившейся папке venv переходим по пути `\Lib\site-packages\win32\`.
 7. Копируем файл `win32crypt.pyd`.
