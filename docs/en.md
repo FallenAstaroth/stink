@@ -24,19 +24,27 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 * [Creating exe](#Creating-exe)
   * [Creating executable file](#Creating-executable-file)
   * [CMD](#CMD)
+* [Сompression exe](#Сompression-exe)
+  * [Disadvantages](#Disadvantages)
+  * [WinRAR](#WinRAR)
 
 ### Current features
-1. Collecting cookies, passwords and bank cards of the following browsers:
+1. Support for the following browsers:
    - Chrome
    - Opera
    - Opera GX
    - Microsoft Edge
-2. Screenshot.
-3. Collecting IP address.
-4. Collecting the system configuration.
-5. Collecting active processes.
-6. Sending collected data as an archive to Telegram.
-7. Execution in a separate thread.
+   - Brave
+2. Collecting the following data:
+   - Screenshot.
+   - Cookies.
+   - Passwords.
+   - Bank cards.
+   - IP-address.
+   - System configuration.
+   - Active processes.
+3. Sending an archive of collected data to Telegram.
+4. Execution in a separate thread.
 
 ### Future features
 1. Support for other browsers.
@@ -46,7 +54,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==0.0.10
+pip install stink==1.0.0
 ```
 
 ## Example usage
@@ -148,7 +156,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==0.0.10
+pip install stink==1.0.0
 ```
 6. In the appearing folder venv go to the path `\Lib\site-packages\win32\`.
 7. Copy the file `win32crypt.pyd`.
@@ -159,3 +167,28 @@ nuitka --onefile --windows-disable-console --include-package=stink test.py
 ```
 
 After executing the command we get the test.exe file with the hidden console.
+
+## Сompression exe
+File `.exe` is too big, so we will compress it with WinRAR, but it will still be in the `.exe` format.
+
+#### Disadvantages
+- Can be detected by various anti-viruses.
+- Longer program startup time.
+
+### WinRAR
+1. Download and install [WinRAR](https://www.win-rar.com/start.html?&L=4)
+2. Right-click `.exe` file and select `Add to archive...`.
+3. Select the `RAR` archive format, `Maximum` compression method, and `32 MB` Dictionary size and click `Create SFX archive`.
+4. Go to the tab `Advanced` and select `SFX options`.
+5. Go to the tab `Install` and enter the name of your file (for example `test.exe`) into the field `Execute after unpacking`.
+6. Go to the tab `Modes` and click `Unpack to Timas folder` and select `Dump everything` in the section `Information output mode`.
+7. Go to the tab `Update` and select `Overwrite all files without request` in the section `Overwrite mode`.
+8. Change the icon and logo if you want in the tab `Text and Graphics`.
+9. Press `OK`.
+
+As a result we get `.exe` file reduced several times:
+```
+        File size              Ratio
+------------------------    -----------
+48 091 KB  ->  15 239 KB       68.3%
+```
