@@ -6,7 +6,7 @@ from os import path, mkdir, remove
 from datetime import datetime, timedelta
 
 from Crypto.Cipher import AES
-from win32crypt import CryptUnprotectData
+from win32.win32crypt import CryptUnprotectData
 
 from ..utils.config import ChromiumConfig
 

