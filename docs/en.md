@@ -36,13 +36,13 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
    - Microsoft Edge
    - Brave
 2. Collecting the following data:
-   - Screenshot.
-   - Cookies.
-   - Passwords.
-   - Bank cards.
-   - IP-address.
-   - System configuration.
-   - Active processes.
+   - Screenshot
+   - Cookies
+   - Passwords
+   - Bank cards
+   - IP-address
+   - System configuration
+   - Active processes
 3. Sending an archive of collected data to Telegram.
 4. Execution in a separate thread.
 
@@ -54,7 +54,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==1.0.1
+pip install stink==1.0.2
 ```
 
 ## Example usage
@@ -156,7 +156,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==1.0.1
+pip install stink==1.0.2
 ```
 6. Write the command:
 ```
@@ -187,5 +187,5 @@ As a result we get `.exe` file reduced several times:
 ```
         File size              Ratio
 ------------------------    -----------
-48 091 KB  ->  15 239 KB       68.3%
+41 748 KB  ->  13 664 KB       68.3%
 ```
