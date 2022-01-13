@@ -178,14 +178,14 @@ File `.exe` is too big, so we will compress it with WinRAR, but it will still be
 3. Select the `RAR` archive format, `Maximum` compression method, and `32 MB` Dictionary size and click `Create SFX archive`.
 4. Go to the tab `Advanced` and select `SFX options`.
 5. Go to the tab `Install` and enter the name of your file (for example `test.exe`) into the field `Execute after unpacking`.
-6. Go to the tab `Modes` and click `Unpack to Timas folder` and select `Hide all` in the section `Information output mode`.
+6. Go to the tab `Modes` and click `Unpack to Temp folder` and select `Hide all` in the section `Information output mode`.
 7. Go to the tab `Update` and select `Overwrite all files without request` in the section `Overwrite mode`.
 8. Change the icon and logo if you want in the tab `Text and Graphics`.
 9. Press `OK`.
 
 As a result we get `.exe` file reduced several times:
 ```
-        File size              Ratio
-------------------------    -----------
-41 748 KB  ->  13 664 KB       68.3%
+        File size           Ratio
+------------------------    -----
+41 748 KB  ->  13 664 KB    67.2%
 ```
