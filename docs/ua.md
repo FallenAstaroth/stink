@@ -186,7 +186,7 @@ nuitka --onefile --windows-disable-console --include-package=stink test.py
 
 В результаті отримуємо `.exe` файл зменшений у декілька разів:
 ```
-        File size              Ratio
-------------------------    -----------
-41 748 KB  ->  13 664 KB       68.3%
+        File size           Ratio
+------------------------    -----
+41 748 KB  ->  13 664 KB    67.2%
 ```
