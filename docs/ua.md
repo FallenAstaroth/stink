@@ -190,5 +190,5 @@ nuitka --onefile --windows-disable-console --include-package=stink test.py
 ```
         File size           Ratio
 ------------------------    -----
-41 748 KB  ->  13 664 KB    67.2%
+40 065 KB  ->  12 776 KB    68.1%
 ```
