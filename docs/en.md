@@ -54,7 +54,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==1.0.2
+pip install stink==1.0.3
 ```
 
 ## Example usage
@@ -121,6 +121,8 @@ All functions are enabled by default, except for error output.
 
 3. Insert the resulting ID into the ```YOUR_ID``` field in the script.
 
+After that, you need to write any message to the bot, so he will be able to send us the archive.
+
 ## Creating exe
 Python is an interpreted programming language, so we first translate it into C and then compile it into an .exe file.
 We will need Nuitka to do this.
@@ -156,7 +158,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==1.0.2
+pip install stink==1.0.3
 ```
 6. Write the command:
 ```
@@ -187,5 +189,5 @@ As a result we get `.exe` file reduced several times:
 ```
         File size           Ratio
 ------------------------    -----
-41 748 KB  ->  13 664 KB    67.2%
+40 065 KB  ->  12 776 KB    68.1%
 ```
