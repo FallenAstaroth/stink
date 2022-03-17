@@ -1,8 +1,7 @@
 from os import remove
-from urllib3 import poolmanager
 from shutil import make_archive, rmtree
 
-from ..utils.config import SenderConfig
+from ..utils.config import http, SenderConfig
 
 
 class Sender:
@@ -21,8 +20,6 @@ class Sender:
     def __send_archive(self):
 
         with open(rf"{self.storage_path}\{self.zip_name}.zip", "rb") as file:
-
-            http = poolmanager.PoolManager()
 
             http.request(
                 method="POST",

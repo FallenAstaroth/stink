@@ -1,9 +1,8 @@
 from mss import mss
 from os import mkdir
-from urllib3 import poolmanager
 from win32com.client import GetObject
 
-from ..utils.config import SystemConfig
+from ..utils.config import http, SystemConfig
 
 
 class System:
@@ -38,7 +37,7 @@ class System:
             gpu_info = win.ExecQuery("Select * from Win32_VideoController")[0].Name
 
             try:
-                net_info = poolmanager.PoolManager().request("GET", self.config.IPUrl, timeout=5.0).data.decode("utf-8")
+                net_info = http.request("GET", self.config.IPUrl).data.decode("utf-8")
             except:
                 net_info = "Error"
 
