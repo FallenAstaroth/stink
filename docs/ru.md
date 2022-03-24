@@ -56,7 +56,7 @@
 
 Установить последнюю версию можно командой:
 ```
-pip install stink==1.2.0
+pip install stink==1.2.1
 ```
 
 ## Пример использования
@@ -164,7 +164,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==1.2.0
+pip install stink==1.2.1
 ```
 6. Прописываем команду:
 ```
