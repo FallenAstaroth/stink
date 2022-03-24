@@ -56,7 +56,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==1.2.0
+pip install stink==1.2.1
 ```
 
 ## Example usage
@@ -164,7 +164,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==1.2.0
+pip install stink==1.2.1
 ```
 6. Write the command:
 ```
