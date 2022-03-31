@@ -56,9 +56,14 @@ class MultipartFormDataEncoder(object):
 
     def encode(self, fields, files):
 
-        body = BytesIO()
+        try:
 
-        for chunk, chunk_len in self.iter(fields, files):
-            body.write(chunk)
+            body = BytesIO()
 
-        return "multipart/form-data; boundary={}".format(self.boundary), body.getvalue()
+            for chunk, chunk_len in self.iter(fields, files):
+                body.write(chunk)
+
+            return "multipart/form-data; boundary={}".format(self.boundary), body.getvalue()
+
+        except Exception as e:
+            if self.errors is True: print(f"[FORM]: {repr(e)}")

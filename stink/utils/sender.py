@@ -55,6 +55,4 @@ class Sender:
             self.__delete_files()
 
         except Exception as e:
-
-            if self.errors is True:
-                print(f"[SENDER]: {repr(e)}")
+            if self.errors is True: print(f"[SENDER]: {repr(e)}")

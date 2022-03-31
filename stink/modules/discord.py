@@ -87,10 +87,7 @@ class Discord:
         try:
 
             if self.statuses[0] is True:
-
                 self.__check_tokens()
 
         except Exception as e:
-
-            if self.errors is True:
-                print(f"[DISCORD]: {repr(e)}")
+            if self.errors is True: print(f"[DISCORD]: {repr(e)}")

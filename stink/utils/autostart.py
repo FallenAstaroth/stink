@@ -32,6 +32,4 @@ class Autostart:
                 self.__add_to_autostart()
 
         except Exception as e:
-
-            if self.errors is True:
-                print(f"[AUTOSTART]: {repr(e)}")
+            if self.errors is True: print(f"[AUTOSTART]: {repr(e)}")
