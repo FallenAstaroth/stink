@@ -157,11 +157,15 @@ venv\Scripts\activate
 ```
 pip install -r requirements.txt
 ```
-6. To reduce the file size, additionally install Zstandard (optional):
+6. Install the Nuitka:
+```
+pip install Nuitka==0.6.16.4
+```
+7. To reduce the file size, additionally install Zstandard (optional):
 ```
 pip install zstandard==0.17.0
 ```
-7. Write the command:
+8. Write the command:
 ```
 nuitka --onefile --windows-disable-console test.py
 ```
