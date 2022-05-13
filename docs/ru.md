@@ -1,7 +1,7 @@
 <div align="left">
  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/FallenAstaroth/stink">
  <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/FallenAstaroth/stink">
- <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/stink">
+ <img alt="Python Version" src="https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9-blue">
  <img alt="GitHub" src="https://img.shields.io/github/license/FallenAstaroth/stink">
 </div>
 
