@@ -10,7 +10,9 @@
 
 <h3 align="center">Support</h3>
 <p align="center">Stimulus for more active development)</p>
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/small/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v)](https://en.cryptobadges.io/donate/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v)
 <p align="center">
+  [![Donate with Bitcoin](https://en.cryptobadges.io/badge/small/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v)](https://en.cryptobadges.io/donate/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v)
   <img alt="GitHub Repo stars" src="https://en.cryptobadges.io/badge/big/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v"><br>
   <img alt="GitHub Repo stars" src="https://en.cryptobadges.io/badge/big/0xf9ed5eccb7b63fd7fa03ddf480b4f3c084ec1374"><br>
   <img alt="GitHub Repo stars" src="https://en.cryptobadges.io/badge/big/LX3DePSmKpT72wK9eNMHBbNVPRHwbxCmBs"><br>
