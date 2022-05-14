@@ -9,9 +9,9 @@
 </p>
 
 <h3 align="center">Support</h3>
-<p align="center">Stimulus for more active development)</p>
+<p align="center">Stimulus for more active development. Just click on one of the badges</p>
 <p align="center">
-  <a href="https://en.cryptobadges.io/donate/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v"><img alt="" src="https://en.cryptobadges.io/badge/big/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v"></a>
-  <a href="https://en.cryptobadges.io/donate/0xf9ed5eccb7b63fd7fa03ddf480b4f3c084ec1374"><img alt="" src="https://en.cryptobadges.io/badge/big/0xf9ed5eccb7b63fd7fa03ddf480b4f3c084ec1374"></a>
-  <a href="https://en.cryptobadges.io/donate/LX3DePSmKpT72wK9eNMHBbNVPRHwbxCmBs"><img alt="" src="https://en.cryptobadges.io/badge/big/LX3DePSmKpT72wK9eNMHBbNVPRHwbxCmBs"></a>
+  <a href="https://en.cryptobadges.io/donate/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v"><img alt="" src="https://en.cryptobadges.io/badge/big/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v"></a><br>
+  <a href="https://en.cryptobadges.io/donate/0xf9ed5eccb7b63fd7fa03ddf480b4f3c084ec1374"><img alt="" src="https://en.cryptobadges.io/badge/big/0xf9ed5eccb7b63fd7fa03ddf480b4f3c084ec1374"></a><br>
+  <a href="https://en.cryptobadges.io/donate/LX3DePSmKpT72wK9eNMHBbNVPRHwbxCmBs"><img alt="" src="https://en.cryptobadges.io/badge/big/LX3DePSmKpT72wK9eNMHBbNVPRHwbxCmBs"></a><br>
 </p>
