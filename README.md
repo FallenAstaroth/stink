@@ -11,7 +11,7 @@
 <h3 align="center">Support</h3>
 <p align="center">Stimulus for more active development)</p>
 <p align="center">
-  <img alt="GitHub Repo stars" src="https://en.cryptobadges.io/badge/big/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v">
+  <img alt="GitHub Repo stars" src="https://en.cryptobadges.io/badge/big/1PCyyjoh8DmNih2qvMnNrLHMpKwudVQk7v"><br>
   <img alt="GitHub Repo stars" src="https://en.cryptobadges.io/badge/big/0xf9ed5eccb7b63fd7fa03ddf480b4f3c084ec1374">
   <img alt="GitHub Repo stars" src="https://en.cryptobadges.io/badge/big/LX3DePSmKpT72wK9eNMHBbNVPRHwbxCmBs">
 </p>
