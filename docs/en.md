@@ -37,6 +37,7 @@ The `stink` already has an impressive functionality that will only expand.
    - Cookies
    - Passwords
    - Bank cards
+   - History
    - IP-address
    - System configuration
    - Active processes
@@ -64,6 +65,8 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 - `cookies` - collecting cookies.
 
 - `cards` - collecting of bank cards.
+
+- `history` - collecting search history.
 
 - `processes` - collecting of active processes.
 
