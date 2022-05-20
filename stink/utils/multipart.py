@@ -3,7 +3,6 @@ from uuid import uuid4
 from sys import hexversion
 from codecs import getencoder
 from mimetypes import guess_type
-from urllib import request, error, parse
 
 
 class MultipartFormDataEncoder(object):
@@ -63,7 +62,7 @@ class MultipartFormDataEncoder(object):
             for chunk, chunk_len in self.iter(fields, files):
                 body.write(chunk)
 
-            return "multipart/form-data; boundary={}".format(self.boundary), body.getvalue()
+            return f"multipart/form-data; boundary={self.boundary}", body.getvalue()
 
         except Exception as e:
             if self.errors is True: print(f"[FORM]: {repr(e)}")
