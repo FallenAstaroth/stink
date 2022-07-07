@@ -32,6 +32,7 @@ The `stink` already has an impressive functionality that will only expand.
    - Opera GX
    - Microsoft Edge
    - Brave
+   - Vivaldi
 2. Collecting the following data:
    - Screenshot
    - Cookies

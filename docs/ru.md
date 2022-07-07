@@ -32,6 +32,7 @@
    - Opera GX
    - Microsoft Edge
    - Brave
+   - Vivaldi
 2. Сбор следующих данных:
    - Скриншот
    - Куки

