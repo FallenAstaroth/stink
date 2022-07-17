@@ -205,7 +205,7 @@ class Chromium:
 
                     else:
                         if self.errors is True:
-                            print(f"[{self.browser_name.upper()}]: {item['error']}")
+                            print(f"[{self.browser_name}]: {item['error']}")
                         return
 
                     with connect(db) as connection:
@@ -217,7 +217,7 @@ class Chromium:
                     remove(db)
 
                 except Exception as e:
-                    if self.errors is True: print(f"[{self.browser_name.upper()}]: {repr(e)}")
+                    if self.errors is True: print(f"[{self.browser_name}]: {repr(e)}")
 
     def run(self):
 
@@ -227,4 +227,4 @@ class Chromium:
             self._check_functions()
 
         except Exception as e:
-            if self.errors is True: print(f"[{self.browser_name.upper()}]: {repr(e)}")
+            if self.errors is True: print(f"[{self.browser_name}]: {repr(e)}")

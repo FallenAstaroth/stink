@@ -84,4 +84,4 @@ class System:
             self.__get_system_processes()
 
         except Exception as e:
-            if self.errors is True: print(f"[SYSTEM]: {repr(e)}")
+            if self.errors is True: print(f"[System]: {repr(e)}")

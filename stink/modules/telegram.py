@@ -55,4 +55,4 @@ class Telegram:
                 self.__get_sessions()
 
         except Exception as e:
-            if self.errors is True: print(f"[TELEGRAM]: {repr(e)}")
+            if self.errors is True: print(f"[Telegram]: {repr(e)}")

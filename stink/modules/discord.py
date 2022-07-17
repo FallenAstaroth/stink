@@ -93,4 +93,4 @@ class Discord:
                 self.__get_tokens()
 
         except Exception as e:
-            if self.errors is True: print(f"[DISCORD]: {repr(e)}")
+            if self.errors is True: print(f"[Discord]: {repr(e)}")
