@@ -44,7 +44,7 @@ The `stink` already has an impressive functionality that will only expand.
    - Active processes
    - Discord tokens
    - Telegram sessions
-   - FileZilla sessions
+   - FileZilla hosts
 3. Sending an archive of collected data to Telegram.
 4. Execution in a separate thread.
 5. Possibility to add to autostart.
@@ -80,7 +80,7 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 
 - `telegram` - collecting Telegram sessions.
 
-- `filezilla` - collecting FileZilla sessions.
+- `filezilla` - collecting FileZilla hosts.
 
 All parameters take the value of `bool`. 
 
