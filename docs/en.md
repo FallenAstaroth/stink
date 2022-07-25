@@ -39,15 +39,17 @@ The `stink` already has an impressive functionality that will only expand.
    - Passwords
    - Bank cards
    - History
+   - Bookmarks
    - IP-address
    - System configuration
    - Active processes
    - Discord tokens
    - Telegram sessions
    - FileZilla hosts
-3. Sending an archive of collected data to Telegram.
-4. Execution in a separate thread.
-5. Possibility to add to autostart.
+3. Support for browser multiprofiles.
+4. Sending an archive of collected data to Telegram.
+5. Execution in a separate thread.
+6. Possibility to add to autostart.
 
 ## Example usage
 ### Standard
@@ -69,6 +71,8 @@ Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 - `cards` - collecting of bank cards.
 
 - `history` - collecting search history.
+
+- `bookmarks` - collecting bookmarks.
 
 - `processes` - collecting of active processes.
 
