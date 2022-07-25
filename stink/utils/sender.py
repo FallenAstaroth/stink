@@ -3,7 +3,7 @@ from shutil import make_archive, rmtree
 from urllib.request import Request, urlopen
 
 from ..utils.config import SenderConfig
-from ..utils.multipart import MultipartFormDataEncoder
+from ..utils import MultipartFormDataEncoder
 
 
 class Sender:
@@ -55,4 +55,4 @@ class Sender:
             self.__delete_files()
 
         except Exception as e:
-            if self.errors is True: print(f"[SENDER]: {repr(e)}")
+            if self.errors is True: print(f"[Sender]: {repr(e)}")

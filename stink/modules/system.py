@@ -1,9 +1,9 @@
-from mss import mss
 from os import mkdir
+from urllib.request import Request, urlopen
 
+from mss import mss
 from win32com.client import GetObject
 from win32api import EnumDisplayMonitors, GetMonitorInfo
-from urllib.request import Request, urlopen
 
 from ..utils.config import SystemConfig
 

@@ -65,4 +65,4 @@ class MultipartFormDataEncoder(object):
             return f"multipart/form-data; boundary={self.boundary}", body.getvalue()
 
         except Exception as e:
-            if self.errors is True: print(f"[FORM]: {repr(e)}")
+            if self.errors is True: print(f"[Form]: {repr(e)}")
