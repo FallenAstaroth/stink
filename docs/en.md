@@ -30,7 +30,7 @@ The `stink` already has an impressive functionality that will only expand.
    - Chrome
    - Opera
    - Opera GX
-   - Microsoft Edge
+   - Edge
    - Brave
    - Vivaldi
 2. Collecting the following data:

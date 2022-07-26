@@ -30,7 +30,7 @@
    - Chrome
    - Opera
    - Opera GX
-   - Microsoft Edge
+   - Edge
    - Brave
    - Vivaldi
 2. Збір наступних даних:

