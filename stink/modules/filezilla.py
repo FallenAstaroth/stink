@@ -44,7 +44,7 @@ class FileZilla(Process):
             data = self.config.FileZillaData
 
             if not root:
-                return
+                continue
 
             for server in root[0].findall("Server"):
 
