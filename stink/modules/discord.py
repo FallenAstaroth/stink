@@ -47,13 +47,13 @@ class Discord(Process):
 
     def __get_tokens(self):
 
+        if not path.exists(self.config.TokensPath):
+            return
+
         tokens = []
 
         self.valid = []
         self.invalid = []
-
-        if not path.exists(self.config.TokensPath):
-            return
 
         for file in listdir(self.config.TokensPath):
 

