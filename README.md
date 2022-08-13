@@ -7,6 +7,8 @@
  <img alt="GitHub" src="https://img.shields.io/github/license/FallenAstaroth/stink">
 </div>
 
+<h5 align="center">Stealer in just 3 lines with sending to telegram.</h5>
+
 <h3 align="center">Click one of us</h3>
 
 <p align="center">
