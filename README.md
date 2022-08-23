@@ -7,6 +7,8 @@
  <img alt="GitHub" src="https://img.shields.io/github/license/FallenAstaroth/stink">
 </div>
 
+<p align="center">Stiller is only three lines. The collected data is sent as an archive to Telegram. Read the functionality, examples of use and compilation at one of the links below.<p>
+
 <h3 align="center">Click one of us</h3>
 
 <p align="center">
