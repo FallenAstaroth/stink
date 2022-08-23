@@ -7,7 +7,7 @@
  <img alt="GitHub" src="https://img.shields.io/github/license/FallenAstaroth/stink">
 </div>
 
-<p align="center">Read the functionality, examples of use and compilation at one of the links below.<p>
+<p align="center"><br>Read the functionality, examples of use and compilation at one of the links below.<p>
 
 <h3 align="center">Click one of us</h3>
 
