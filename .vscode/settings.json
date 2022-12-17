@@ -12,5 +12,6 @@
         "test*.py"
     ],
     "terminal.integrated.allowMnemonics": true,
-    "svn.ignoreMissingSvnWarning": true
+    "svn.ignoreMissingSvnWarning": true,
+    "batchrunner.runBatchIn": "External-cmd"
 }
