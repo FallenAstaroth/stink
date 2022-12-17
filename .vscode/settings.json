@@ -11,5 +11,6 @@
         "-p",
         "test*.py"
     ],
-    "terminal.integrated.allowMnemonics": true
+    "terminal.integrated.allowMnemonics": true,
+    "svn.ignoreMissingSvnWarning": true
 }
