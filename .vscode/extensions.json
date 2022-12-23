@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "ms-python.vscode-pylance",
-        "nilssoderman.batch-runner"
+        "nilssoderman.batch-runner",
+        "pamaron.pytest-runner"
     ]
 }
