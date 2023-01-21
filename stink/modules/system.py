@@ -69,7 +69,7 @@ class System(Process):
             results = [process.Properties_('Name').Value for process in GetObject('winmgmts:').InstancesOf('Win32_Process')]
 
             with open(rf"{self.storage_path}\{self.folder}\Processes.txt", "a", encoding="utf-8") as processes:
-                processes.write("\n".join(result for result in list(set(results))))
+                processes.write("\n".join(result for result in set(results)))
 
     def run(self):
 

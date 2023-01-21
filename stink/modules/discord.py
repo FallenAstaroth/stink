@@ -87,10 +87,10 @@ class Discord(Process):
             data = self.config.DiscordData
 
             temp.append(data.format(
-                storage['username'] if storage['username'] else 'No data',
-                storage['email'] if storage['email'] else 'No data',
-                storage['phone'] if storage['phone'] else 'No data',
-                storage['bio'] if storage['bio'] else 'No data',
+                storage["username"] if storage["username"] else "No data",
+                storage["email"] if storage["email"] else "No data",
+                storage["phone"] if storage["phone"] else "No data",
+                storage["bio"] if storage["bio"] else "No data",
                 result[0]
             ))
 

