@@ -5,7 +5,7 @@ from urllib.request import Request, urlopen
 from win32com.client import GetObject
 from win32api import EnumDisplayMonitors, GetMonitorInfo
 
-from ..utils.config import SystemConfig
+from ..helpers.config import SystemConfig
 
 
 class System(Process):

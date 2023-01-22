@@ -3,7 +3,7 @@ from xml.etree import ElementTree
 from multiprocessing import Process
 from os import listdir, path, makedirs
 
-from ..utils.config import FileZillaConfig
+from ..helpers.config import FileZillaConfig
 
 
 class FileZilla(Process):

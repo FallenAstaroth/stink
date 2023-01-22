@@ -3,7 +3,7 @@ from shutil import copyfile
 from multiprocessing import Process
 from os import listdir, path, makedirs
 
-from ..utils.config import TelegramConfig
+from ..helpers.config import TelegramConfig
 
 
 class Telegram(Process):

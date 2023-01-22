@@ -11,7 +11,7 @@ from Crypto.Cipher import AES
 from win32.win32crypt import CryptUnprotectData
 
 from ..enums.features import Features
-from ..utils.config import ChromiumConfig
+from ..helpers.config import ChromiumConfig
 
 
 class Chromium(Process):

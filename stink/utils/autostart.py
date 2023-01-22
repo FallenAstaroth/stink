@@ -1,16 +1,16 @@
 from shutil import copyfile
 
-from ..utils.config import AutostartConfig
+from ..helpers.config import AutostartConfig
 
 
 class Autostart:
 
-    def __init__(self, *args):
+    def __init__(self, executor_path: str, errors: bool):
 
         self.config = AutostartConfig()
 
-        for index, variable in enumerate(self.config.Variables):
-            self.__dict__.update({variable: args[index]})
+        self.executor_path = executor_path
+        self.errors = errors
 
     def __create_copy(self):
 
@@ -26,10 +26,8 @@ class Autostart:
 
         try:
 
-            if self.statuses[0] is True:
-
-                self.__create_copy()
-                self.__add_to_autostart()
+            self.__create_copy()
+            self.__add_to_autostart()
 
         except Exception as e:
             if self.errors is True: print(f"[Autostart]: {repr(e)}")

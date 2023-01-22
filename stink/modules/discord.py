@@ -5,7 +5,7 @@ from multiprocessing import Process
 from os import listdir, path, makedirs
 from urllib.request import Request, urlopen
 
-from ..utils.config import DiscordConfig
+from ..helpers.config import DiscordConfig
 
 
 class Discord(Process):

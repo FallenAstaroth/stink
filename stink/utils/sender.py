@@ -2,18 +2,21 @@ from os import remove, path
 from shutil import make_archive, rmtree
 from urllib.request import Request, urlopen
 
-from ..utils.config import SenderConfig
-from ..utils import MultipartFormDataEncoder
+from ..helpers.config import SenderConfig
+from ..helpers import MultipartFormDataEncoder
 
 
 class Sender:
 
-    def __init__(self, *args):
+    def __init__(self, zip_name: str, storage_path: str, token: str, user_id: int, errors: bool):
 
         self.config = SenderConfig()
 
-        for index, variable in enumerate(self.config.Variables):
-            self.__dict__.update({variable: args[index]})
+        self.zip_name = zip_name
+        self.storage_path = storage_path
+        self.token = token
+        self.user_id = user_id
+        self.errors = errors
 
     def __create_archive(self):
 
