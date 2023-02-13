@@ -7,6 +7,9 @@
  <img alt="GitHub" src="https://img.shields.io/github/license/FallenAstaroth/stink">
 </div>
 
+<h3 align="center">Status</h3>
+<p align="center">Work on getting rid of pywin32 and replacing it with the built-in ctypes library. The estimated shrinkage of the compressed executable is 8 mb instead of 14 mb.</p>
+
 <p align="center"><br>Read the functionality, examples of use and compilation at one of the links below.<p>
 
 <h3 align="center">Click one of us</h3>
