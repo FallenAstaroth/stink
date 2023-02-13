@@ -14,7 +14,6 @@
 <p align="center"><br>Read the functionality, examples of use and compilation at one of the links below.<p>
 
 <h3 align="center">Click one of us</h3>
-
 <p align="center">
   <a href="docs/ua.md"><img src="docs/ua_icon.svg" width="70"></a>
   <a>&#8192;&#8192;</a>
