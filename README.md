@@ -8,7 +8,7 @@
 </div>
 
 <h3 align="center">Description</h3>
-<p align="center"><br>The code is for reference only. The author is not responsible for its use. Read the functionality, examples of use and compilation at one of the links below.<p>
+<p align="center"><br>The code is for information purposes only. The author is not responsible for its use. Read the functionality, examples of use and compilation at one of the links below.<p>
 
 <h3 align="center">Click one of us</h3>
 <p align="center">
