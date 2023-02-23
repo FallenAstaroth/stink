@@ -1,13 +1,11 @@
 from os import mkdir, path
-from multiprocessing import Process
 
 from mss import mss
 
 
-class Screenshot(Process):
+class Screenshot:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
-        Process.__init__(self)
 
         self.storage_path = storage_path
         self.folder = folder

