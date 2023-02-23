@@ -13,3 +13,7 @@ def create_table(header: list, rows: list) -> list:
     for row in rows:
         yield '|' + '|'.join([' ' + str(row[i]).ljust(col_widths[i]) + ' ' for i in range(num_columns)]) + '|'
         yield horizontal_border
+
+
+def run_process(process) -> None:
+    process.run()
