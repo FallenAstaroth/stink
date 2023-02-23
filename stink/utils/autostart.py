@@ -1,6 +1,6 @@
 from shutil import copyfile
 
-from ..helpers.config import AutostartConfig
+from stink.helpers.config import AutostartConfig
 
 
 class Autostart:

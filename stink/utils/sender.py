@@ -2,8 +2,8 @@ from os import remove, path
 from shutil import make_archive, rmtree
 from urllib.request import Request, urlopen
 
-from ..helpers.config import SenderConfig
-from ..helpers import MultipartFormDataEncoder
+from stink.helpers.config import SenderConfig
+from stink.helpers import MultipartFormDataEncoder
 
 
 class Sender:
