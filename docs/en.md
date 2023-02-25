@@ -45,6 +45,7 @@ The `stink` already has an impressive functionality that will only expand.
 5. Execution in a separate thread.
 6. Execution using multiprocessor.
 7. Possibility to add to autostart.
+8. Showing a window with a fake error.
 
 ## Example usage
 ### Standard
@@ -98,6 +99,8 @@ Pass if you want to include only certain modules. Modules for the list can be im
   - `errors` - error output.
 
   - `autostart` - adding to autostart.
+
+  - `message` - showing a fake error window.
 
 Pass it on if you want to include additional utilities. Utilities for the list can be imported from `stink.enums.Utils`.
 
