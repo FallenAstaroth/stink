@@ -26,7 +26,7 @@ class ChromiumConfig:
 
 class MultistealerConfig:
 
-    PoolSize = 3
+    PoolSize = 5
 
     ZipName = f"{user}-st"
     StoragePath = rf"{user_profile}\AppData\stink"

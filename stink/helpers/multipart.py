@@ -7,8 +7,11 @@ from mimetypes import guess_type
 
 class MultipartFormDataEncoder(object):
 
-    def __init__(self):
-        self.boundary = uuid4().hex
+    def __init__(self, errors: bool):
+
+        self.__errors = errors
+
+        self.__boundary = uuid4().hex
 
     @classmethod
     def u(cls, string):
@@ -29,7 +32,7 @@ class MultipartFormDataEncoder(object):
 
             key = self.u(key)
 
-            yield encoder(f"--{self.boundary}\r\n")
+            yield encoder(f"--{self.__boundary}\r\n")
             yield encoder(self.u(f'Content-Disposition: form-data; name="{key}"\r\n\r\n'))
 
             if isinstance(value, int) or isinstance(value, float):
@@ -42,7 +45,7 @@ class MultipartFormDataEncoder(object):
             key = self.u(key)
             filename = self.u(filename)
 
-            yield encoder(f"--{self.boundary}\r\n")
+            yield encoder(f"--{self.__boundary}\r\n")
             yield encoder(self.u(f'Content-Disposition: form-data; name="{key}"; filename="{filename}"\r\n'))
             yield encoder(f"Content-Type: {guess_type(filename)[0] or 'application/octet-stream'}\r\n\r\n")
 
@@ -51,7 +54,7 @@ class MultipartFormDataEncoder(object):
             yield buffer, len(buffer)
             yield encoder("\r\n")
 
-        yield encoder(f"--{self.boundary}--\r\n")
+        yield encoder(f"--{self.__boundary}--\r\n")
 
     def encode(self, fields, files):
 
@@ -62,7 +65,7 @@ class MultipartFormDataEncoder(object):
             for chunk, chunk_len in self.iter(fields, files):
                 body.write(chunk)
 
-            return f"multipart/form-data; boundary={self.boundary}", body.getvalue()
+            return f"multipart/form-data; boundary={self.__boundary}", body.getvalue()
 
         except Exception as e:
-            if self.errors is True: print(f"[Form]: {repr(e)}")
+            if self.__errors is True: print(f"[Form]: {repr(e)}")
