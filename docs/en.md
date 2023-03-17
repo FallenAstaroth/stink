@@ -1,6 +1,6 @@
 # stink
 
-Stealer in just a few lines with sending to Telegram / Server.
+Stealer in just a few lines with sending to Telegram / Server / Discord.
 
 **Wiki:** https://github.com/FallenAstaroth/stink/wiki
 
@@ -40,7 +40,7 @@ The `stink` already has an impressive functionality that will only expand.
    - Telegram sessions
    - FileZilla hosts
 3. Support for browser multiprofiles.
-4. Sending an archive of collected data to Telegram / Server.
+4. Sending an archive of collected data to Telegram / Server / Discord.
 5. Execution in a separate thread.
 6. Execution using multiprocessor.
 7. Possibility to add to autostart.
