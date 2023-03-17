@@ -1,5 +1,5 @@
 from .autostart import Autostart
-from .sender import Sender
 from .message import Message
+from .senders import TelegramSender, ServerSender
 
-__all__ = ["Autostart", "Sender", "Message"]
+__all__ = ["Autostart", "Message", "TelegramSender", "ServerSender"]

