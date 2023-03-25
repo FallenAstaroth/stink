@@ -69,7 +69,7 @@ if __name__ == '__main__':
 ```
 ### Additional parameters
 
-- `features` - enables the modules from the list.
+- `features` - enables modules from the list. Modules can be imported from `stink.enums.Features`. Available modules:
 
   - `passwords` - collecting passwords.
 
@@ -93,19 +93,15 @@ if __name__ == '__main__':
 
   - `filezilla` - collecting FileZilla hosts.
 
-Pass if you want to include only certain modules. Modules for the list can be imported from `stink.enums.Features`.
 
-
-- `utils` - enables the utilities from the list.
+- `utils` - enables the utilities from the list. Utilities can be imported from `stink.enums.Utils`. Available utilities:
 
   - `errors` - error output.
 
   - `autostart` - adding to autostart.
 
   - `message` - showing a fake error window.
-
-Pass it on if you want to include additional utilities. Utilities for the list can be imported from `stink.enums.Utils`.
-
+  
 ## Creating exe
 Python is an interpreted programming language, so we first translate it into C and then compile it into an .exe file.
 We will need Nuitka to do this.
