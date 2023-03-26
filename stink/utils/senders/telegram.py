@@ -5,7 +5,7 @@ from stink.helpers import MultipartFormDataEncoder
 from stink.utils.senders.abstract import AbstractSender
 
 
-class TelegramSender(AbstractSender):
+class Telegram(AbstractSender):
 
     def __init__(self, token: str, user_id: int):
         super().__init__()

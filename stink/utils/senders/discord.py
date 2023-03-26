@@ -5,7 +5,7 @@ from stink.helpers import MultipartFormDataEncoder
 from stink.utils.senders.abstract import AbstractSender
 
 
-class DiscordSender(AbstractSender):
+class Discord(AbstractSender):
 
     def __init__(self, webhook: str):
         super().__init__()

@@ -1,5 +1,5 @@
-from .telegram import TelegramSender
-from .server import ServerSender
-from .discord import DiscordSender
+from .telegram import Telegram
+from .server import Server
+from .discord import Discord
 
-__all__ = ["TelegramSender", "ServerSender", "DiscordSender"]
+__all__ = ["Telegram", "Server", "Discord"]

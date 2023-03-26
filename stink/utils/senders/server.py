@@ -5,7 +5,7 @@ from stink.helpers import MultipartFormDataEncoder
 from stink.utils.senders.abstract import AbstractSender
 
 
-class ServerSender(AbstractSender):
+class Server(AbstractSender):
 
     def __init__(self, server: str):
         super().__init__()
