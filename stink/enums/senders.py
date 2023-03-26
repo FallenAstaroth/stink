@@ -12,5 +12,5 @@ class Senders:
         return Telegram(token=token, user_id=user_id)
 
     @staticmethod
-    def discord(webhook):
+    def discord(webhook: str):
         return Discord(webhook=webhook)
