@@ -16,13 +16,14 @@ class Telegram(AbstractSender):
     def __get_sender_data(self):
 
         with open(rf"{path.dirname(self.__storage_path)}\{self.__zip_name}.zip", "rb") as file:
-
             content_type, body = MultipartFormDataEncoder(self.__errors).encode(
                 [("chat_id", self.__user_id)],
                 [("document", f"{self.__zip_name}.zip", file)]
             )
 
-            return content_type, body, f"https://api.telegram.org/bot{self.__token}/sendDocument"
+        file.close()
+
+        return content_type, body, f"https://api.telegram.org/bot{self.__token}/sendDocument"
 
     def __send_archive(self):
 

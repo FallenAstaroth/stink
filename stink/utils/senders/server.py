@@ -20,7 +20,9 @@ class Server(AbstractSender):
                 [("document", f"{self.__zip_name}.zip", file)]
             )
 
-            return content_type, body, self.__server
+        file.close()
+
+        return content_type, body, self.__server
 
     def __send_archive(self):
 

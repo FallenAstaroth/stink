@@ -20,7 +20,9 @@ class Discord(AbstractSender):
                 [("file", f"{self.__zip_name}.zip", file)]
             )
 
-            return content_type, body, self.__webhook
+        file.close()
+
+        return content_type, body, self.__webhook
 
     def __send_archive(self):
 

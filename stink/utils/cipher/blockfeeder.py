@@ -1,5 +1,5 @@
-from .aes import AESBlockModeOfOperation, AESSegmentModeOfOperation, AESStreamModeOfOperation
-from .util import append_PKCS7_padding, strip_PKCS7_padding, to_bufferable
+from stink.utils.cipher.aes import AESBlockModeOfOperation, AESSegmentModeOfOperation, AESStreamModeOfOperation
+from stink.utils.cipher.util import append_PKCS7_padding, strip_PKCS7_padding, to_bufferable
 
 PADDING_NONE = 'none'
 PADDING_DEFAULT = 'default'

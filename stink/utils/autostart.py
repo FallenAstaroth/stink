@@ -22,6 +22,8 @@ class Autostart:
         with open(rf"{self.__config.AutostartPath}\{self.__config.AutostartName}.bat", "w+") as file:
             file.write(f'@echo off\nstart "{self.__config.AutostartName}" "{self.__config.ExecutorPath}\\{self.executor_name}"')
 
+        file.close()
+
     def run(self):
 
         try:
