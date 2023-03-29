@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
 - `senders` - launches sending methods from the list. Sending methods can be imported from `stink.enums.Senders`. Available sending methods:
 
-  - `server` - Send to server.
+  - `server` - sending to server.
 
   - `telegram` - sending to Telegram.
 
