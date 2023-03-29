@@ -73,13 +73,15 @@ if __name__ == '__main__':
 
   - `cookies` - collecting cookies.
 
-  - `cards` - collecting of bank cards.
+  - `cards` - collecting bank cards.
 
   - `history` - collecting search history.
 
   - `bookmarks` - collecting bookmarks.
 
-  - `processes` - collecting of active processes.
+  - `extensions` - collecting browser extensions.
+
+  - `processes` - collecting active processes.
 
   - `system` - collecting system configuration.
 
