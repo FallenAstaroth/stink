@@ -7,6 +7,7 @@ class Features(Enum):
     cards = "cards"
     history = "history"
     bookmarks = "bookmarks"
+    extensions = "extensions"
     processes = "processes"
     system = "system"
     screenshot = "screenshot"
