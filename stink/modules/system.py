@@ -150,6 +150,8 @@ class System:
                 disk_info
             ))
 
+        system.close()
+
     def run(self):
 
         try:

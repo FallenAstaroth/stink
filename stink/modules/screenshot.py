@@ -23,6 +23,8 @@ class Screenshot:
         with mss() as screen:
             screen.shot(mon=-1, output=rf"{self.__storage_path}\{self.__folder}\Screenshot.png")
 
+        screen.close()
+
     def run(self):
 
         try:

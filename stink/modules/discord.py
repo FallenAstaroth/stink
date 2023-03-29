@@ -98,6 +98,8 @@ class Discord:
             discord.write("Invalid tokens:\n" + "\n".join(item for item in self.invalid) + "\n\nValid tokens:\n")
             discord.write("".join(item for item in temp))
 
+        discord.close()
+
     def run(self):
 
         try:

@@ -59,6 +59,8 @@ class FileZilla:
         with open(rf"{self.__storage_path}\{self.__folder}\Sites.txt", "a", encoding="utf-8") as file_zilla:
             file_zilla.write("".join(item for item in temp))
 
+        file_zilla.close()
+
     def run(self):
 
         try:

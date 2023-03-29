@@ -53,6 +53,8 @@ class Processes:
         with open(rf"{self.__storage_path}\{self.__folder}\Processes.txt", "a", newline="", encoding="utf-8") as processes:
             processes.write("\n".join(line for line in functions.create_table(["Name", "Memory", "PID"], results)))
 
+        processes.close()
+
     def run(self):
 
         try:
