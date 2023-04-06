@@ -1,4 +1,4 @@
-from ctypes.wintypes import DWORD, ULONG, CHAR, MAX_PATH, LONG
+from ctypes.wintypes import DWORD, ULONG, CHAR, MAX_PATH, LONG, WORD
 from ctypes import Structure, POINTER, c_char, c_ulong, c_size_t, c_wchar, c_uint32, c_ulonglong
 
 
@@ -36,7 +36,7 @@ class ProcessMemoryCountersEx(Structure):
         ('QuotaNonPagedPoolUsage', c_size_t),
         ('PagefileUsage', c_size_t),
         ('PeakPagefileUsage', c_size_t),
-        ('PrivateUsage', c_size_t),
+        ('PrivateUsage', c_size_t)
     ]
 
 
@@ -61,7 +61,7 @@ class MemoryStatusEx(Structure):
         ('ullAvailPageFile', c_ulonglong),
         ('ullTotalVirtual', c_ulonglong),
         ('ullAvailVirtual', c_ulonglong),
-        ('sullAvailExtendedVirtual', c_ulonglong),
+        ('sullAvailExtendedVirtual', c_ulonglong)
     ]
 
 
@@ -69,4 +69,27 @@ class UlargeInteger(Structure):
     _fields_ = [
         ("LowPart", c_ulong),
         ("HighPart", c_ulong)
+    ]
+
+
+class BitmapInfoHeader(Structure):
+    _fields_ = [
+        ("biSize", DWORD),
+        ("biWidth", LONG),
+        ("biHeight", LONG),
+        ("biPlanes", WORD),
+        ("biBitCount", WORD),
+        ("biCompression", DWORD),
+        ("biSizeImage", DWORD),
+        ("biXPelsPerMeter", LONG),
+        ("biYPelsPerMeter", LONG),
+        ("biClrUsed", DWORD),
+        ("biClrImportant", DWORD)
+    ]
+
+
+class BitmapInfo(Structure):
+    _fields_ = [
+        ("bmiHeader", BitmapInfoHeader),
+        ("bmiColors", DWORD * 3)
     ]
