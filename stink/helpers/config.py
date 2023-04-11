@@ -38,30 +38,50 @@ class ChromiumConfig:
             {
                 "name": "Metamask",
                 "folder": "nkbihfbeogaeaoehlefnkodbefgpgknn"
+            },
+            {
+                "name": "Phantom",
+                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
             }
         ],
         Browsers.OPERA_GX.value: [
             {
                 "name": "Metamask",
                 "folder": "djclckkglechooblngghdinmeemkbgci"
+            },
+            {
+                "name": "Phantom",
+                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
             }
         ],
         Browsers.OPERA_DEFAULT.value: [
             {
                 "name": "Metamask",
                 "folder": "djclckkglechooblngghdinmeemkbgci"
+            },
+            {
+                "name": "Phantom",
+                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
             }
         ],
         Browsers.EDGE.value: [
             {
                 "name": "Metamask",
                 "folder": "ejbalbakoplchlghecdalmeeeajnimhm"
+            },
+            {
+                "name": "Phantom",
+                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
             }
         ],
         Browsers.BRAVE.value: [
             {
                 "name": "Metamask",
                 "folder": "nkbihfbeogaeaoehlefnkodbefgpgknn"
+            },
+            {
+                "name": "Phantom",
+                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
             }
         ]
     }

