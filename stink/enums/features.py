@@ -14,4 +14,5 @@ class Features(Enum):
     discord = "discord"
     telegram = "telegram"
     filezilla = "filezilla"
+    wallets = "wallets"
     all = "all"

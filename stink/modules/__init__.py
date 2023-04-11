@@ -1,4 +1,4 @@
-from .browser import Chromium
+from .browsers import Chromium
 from .discord import Discord
 from .filezilla import FileZilla
 from .processes import Processes
