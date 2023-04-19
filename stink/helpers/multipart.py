@@ -3,19 +3,25 @@ from uuid import uuid4
 from sys import hexversion
 from codecs import getencoder
 from mimetypes import guess_type
+from typing import Union, List, Tuple, BinaryIO
 
 
 class MultipartFormDataEncoder(object):
+    """
+    Creates a multipart/form-data content type.
+    """
 
     def __init__(self, errors: bool):
-
         self.__errors = errors
-
         self.__boundary = uuid4().hex
 
     @classmethod
-    def u(cls, string):
-
+    def u(cls, string: Union[str, bytes]) -> str:
+        """
+        Decodes the string.
+        :param string: str|bytes
+        :return: str
+        """
         if hexversion < 0x03000000 and isinstance(string, str):
             string = string.decode("utf-8")
 
@@ -24,8 +30,13 @@ class MultipartFormDataEncoder(object):
 
         return string
 
-    def iter(self, fields, files):
-
+    def iter(self, fields: List[Tuple[str, Union[str, int]]], files: List[Tuple[str, str, BinaryIO]]) -> str:
+        """
+        Writes fields and files to the body.
+        :param fields: [(str, str|int)]
+        :param files: [(str, str, BinaryIO)]
+        :return: str
+        """
         encoder = getencoder("utf-8")
 
         for (key, value) in fields:
@@ -56,8 +67,13 @@ class MultipartFormDataEncoder(object):
 
         yield encoder(f"--{self.__boundary}--\r\n")
 
-    def encode(self, fields, files):
-
+    def encode(self, fields: List[Tuple[str, Union[str, int]]], files: List[Tuple[str, str, BinaryIO]]) -> Tuple[str, bytes]:
+        """
+        Converts specified files and fields to multipart/form-data format.
+        :param fields: [(str, str|int)]
+        :param files: [(str, str, BinaryIO)]
+        :return: (str, bytes)
+        """
         try:
 
             body = BytesIO()

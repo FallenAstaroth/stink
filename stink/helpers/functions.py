@@ -1,5 +1,13 @@
-def create_table(header: list, rows: list) -> list:
+from typing import List, Any
 
+
+def create_table(header: List[Any], rows: List[Any]) -> list:
+    """
+    Generates a table from the data.
+    :param header: list
+    :param rows: list
+    :return: list
+    """
     num_columns = len(rows[0])
     col_widths = [max(len(str(header[i])), *(len(str(row[i])) for row in rows)) for i in range(num_columns)]
 
@@ -16,4 +24,9 @@ def create_table(header: list, rows: list) -> list:
 
 
 def run_process(process) -> None:
+    """
+    Starts the process.
+    :param process: object
+    :return: None
+    """
     process.run()

