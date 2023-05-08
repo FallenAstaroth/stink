@@ -10,11 +10,10 @@ class Processes:
     """
     Collects all running processes.
     """
-    def __init__(self, storage_path: str, folder: str, errors: bool):
+    def __init__(self, storage_path: str, folder: str):
 
         self.__storage_path = storage_path
         self.__folder = folder
-        self.__errors = errors
 
     def __create_folder(self) -> None:
         """
@@ -74,4 +73,4 @@ class Processes:
             self.__get_system_processes()
 
         except Exception as e:
-            if self.__errors is True: print(f"[Processes]: {repr(e)}")
+            print(f"[Processes]: {repr(e)}")

@@ -7,9 +7,7 @@ class Message:
     """
     Shows a fake error window.
     """
-    def __init__(self, errors: bool):
-
-        self.__errors = errors
+    def __init__(self):
         self.__config = MessageConfig()
 
     def __create_message_window(self) -> None:
@@ -29,4 +27,4 @@ class Message:
             self.__create_message_window()
 
         except Exception as e:
-            if self.__errors is True: print(f"[Message]: {repr(e)}")
+            print(f"[Message]: {repr(e)}")

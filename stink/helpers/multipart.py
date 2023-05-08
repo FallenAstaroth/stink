@@ -11,8 +11,7 @@ class MultipartFormDataEncoder(object):
     Creates a multipart/form-data content type.
     """
 
-    def __init__(self, errors: bool):
-        self.__errors = errors
+    def __init__(self):
         self.__boundary = uuid4().hex
 
     @classmethod
@@ -84,4 +83,4 @@ class MultipartFormDataEncoder(object):
             return f"multipart/form-data; boundary={self.__boundary}", body.getvalue()
 
         except Exception as e:
-            if self.__errors is True: print(f"[Form]: {repr(e)}")
+            print(f"[Form]: {repr(e)}")

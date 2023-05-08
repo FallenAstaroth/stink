@@ -9,6 +9,10 @@ class AbstractSender:
     Template for the sender.
     """
     def __init__(self):
+
+        self.__zip_name = None
+        self.__storage_path = None
+
         self._config = SenderConfig()
 
     @abstractmethod
@@ -28,12 +32,11 @@ class AbstractSender:
         ...
 
     @abstractmethod
-    def run(self, zip_name: str, storage_path: str, errors: bool) -> None:
+    def run(self, zip_name: str, storage_path: str) -> None:
         """
         Launches the sender module.
         :param zip_name: str
         :param storage_path: str
-        :param errors: bool
         :return: None
         """
         ...

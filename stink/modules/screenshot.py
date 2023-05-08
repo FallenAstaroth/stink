@@ -7,11 +7,10 @@ class Screenshot:
     """
     Takes a screenshot of the monitors.
     """
-    def __init__(self, storage_path: str, folder: str, errors: bool):
+    def __init__(self, storage_path: str, folder: str):
 
         self.__storage_path = storage_path
         self.__folder = folder
-        self.__errors = errors
 
     def __create_folder(self) -> None:
         """
@@ -42,4 +41,4 @@ class Screenshot:
             self.__create_screen()
 
         except Exception as e:
-            if self.__errors is True: print(f"[Screenshot]: {repr(e)}")
+            print(f"[Screenshot]: {repr(e)}")

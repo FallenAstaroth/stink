@@ -104,8 +104,6 @@ if __name__ == '__main__':
 
 - `utils` - enables the utilities from the list. Utilities can be imported from `stink.enums.Utils`. Available utilities:
 
-  - `errors` - error output.
-
   - `autostart` - adding to autostart.
 
   - `message` - showing a fake error window.

