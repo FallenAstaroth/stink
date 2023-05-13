@@ -20,7 +20,7 @@ class Server(AbstractSender):
         Gets data to send.
         :return: (str|bytes, ...)
         """
-        with open(rf"{path.dirname(self.__storage_path)}\{self.__zip_name}.zip", "rb") as file:
+        with open(path.join(path.dirname(self.__storage_path), rf"{self.__zip_name}.zip"), "rb") as file:
             content_type, body = MultipartFormDataEncoder().encode(
                 [],
                 [("document", f"{self.__zip_name}.zip", file)]

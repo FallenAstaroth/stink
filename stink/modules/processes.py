@@ -12,18 +12,15 @@ class Processes:
     """
     def __init__(self, storage_path: str, folder: str):
 
-        self.__storage_path = storage_path
-        self.__folder = folder
+        self.__full_path = path.join(storage_path, folder)
 
     def __create_folder(self) -> None:
         """
         Creates storage for the Processes module.
         :return: None
         """
-        storage_path = rf"{self.__storage_path}\{self.__folder}"
-
-        if not path.exists(storage_path):
-            makedirs(storage_path, exist_ok=True)
+        if not path.exists(self.__full_path):
+            makedirs(self.__full_path, exist_ok=True)
 
     def __get_system_processes(self) -> None:
         """
@@ -57,7 +54,7 @@ class Processes:
                 kernel32.CloseHandle(process_handle)
                 sleep(0.00001)
 
-        with open(rf"{self.__storage_path}\{self.__folder}\Processes.txt", "a", newline="", encoding="utf-8") as processes:
+        with open(path.join(self.__full_path, "Processes.txt"), "a", newline="", encoding="utf-8") as processes:
             processes.write("\n".join(line for line in functions.create_table(["Name", "Memory", "PID"], results)))
 
         processes.close()

