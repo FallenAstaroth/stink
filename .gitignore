@@ -1,3 +1,5 @@
 main.py
 **/__pycache__/
 .idea/
+builder.json
+builder.py
