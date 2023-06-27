@@ -1,7 +1,8 @@
 import platform
+from json import loads
 from os import mkdir, path
 from string import ascii_uppercase
-from urllib.request import Request, urlopen
+from urllib.request import urlopen
 from ctypes import windll, sizeof, byref, c_wchar_p
 from winreg import OpenKey, QueryValueEx, HKEY_LOCAL_MACHINE
 
@@ -131,7 +132,7 @@ class System:
         :return: str
         """
         try:
-            return urlopen(Request(method="GET", url=self.__config.IPUrl)).read().decode("utf-8")
+            return loads(urlopen(url=self.__config.IPUrl, timeout=4).read().decode("utf-8"))["ip"]
         except:
             return "Unknown"
 
