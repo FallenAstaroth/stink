@@ -42,7 +42,7 @@ class Steam:
         """
         steam_path = self.__get_steam_path()
 
-        if not path.exists(steam_path):
+        if not steam_path or not path.exists(steam_path):
             print(f"[Steam]: No steam found")
             return
 
