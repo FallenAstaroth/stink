@@ -2,7 +2,7 @@ from re import compile
 from typing import Tuple
 from shutil import copyfile
 from base64 import b64decode
-from json import load, loads, dump
+from json import load, loads
 from distutils.dir_util import copy_tree
 from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir

