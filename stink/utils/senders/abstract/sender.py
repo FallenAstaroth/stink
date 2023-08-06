@@ -19,7 +19,12 @@ class AbstractSender:
     def __get_sender_data(self) -> Tuple[Union[str, bytes], ...]:
         """
         Gets data to send.
-        :return: (str|bytes, ...)
+
+        Parameters:
+        - None.
+
+        Returns:
+        - tuple: A tuple of data.
         """
         ...
 
@@ -27,7 +32,12 @@ class AbstractSender:
     def __send_archive(self) -> None:
         """
         Sends the data.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         ...
 
@@ -35,8 +45,12 @@ class AbstractSender:
     def run(self, zip_name: str, storage_path: str) -> None:
         """
         Launches the sender module.
-        :param zip_name: str
-        :param storage_path: str
-        :return: None
+
+        Parameters:
+        - zip_name [str]: Archive name.
+        - storage_path [str]: Path to storage.
+
+        Returns:
+        - None.
         """
         ...

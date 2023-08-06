@@ -1,12 +1,16 @@
 from typing import List, Any
 
 
-def create_table(header: List[Any], rows: List[Any]) -> list:
+def create_table(header: List[Any], rows: List[Any]) -> str:
     """
     Generates a table from the data.
-    :param header: list
-    :param rows: list
-    :return: list
+
+    Parameters:
+    - header [list]: List of header columns.
+    - rows [list]: List of rows.
+
+    Returns:
+    - str: A rendered table with data.
     """
     num_columns = len(rows[0])
     col_widths = [max(len(str(header[i])), *(len(str(row[i])) for row in rows)) for i in range(num_columns)]
@@ -23,10 +27,14 @@ def create_table(header: List[Any], rows: List[Any]) -> list:
         yield horizontal_border
 
 
-def run_process(process) -> None:
+def run_process(process: object) -> None:
     """
     Starts the process.
-    :param process: object
-    :return: None
+
+    Parameters:
+    - process [object]: Class Object.
+
+    Returns:
+    - None.
     """
     process.run()

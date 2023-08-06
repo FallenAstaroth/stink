@@ -17,7 +17,12 @@ class Processes:
     def __create_folder(self) -> None:
         """
         Creates storage for the Processes module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if not path.exists(self.__full_path):
             makedirs(self.__full_path, exist_ok=True)
@@ -25,7 +30,12 @@ class Processes:
     def __get_system_processes(self) -> None:
         """
         Collects all running processes.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         results = []
 
@@ -62,7 +72,12 @@ class Processes:
     def run(self) -> None:
         """
         Launches the processes collection module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         try:
 

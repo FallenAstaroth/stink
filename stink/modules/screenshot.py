@@ -14,7 +14,12 @@ class Screenshot:
     def __create_folder(self) -> None:
         """
         Creates storage for the Screenshot module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if not path.exists(self.__full_path):
             mkdir(self.__full_path)
@@ -22,7 +27,12 @@ class Screenshot:
     def __create_screen(self) -> None:
         """
         Takes a screenshot of the monitors.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         screenshot = Screencapture()
         screenshot.create(monitor=0, path=self.__full_path)
@@ -30,7 +40,12 @@ class Screenshot:
     def run(self) -> None:
         """
         Launches the screenshots collection module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         try:
 

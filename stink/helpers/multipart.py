@@ -18,8 +18,12 @@ class MultipartFormDataEncoder(object):
     def u(cls, string: Union[str, bytes]) -> str:
         """
         Decodes the string.
-        :param string: str|bytes
-        :return: str
+
+        Parameters:
+        - string [str|bytes]: String or bytes to be decoded.
+
+        Returns:
+        - str: Decoding result.
         """
         if hexversion < 0x03000000 and isinstance(string, str):
             string = string.decode("utf-8")
@@ -32,9 +36,13 @@ class MultipartFormDataEncoder(object):
     def iter(self, fields: List[Tuple[str, Union[str, int]]], files: List[Tuple[str, str, BinaryIO]]) -> str:
         """
         Writes fields and files to the body.
-        :param fields: [(str, str|int)]
-        :param files: [(str, str, BinaryIO)]
-        :return: str
+
+        Parameters:
+        - fields [list]: Fields for writing.
+        - files [list]: Files for writing.
+
+        Returns:
+        - str: Result of file processing.
         """
         encoder = getencoder("utf-8")
 
@@ -69,9 +77,13 @@ class MultipartFormDataEncoder(object):
     def encode(self, fields: List[Tuple[str, Union[str, int]]], files: List[Tuple[str, str, BinaryIO]]) -> Tuple[str, bytes]:
         """
         Converts specified files and fields to multipart/form-data format.
-        :param fields: [(str, str|int)]
-        :param files: [(str, str, BinaryIO)]
-        :return: (str, bytes)
+
+        Parameters:
+        - fields [list]: Fields for converting.
+        - files [list]: Files for converting.
+
+        Returns:
+        - tuple: Multipart/form-data file representation.
         """
         try:
 

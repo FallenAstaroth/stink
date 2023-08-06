@@ -23,7 +23,12 @@ class System:
     def __create_folder(self) -> None:
         """
         Creates storage for the System module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         if not path.exists(self.__full_path):
             mkdir(self.__full_path)
@@ -32,7 +37,12 @@ class System:
     def __get_video_card() -> str:
         """
         Gets the video card name.
-        :return: str
+
+        Parameters:
+        - None.
+
+        Returns:
+        - str: Video card name.
         """
         try:
 
@@ -54,7 +64,12 @@ class System:
     def __get_ram() -> str:
         """
         Gets information about RAM.
-        :return: str
+
+        Parameters:
+        - None.
+
+        Returns:
+        - str: RAM data table.
         """
         try:
 
@@ -78,7 +93,12 @@ class System:
     def __get_disks_info() -> str:
         """
         Gets information about disks.
-        :return: str
+
+        Parameters:
+        - None.
+
+        Returns:
+        - str: Disks data table.
         """
         try:
 
@@ -119,7 +139,12 @@ class System:
     def __get_processor_name() -> str:
         """
         Gets the processor name.
-        :return: str
+
+        Parameters:
+        - None.
+
+        Returns:
+        - str: Processor name.
         """
         try:
             return QueryValueEx(OpenKey(HKEY_LOCAL_MACHINE, r"HARDWARE\DESCRIPTION\System\CentralProcessor\0"), "ProcessorNameString")[0]
@@ -128,8 +153,13 @@ class System:
 
     def __get_ip(self) -> str:
         """
-        Gets the ip address.
-        :return: str
+        Gets the IP address.
+
+        Parameters:
+        - None.
+
+        Returns:
+        - str: IP address.
         """
         try:
             return loads(urlopen(url=self.__config.IPUrl, timeout=4).read().decode("utf-8"))["ip"]
@@ -139,7 +169,12 @@ class System:
     def __get_system_info(self) -> None:
         """
         Collects all system data.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         user32 = windll.user32
         data = self.__config.SystemData
@@ -174,7 +209,12 @@ class System:
     def run(self) -> None:
         """
         Launches the system data collection module.
-        :return: None
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
         """
         try:
 
