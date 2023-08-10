@@ -26,6 +26,7 @@ The `stink` already has an impressive functionality that will only expand.
    - Edge
    - Brave
    - Vivaldi
+   - Yandex (Partially)
 2. Collecting the following data:
    - Screenshot
    - Cookies
