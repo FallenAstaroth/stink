@@ -1,4 +1,3 @@
-from os import chmod
 from re import compile
 from typing import Tuple
 from base64 import b64decode
