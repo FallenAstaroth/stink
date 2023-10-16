@@ -2,6 +2,7 @@ from abc import abstractmethod
 from typing import Tuple, Union
 
 from stink.helpers.config import SenderConfig
+from stink.helpers import MultipartFormDataEncoder
 
 
 class AbstractSender:
@@ -14,6 +15,7 @@ class AbstractSender:
         self.__storage_path = None
 
         self._config = SenderConfig()
+        self._encoder = MultipartFormDataEncoder()
 
     @abstractmethod
     def __get_sender_data(self) -> Tuple[Union[str, bytes], ...]:

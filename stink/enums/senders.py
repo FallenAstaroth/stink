@@ -1,4 +1,4 @@
-from stink.utils.senders import Server, Telegram, Discord
+from stink.senders import Server, Telegram, Discord
 
 
 class Senders:

