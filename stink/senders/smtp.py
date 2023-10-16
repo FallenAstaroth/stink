@@ -37,7 +37,7 @@ class Smtp(AbstractSender):
 
         with open(path.join(path.dirname(self.__storage_path), rf"{self.__zip_name}.zip"), "rb") as file:
             message.add_attachment(
-                file.read(), maintype="application", subtype="octet-stream", filename=self.__zip_name
+                file.read(), maintype="application", subtype="octet-stream", filename=rf"{self.__zip_name}.zip"
             )
 
         return message
