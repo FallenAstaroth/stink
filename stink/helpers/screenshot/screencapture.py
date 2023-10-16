@@ -10,7 +10,7 @@ from ctypes.wintypes import BOOL, DOUBLE, DWORD, HBITMAP, HDC, HGDIOBJ, HWND, IN
 from threading import Lock, current_thread, main_thread
 from typing import Any, Callable, List, Optional, Tuple, Union, Dict
 
-from stink.utils.screenshot.screen import Screen
+from stink.helpers.screenshot.screen import Screen
 from stink.helpers import BitmapInfoHeader, BitmapInfo
 
 CAPTUREBLT = 0x40000000

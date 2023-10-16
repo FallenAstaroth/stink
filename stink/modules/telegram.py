@@ -79,7 +79,7 @@ class Telegram:
         telegram_path = self.__get_telegram_path()
 
         if not telegram_path:
-            print(f"[Telegram]: No telegram found")
+            print(f"[Telegram]: No Telegram found")
             return
 
         telegram_data = path.join(telegram_path, "tdata")

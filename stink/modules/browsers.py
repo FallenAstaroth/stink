@@ -10,7 +10,7 @@ from ctypes import windll, byref, cdll, c_buffer
 
 from stink.helpers import DataBlob
 from stink.enums.features import Features
-from stink.utils import AESModeOfOperationGCM
+from stink.helpers import AESModeOfOperationGCM
 from stink.helpers.config import ChromiumConfig
 
 

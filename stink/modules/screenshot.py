@@ -1,6 +1,6 @@
 from os import mkdir, path
 
-from stink.utils.screenshot import Screencapture
+from stink.helpers import Screencapture
 
 
 class Screenshot:

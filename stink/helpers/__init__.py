@@ -11,6 +11,8 @@ from .structures import (
     BitmapInfoHeader,
     BitmapInfo
 )
+from .screenshot import Screencapture
+from .cipher import AESModeOfOperationGCM
 
 __all__ = [
     "MultipartFormDataEncoder",
@@ -23,5 +25,7 @@ __all__ = [
     "MemoryStatusEx",
     "UlargeInteger",
     "BitmapInfoHeader",
-    "BitmapInfo"
+    "BitmapInfo",
+    "Screencapture",
+    "AESModeOfOperationGCM"
 ]
