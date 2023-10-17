@@ -43,6 +43,9 @@ The `stink` already has an impressive functionality that will only expand.
    - Crypto wallets:
        - Metamask
        - Phantom
+       - Atomic
+       - Exodus
+       - Other 7 wallets
    - Steam configs
 3. Built-in sending methods: 
    - Telegram

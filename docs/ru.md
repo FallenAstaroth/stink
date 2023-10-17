@@ -43,6 +43,9 @@
    - Крипто кошельки:
        - Metamask
        - Phantom
+       - Atomic
+       - Exodus
+       - Другие 7 кошельков
    - Конфиги Steam
 3. Встроенные методы отправки:
    - Telegram
