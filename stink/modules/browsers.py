@@ -30,6 +30,15 @@ class Chromium:
         self.__path = path.join("Browsers", self.__browser_name)
 
     def _kill_process(self):
+        """
+        Kills browser process.
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
+        """
         system(f"taskkill /f /im {self.__process_name}")
 
     def _get_profiles(self) -> List:
