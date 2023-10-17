@@ -1,3 +1,4 @@
+from io import BytesIO
 from abc import abstractmethod
 from typing import Tuple, Union
 
@@ -12,7 +13,7 @@ class AbstractSender:
     def __init__(self):
 
         self.__zip_name = None
-        self.__storage_path = None
+        self.__data = None
 
         self._config = SenderConfig()
         self._encoder = MultipartFormDataEncoder()
@@ -44,13 +45,13 @@ class AbstractSender:
         ...
 
     @abstractmethod
-    def run(self, zip_name: str, storage_path: str) -> None:
+    def run(self, zip_name: str, data: BytesIO) -> None:
         """
         Launches the sender module.
 
         Parameters:
         - zip_name [str]: Archive name.
-        - storage_path [str]: Path to storage.
+        - data [BytesIO]: BytesIO object.
 
         Returns:
         - None.

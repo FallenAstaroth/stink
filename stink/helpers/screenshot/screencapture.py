@@ -1,7 +1,5 @@
 from os import fsync
 from struct import pack
-from datetime import datetime
-from os import path as os_path
 from zlib import crc32, compress
 from sys import getwindowsversion
 from ctypes import POINTER, WINFUNCTYPE, c_void_p
@@ -258,48 +256,20 @@ class Screencapture:
 
             return screenshot
 
-    def save(self, monitor: int = 0, path: str = "", output: str = "monitor-{monitor}.png", callback: Optional[Callable[[str], None]] = None):
+    def save_in_memory(self):
 
-        monitors = self.monitors
+        monitors = [dict(monitor) for monitor in set(tuple(monitor.items()) for monitor in self.monitors)]
 
-        if not monitors:
-            print("No monitor found.")
-
-        if monitor == 0:
-
-            for index, display in enumerate(monitors[1:], 1):
-                output = os_path.join(path, output.format(monitor=index, date=datetime.now(), **display))
-
-                if callable(callback):
-                    callback(output)
-
-                sct = self.grab(display)
-                self.create_png(sct.rgb, sct.size, level=self.compression_level, output=output)
-
-                yield output
-
-        else:
-            index = 0 if monitor == -1 else monitor
-
-            try:
-                display = monitors[index]
-            except:
-                print(f"Monitor {index!r} does not exist.")
-
-            output = os_path.join(path, output.format(monitor=index, date=datetime.now(), **display))
-
-            if callable(callback):
-                callback(output)
-
+        for index, display in enumerate(monitors):
             sct = self.grab(display)
-            self.create_png(sct.rgb, sct.size, level=self.compression_level, output=output)
+            output = self.create_png(sct.rgb, sct.size, level=self.compression_level, output=None)
 
             yield output
 
-    def create(self, **kwargs: Any):
+    def create_in_memory(self, **kwargs: Any):
 
         kwargs["monitor"] = kwargs.get("monitor", 1)
-        return next(self.save(**kwargs))
+        return [image for image in self.save_in_memory()]
 
     @staticmethod
     def create_png(data: bytes, size: Tuple[int, int], level: int = 6, output: Optional[str] = None):

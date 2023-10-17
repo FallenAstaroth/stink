@@ -1,4 +1,4 @@
-from os import path
+from io import BytesIO
 from typing import Tuple, Union
 from urllib.request import Request, urlopen
 
@@ -24,12 +24,10 @@ class Discord(AbstractSender):
         Returns:
         - tuple: A tuple of content type, body, and Discord webhook.
         """
-        with open(path.join(path.dirname(self.__storage_path), rf"{self.__zip_name}.zip"), "rb") as file:
-            content_type, body = self._encoder.encode(
-                [],
-                [("file", f"{self.__zip_name}.zip", file)]
-            )
-        file.close()
+        content_type, body = self._encoder.encode(
+            [],
+            [("file", f"{self.__zip_name}.zip", self.__data)]
+        )
 
         return content_type, body
 
@@ -51,19 +49,19 @@ class Discord(AbstractSender):
 
         urlopen(query)
 
-    def run(self, zip_name: str, storage_path: str) -> None:
+    def run(self, zip_name: str, data: BytesIO) -> None:
         """
         Launches the sender module.
 
         Parameters:
         - zip_name [str]: Archive name.
-        - storage_path [str]: Path to storage.
+        - data [BytesIO]: BytesIO object.
 
         Returns:
         - None.
         """
         self.__zip_name = zip_name
-        self.__storage_path = storage_path
+        self.__data = data
 
         try:
 

