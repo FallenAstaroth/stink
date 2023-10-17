@@ -33,7 +33,7 @@ class MultipartFormDataEncoder(object):
 
         return string
 
-    def iter(self, fields: List[Tuple[str, Union[str, int]]], files: List[Tuple[str, str, BinaryIO]]) -> str:
+    def iter(self, fields: List[Tuple[str, Union[str, int]]], files: List[Tuple[str, str, Union[BinaryIO, BytesIO]]]) -> str:
         """
         Writes fields and files to the body.
 
@@ -67,7 +67,10 @@ class MultipartFormDataEncoder(object):
             yield encoder(self.u(f'Content-Disposition: form-data; name="{key}"; filename="{filename}"\r\n'))
             yield encoder(f"Content-Type: {guess_type(filename)[0] or 'application/octet-stream'}\r\n\r\n")
 
-            buffer = filedata.read()
+            if type(filedata) is BytesIO:
+                buffer = filedata.getvalue()
+            else:
+                buffer = filedata.read()
 
             yield buffer, len(buffer)
             yield encoder("\r\n")

