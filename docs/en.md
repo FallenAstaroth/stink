@@ -54,6 +54,7 @@ The `stink` already has an impressive functionality that will only expand.
 6. Execution using multiprocessor.
 7. Possibility to add to autostart.
 8. Showing a window with a fake error.
+9. Execution without creating any files.
 
 ## Example usage
 ### Standard
