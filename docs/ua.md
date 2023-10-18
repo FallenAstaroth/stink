@@ -43,6 +43,9 @@
    - Крипто гаманці:
        - Metamask
        - Phantom
+       - Atomic
+       - Exodus
+       - Інші 7 гаманців
    - Конфіги Steam
 3. Вбудовані методи відправлення:
    - Telegram

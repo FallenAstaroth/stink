@@ -83,7 +83,7 @@ class MemoryStorage:
         if files is None:
             files = self.__files
 
-        with ZipFile(self.__buffer, mode='w', allowZip64=True, compression=ZIP_DEFLATED) as zip_file:
+        with ZipFile(self.__buffer, mode='w', compression=ZIP_DEFLATED) as zip_file:
             for file_name, content in files:
                 zip_file.writestr(file_name, content)
 

