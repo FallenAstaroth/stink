@@ -16,10 +16,10 @@ class Chromium:
     """
     Collects data from the browser.
     """
-    def __init__(self, browser_name: str, state_path: str, browser_path: str, process_name: str, statuses: List):
+    def __init__(self, browser_name: str, browser_path: str, process_name: str, statuses: List):
 
         self.__browser_name = browser_name
-        self.__state_path = state_path
+        self.__state_path = path.join(browser_path, "Local State")
         self.__browser_path = browser_path
         self.__process_name = process_name
         self.__statuses = statuses

