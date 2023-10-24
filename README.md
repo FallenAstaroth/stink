@@ -7,6 +7,7 @@
  <img alt="GitHub" src="https://img.shields.io/github/license/FallenAstaroth/stink">
 </div>
 <div align="center">
+ <br>
  <img alt="Logo" src="docs/logo.jpg">
 </div>
 
