@@ -10,6 +10,7 @@
  <br>
  <img alt="Logo" src="docs/logo.jpg">
 </div>
+<p align="center"><br>The code is for information purposes only. The author is not responsible for its use.<p>
 <h3 align="center">Introduction</h3>
 <p align="center">
   <a href="docs/ua.md"><img src="docs/ua_icon.svg" width="70"></a>
@@ -18,4 +19,3 @@
   <a>&#8192;&#8192;</a>
   <a href="docs/en.md"><img src="docs/en_icon.svg" width="70"></a>
 </p>
-<p align="center"><br>The code is for information purposes only. The author is not responsible for its use.<p>
