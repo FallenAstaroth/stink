@@ -1,5 +1,7 @@
 main.py
+main.exe
 **/__pycache__/
 .idea/
-builder.json
-builder.py
+main.build/
+main.dist/
+main.onefile-build/
