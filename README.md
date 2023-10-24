@@ -11,10 +11,8 @@
  <img alt="Logo" src="docs/logo.jpg">
 </div>
 
-<h3 align="center">Description</h3>
-<p align="center"><br>The code is for information purposes only. The author is not responsible for its use. Read the functionality, examples of use and compilation at one of the links below.<p>
+<p align="center"><br>The code is for information purposes only. The author is not responsible for its use.<p>
 
-<h3 align="center">Click one of us</h3>
 <p align="center">
   <a href="docs/ua.md"><img src="docs/ua_icon.svg" width="70"></a>
   <a>&#8192;&#8192;</a>
