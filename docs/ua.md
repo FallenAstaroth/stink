@@ -136,7 +136,7 @@ if __name__ == '__main__':
   - `smtp` - відправка на [пошту](https://github.com/FallenAstaroth/stink/wiki/Smtp).
 
 
-- `loaders` - підвантажувачі файлів з `stink`:
+- `loaders` - список підвантажувачів файлів з `stink`:
 
   - `Loader` - універсальний [підвантажувач](https://github.com/FallenAstaroth/stink/wiki/Files-loader).
 

@@ -136,7 +136,7 @@ if __name__ == '__main__':
   - `smtp` - send to [mail](https://github.com/FallenAstaroth/stink/wiki/Smtp).
 
 
-- `loaders` - file loaders from `stink`:
+- `loaders` - list of file loaders from `stink`:
 
   - `Loader` - universal [loader](https://github.com/FallenAstaroth/stink/wiki/Files-loader).
   
