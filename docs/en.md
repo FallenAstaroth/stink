@@ -58,6 +58,7 @@ The `stink` already has an impressive functionality that will only expand.
 7. Possibility to add to autostart.
 8. Showing a window with a fake error.
 9. Execution without creating any files.
+10. Downloading and launching files by link.
 
 ## Example usage
 ### Standard
@@ -86,7 +87,7 @@ if __name__ == '__main__':
 ```
 ### Additional parameters
 
-- `features` - enables modules from the list. Modules can be imported from `stink.enums.Features`. Available modules:
+- `features` - list of modules from `stink.Features`:
 
   - `passwords` - collecting passwords.
 
@@ -117,22 +118,27 @@ if __name__ == '__main__':
   - `steam` - collecting Steam configs.
 
 
-- `utils` - enables the utilities from the list. Utilities can be imported from `stink.enums.Utils`. Available utilities:
+- `utils` - list of utilities from `stink.Utils`:
 
   - `autostart` - adding to autostart.
 
-  - `message` - showing a fake error window.
+  - `message` - showing a fake [error window](https://github.com/FallenAstaroth/stink/wiki/Fake-error).
 
 
-- `senders` - launches sending methods from the list. Sending methods can be imported from `stink.enums.Senders`. Available sending methods:
+- `senders` - list of sending methods from `stink.Senders`:
 
-  - `server` - sending to server.
+  - `server` - sending to [server](https://github.com/FallenAstaroth/stink/wiki/Server).
 
-  - `telegram` - sending to Telegram.
+  - `telegram` - sending to [Telegram](https://github.com/FallenAstaroth/stink/wiki/Telegram-bot).
 
-  - `discord` - sending to Discord.
+  - `discord` - sending to [Discord](https://github.com/FallenAstaroth/stink/wiki/Discord-hook).
 
-  - `smtp` - send to mail.
+  - `smtp` - send to [mail](https://github.com/FallenAstaroth/stink/wiki/Smtp).
+
+
+- `loaders` - file loaders from `stink`:
+
+  - `Loader` - universal [loader](https://github.com/FallenAstaroth/stink/wiki/Files-loader).
   
 ## Creating exe
 Python is an interpreted programming language, so we first translate it into C and then compile it into an .exe file.
