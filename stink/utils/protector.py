@@ -186,12 +186,8 @@ class Protector:
         Returns:
         - None.
         """
-        print(self.__protectors)
         if not self.__protectors or Protectors.disable in self.__protectors:
-            print(0)
             return
-
-        print(1)
 
         try:
 
