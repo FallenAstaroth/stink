@@ -26,17 +26,17 @@ class ProcessEntry32(Structure):
 
 class ProcessMemoryCountersEx(Structure):
     _fields_ = [
-        ('cb', DWORD),
-        ('PageFaultCount', c_ulong),
-        ('PeakWorkingSetSize', c_size_t),
-        ('WorkingSetSize', c_size_t),
-        ('QuotaPeakPagedPoolUsage', c_size_t),
-        ('QuotaPagedPoolUsage', c_size_t),
-        ('QuotaPeakNonPagedPoolUsage', c_size_t),
-        ('QuotaNonPagedPoolUsage', c_size_t),
-        ('PagefileUsage', c_size_t),
-        ('PeakPagefileUsage', c_size_t),
-        ('PrivateUsage', c_size_t)
+        ("cb", c_ulong),
+        ("PageFaultCount", c_ulong),
+        ("PeakWorkingSetSize", c_size_t),
+        ("WorkingSetSize", c_size_t),
+        ("QuotaPeakPagedPoolUsage", c_size_t),
+        ("QuotaPagedPoolUsage", c_size_t),
+        ("QuotaPeakNonPagedPoolUsage", c_size_t),
+        ("QuotaNonPagedPoolUsage", c_size_t),
+        ("PagefileUsage", c_size_t),
+        ("PeakPagefileUsage", c_size_t),
+        ("PrivateUsage", c_size_t)
     ]
 
 

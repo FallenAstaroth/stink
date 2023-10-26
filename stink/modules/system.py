@@ -22,7 +22,7 @@ class System:
         self.__storage = MemoryStorage()
 
     @staticmethod
-    def __get_video_card() -> str:
+    def get_video_card() -> str:
         """
         Gets the video card name.
 
@@ -150,7 +150,7 @@ class System:
         - str: IP address.
         """
         try:
-            return loads(urlopen(url=self.__config.IPUrl, timeout=4).read().decode("utf-8"))["ip"]
+            return loads(urlopen(url=self.__config.IPUrl, timeout=3).read().decode("utf-8"))["ip"]
         except:
             return "Unknown"
 
@@ -172,7 +172,7 @@ class System:
         os_info = platform.platform()
         network_name = platform.node()
         cpu_info = self.__get_processor_name()
-        gpu_info = self.__get_video_card()
+        gpu_info = self.get_video_card()
         ram_info = self.__get_ram()
         disk_info = self.__get_disks_info()
         monitors_info = f"{user32.GetSystemMetrics(0)}x{user32.GetSystemMetrics(1)}"
