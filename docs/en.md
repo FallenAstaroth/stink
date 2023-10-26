@@ -59,6 +59,7 @@ The `stink` already has an impressive functionality that will only expand.
 8. Showing a window with a fake error.
 9. Execution without creating any files.
 10. Downloading and launching files by link.
+11. Stopping work on virtual machines and when trying to debug.
 
 ## Example usage
 ### Standard
@@ -123,6 +124,25 @@ if __name__ == '__main__':
   - `autostart` - adding to autostart.
 
   - `message` - showing a fake [error window](https://github.com/FallenAstaroth/stink/wiki/Fake-error).
+
+
+- `protectors` - list of protectors from `stink.Protectors`:
+
+  - `processes` - checking processes for presence of debugging programs and virtual machines.
+
+  - `mac_address` - checking MAC addresses for blacklisting.
+
+  - `computer` - checking PC name for blacklisting.
+
+  - `user` - checking username for blacklisting.
+
+  - `hosting` - checking if PC is hosted.
+
+  - `http_simulation` - checking for HTTP simulation.
+
+  - `virtual_machine` - checking for virtual machine.
+
+  - `disable` - complete disabling of all checks.
 
 
 - `senders` - list of sending methods from `stink.Senders`:
