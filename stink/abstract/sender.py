@@ -1,3 +1,4 @@
+import ssl
 from io import BytesIO
 from abc import abstractmethod
 from typing import Tuple, Union
@@ -43,6 +44,19 @@ class AbstractSender:
         - None.
         """
         ...
+
+    @staticmethod
+    def _create_unverified_https():
+        """
+        Disables SSL certificate validation.
+
+        Parameters:
+        - None.
+
+        Returns:
+        - None.
+        """
+        ssl._create_default_https_context = ssl._create_unverified_context
 
     @abstractmethod
     def run(self, zip_name: str, data: BytesIO) -> None:

