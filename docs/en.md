@@ -144,6 +144,8 @@ if __name__ == '__main__':
 
   - `disable` - complete disabling of all checks.
 
+  - `all` - enabling of all checks.
+
 
 - `senders` - list of sending methods from `stink.Senders`:
 
