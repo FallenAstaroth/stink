@@ -20,7 +20,7 @@ class Protector:
     def __init__(self, protectors: List[Protectors] = None):
 
         if protectors is None:
-            self.__protectors = [Protectors.all]
+            self.__protectors = [Protectors.disable]
         else:
             self.__protectors = protectors
 
