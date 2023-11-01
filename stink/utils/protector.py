@@ -211,7 +211,8 @@ class Protector:
                 {
                     "method": self.__check_hosting,
                     "status": any(item in self.__protectors for item in [Protectors.hosting, Protectors.all])
-                },{
+                },
+                {
                     "method": self.__check_http_simulation,
                     "status": any(item in self.__protectors for item in [Protectors.http_simulation, Protectors.all])
                 },

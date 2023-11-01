@@ -6,7 +6,7 @@ class Protectors(Enum):
     mac_address = "Mac address"
     computer = "Computer"
     user = "User"
-    hosting = "hosting"
+    hosting = "Hosting"
     http_simulation = "HTTP simulation"
     virtual_machine = "Virtual machine"
     disable = "Disable"
