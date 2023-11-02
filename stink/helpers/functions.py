@@ -27,7 +27,7 @@ def create_table(header: List[Any], rows: List[Any]) -> str:
         yield horizontal_border
 
 
-def run_process(process: Any, arguments: Tuple) -> List:
+def run_process(process: Any, arguments: Tuple = None) -> List:
     """
     Starts the process.
 
@@ -38,4 +38,7 @@ def run_process(process: Any, arguments: Tuple) -> List:
     Returns:
     - List: List of collected files.
     """
+    if not arguments:
+        return process.run()
+
     return process(*arguments).run()

