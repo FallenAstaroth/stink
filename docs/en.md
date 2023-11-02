@@ -59,7 +59,8 @@ The `stink` already has an impressive functionality that will only expand.
 8. Showing a window with a fake error.
 9. Execution without creating any files.
 10. Downloading and launching files by link.
-11. Stopping work on virtual machines and when trying to debug.
+11. Collecting files of the specified format in the specified directories.
+12. Stopping work on virtual machines and when trying to debug.
 
 ## Example usage
 ### Standard
@@ -161,6 +162,11 @@ if __name__ == '__main__':
 - `loaders` - list of file loaders from `stink`:
 
   - `Loader` - universal [loader](https://github.com/FallenAstaroth/stink/wiki/Files-loader).
+
+
+- `grabbers` - list of file grabbers from `stink`:
+
+  - `Grabber` - universal [grabber](https://github.com/FallenAstaroth/stink/wiki/Collection-of-specific-files).
   
 ## Creating exe
 Python is an interpreted programming language, so we first translate it into C and then compile it into an .exe file.
