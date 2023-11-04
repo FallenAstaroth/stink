@@ -67,7 +67,6 @@ class Discord:
         - None.
         """
         if not path.exists(self.__config.TokensPath):
-            print(f"[Discord]: No Discord found")
             return
 
         tokens = []

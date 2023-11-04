@@ -15,5 +15,4 @@ class Features(Enum):
     telegram = "Telegram"
     filezilla = "Filezilla"
     wallets = "Wallets"
-    steam = "Steam"
     all = "All"

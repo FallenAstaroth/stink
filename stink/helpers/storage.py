@@ -70,22 +70,20 @@ class MemoryStorage:
         """
         return self.__files
 
-    def create_zip(self, files: Optional[List[Tuple[str, AnyStr]]] = None) -> BytesIO:
+    def create_zip(self, files: Optional[List[Tuple[str, AnyStr]]] = None, output_file_path: str = 'output.zip'):
         """
         Adds files from a list of data returned by get_data method of other MemoryStorage objects into one archive.
-
+    
         Parameters:
         - files [list]: List of files for creating the archive.
-
+        - output_file_path [str]: Path to the output ZIP file.
+    
         Returns:
-        - BytesIO: BytesIO object.
+        None
         """
         if files is None:
             files = self.__files
-
-        with ZipFile(self.__buffer, mode='w', compression=ZIP_DEFLATED) as zip_file:
+    
+        with ZipFile(output_file_path, mode='w', compression=ZIP_DEFLATED) as zip_file:
             for file_name, content in files:
                 zip_file.writestr(file_name, content)
-
-        self.__buffer.seek(0)
-        return self.__buffer

@@ -6,7 +6,8 @@ PADDING_DEFAULT = 'default'
 
 
 def _block_can_consume(self, size):
-    if size >= 16: return 16
+    if size >= 16: 
+        return 16
     return 0
 
 
@@ -118,7 +119,8 @@ class BlockFeeder(object):
         result = to_bufferable('')
         while len(self._buffer) > 16:
             can_consume = self._mode._can_consume(len(self._buffer) - 16)
-            if can_consume == 0: break
+            if can_consume == 0: 
+                break
             result += self._feed(self._buffer[:can_consume])
             self._buffer = self._buffer[can_consume:]
 

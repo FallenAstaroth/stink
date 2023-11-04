@@ -28,7 +28,6 @@ class FileZilla:
         - None.
         """
         if not path.exists(self.__config.SitesPath):
-            print(f"[FileZilla]: No FileZilla found")
             return
 
         files = listdir(self.__config.SitesPath)

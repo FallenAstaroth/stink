@@ -8,8 +8,8 @@ def _get_byte(c):
 
 try:
     xrange
-except:
-
+except Exception:
+    xrange = range
     def to_bufferable(binary):
         if isinstance(binary, bytes):
             return binary
