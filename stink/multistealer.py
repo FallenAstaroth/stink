@@ -1,5 +1,4 @@
 import ssl
-from sys import argv
 from time import sleep
 from typing import List
 from threading import Thread

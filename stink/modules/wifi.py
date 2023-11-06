@@ -19,8 +19,12 @@ class Wifi:
         def decode_text(text):
             return text.decode(encoding=chardet.detect(text)['encoding'], errors="ignore")
 
-        cmd_results = decode_text(subprocess.check_output(['netsh', 'wlan', 'show', 'profiles'])).split("\r\n")
-        profiles = [cmd_result.split(": ")[-1] for cmd_result in cmd_results if "All User Profile" in cmd_result or 'Все профили пользователей' in cmd_result]
+        def _any(cmd_result):
+            KEY_CONTENT = ["All User Profile", 'Все профили пользователей']
+            return any(keyword in cmd_result for keyword in KEY_CONTENT)
+
+        cmd_results = decode_text(subprocess.check_output('netsh wlan show profiles')).split("\r\n")
+        profiles = [cmd_result.split(": ")[-1] for cmd_result in cmd_results if _any(cmd_result)]
         return profiles
 
     @staticmethod
@@ -28,8 +32,12 @@ class Wifi:
         def decode_text(text):
             return text.decode(encoding=chardet.detect(text)['encoding'], errors="ignore")
 
-        cmd_results = decode_text(subprocess.check_output(f"netsh wlan show profile \"{profile}\" key=clear"))
-        password = [cmd_result.split(":")[1][1:] for cmd_result in cmd_results.split("\r\n") if "Key Content" in cmd_result or 'Содержимое ключа' in cmd_result]
+        def _any(cmd_result):
+            KEY_CONTENT = ["Key Content", "Ключ безопасности"]
+            return any(keyword in cmd_result for keyword in KEY_CONTENT)
+
+        cmd_results = decode_text(subprocess.check_output(f"netsh wlan show profile \"{profile}\" key=clear")).split("\r\n")
+        password = [cmd_result.split(":")[1][1:] for cmd_result in cmd_results if _any(cmd_result)]
         if len(password) == 1:
             return password[0]
 
