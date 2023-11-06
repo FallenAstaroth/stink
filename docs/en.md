@@ -207,11 +207,11 @@ venv\Scripts\activate
 ```
 5. Install the Nuitka:
 ```
-pip install Nuitka==0.6.16.4
+pip install Nuitka
 ```
 6. To reduce the file size, additionally install Zstandard (optional):
 ```
-pip install zstandard==0.17.0
+pip install zstandard
 ```
 7. Write the command:
 ```

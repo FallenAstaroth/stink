@@ -7,10 +7,10 @@ set /p console="Disable console? (y/n): "
 @echo on
 
 pip install virtualenv & virtualenv venv & call venv\Scripts\activate
-pip install Nuitka==0.6.19.6
+pip install Nuitka
 
 if "%compression%" == "y" (
-    pip install zstandard==0.17.0
+    pip install zstandard
 ) else (
     echo Y|pip uninstall zstandard
 )
