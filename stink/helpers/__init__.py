@@ -1,5 +1,6 @@
 from . import config
 from . import functions
+from . import dataclasses
 from .multipart import MultipartFormDataEncoder
 from .structures import (
     DataBlob,
@@ -19,6 +20,7 @@ __all__ = [
     "MultipartFormDataEncoder",
     "config",
     "functions",
+    "dataclasses",
     "DataBlob",
     "ProcessEntry32",
     "ProcessMemoryCountersEx",

