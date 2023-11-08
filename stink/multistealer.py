@@ -39,7 +39,7 @@ class Stealer(Thread):
             senders = []
 
         if utils is None:
-            utils = [Utils.all]
+            utils = []
 
         if features is None:
             features = [Features.all]
