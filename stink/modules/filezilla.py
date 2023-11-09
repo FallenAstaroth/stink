@@ -67,7 +67,7 @@ class FileZilla:
             "".join(item for item in temp)
         )
 
-        self.__storage.add_data("FileZilla", True)
+        self.__storage.add_data("Application", "FileZilla")
 
     def run(self) -> Data:
         """
