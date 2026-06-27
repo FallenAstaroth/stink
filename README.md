@@ -1,2 +1,7 @@
-# stink
-Nulla eu sem non metus ullamcorper feugiat. Proin eget magna eu massa pretium pharetra.
+<div align="center">
+
+<img src=".github/.stink-logo.png" alt="teriyaki" width="400">
+
+### the cutest python-based infostealer practical defense & detection toolkit
+
+coming soon...
