@@ -6,6 +6,8 @@
 
 ![badges](https://shieldcn.dev/group/badge/python-3.16+badge/undetected-26.06+github/commits/FallenAstaroth/stink+badge/status-beta-blue+badge/license-apache-green.svg?variant=ghost&size=xs)
 
+**stink is currently wip; make sure to star the repo so you dont miss when it comes out!**
+
 sharpen your detection skills against a real-world infostealer threat. this open-source tool is made for security folks *(like you and me :3)* to practice spotting and responding to live malware campaigns.
 
 [about](#-about) · [features](#-features) · [build](#-build)
