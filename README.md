@@ -4,7 +4,7 @@
 
 ### the cutest python-native infostealer
 
-![badges](https://shieldcn.dev/group/badge/python-3.16+badge/undetected-26.06+github/commits/FallenAstaroth/stink+badge/status-beta-blue+badge/license-apache-green.svg?variant=ghost&size=xs)
+![badges](https://shieldcn.dev/group/badge/python-3.16+badge/undetected-26.06+github/commits/FallenAstaroth/stink+badge/status-beta-blue+badge/license-apache-green.svg?variant=secondary&size=xs)
 
 **stink is currently wip; make sure to star the repo so you dont miss when it comes out!**
 
