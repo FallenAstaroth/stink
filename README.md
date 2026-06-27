@@ -71,3 +71,8 @@ distributed under [apache](LICENSE). &nbsp;&middot;&nbsp; made with <3 for defen
 <sup>*this repository contains a source code archive provided strictly for educational and security research purposes, including malware analysis, reverse engineering study, threat intelligence, detection rule development, and academic research. unauthorized use against systems you do not own or lack explicit written permission to test is illegal under laws including the computer fraud and abuse act (us), the computer misuse act (uk), and equivalent legislation. by accessing this repository, you agree not to compile, execute, or distribute this code for any malicious purpose, assume full legal responsibility for any misuse, and acknowledge the repository owner disclaims all liability for damages or legal consequences resulting from improper use. if you are not a security researcher, student, or professional engaged in legitimate study, do not download or use this code.*</sup>
 
 </div>
+
+
+
+
+
